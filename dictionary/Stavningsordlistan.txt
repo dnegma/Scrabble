@@ -1,0 +1,58 @@
+Introduktion
+Den svenska rättstavningsordlistan kan användas i många olika program. Vad ordlistans användare vill är att alla felstavade ord ska "rödmarkeras", medan inga rättstavade ord markeras. Tyvärr fungerar ordlistan inte på det sättet; det händer ofta att rättstavade ord rödmarkeras medan felstavade inte rödmarkeras. Syftet med denna sida är att förklara vad detta beror på. Förhoppningen är att man kan ha större nytta av stavningsordlistan om man förstår hur den fungerar!
+
+Hur rättstavningsordlistan fungerar
+Den viktigaste principen man måste förstå om ordlistan är att den inte betraktar orden i sina sammanhang, utan behandlar ett ord i taget och för varje givet ord antingen godkänner eller underkänner det. Ordlistan försöker alltså inte vara intelligent och förstå avsikten med vad man skrivit. T.ex. består frasen "Ifall apparaten får sönder" av fyra ord som alla kommer att godkännas av rättstavningsordlistan eftersom de är vanliga, korrekt stavade ord. Men ordet "får" är i detta fall en felskrivning av "går", något som rättsvavningsordlistan inte upptäcker eftersom det inte förstår sammanhanget. Felstavningar som överensstämmer med något annat korrekt ord upptäcks alltså inte av rättsvavningsordlistan. Vi kommer fortsättningsvis att kalla detta fenomen för att en felstavning maskeras av något annat ord.
+
+Varför rödmarkeras vissa rättstavade ord?
+Många av de ord som rödmarkeras av ordlistan kan vara rättstavade. Detta gäller främst egennamn, där ordlistan bara har ett begränsat urval. Vissa mindre vanliga sammansättningar kan också tänkas bli rödmarkerade eftersom det ibland är svårt för ett rättstavningsverktyg att avgöra ifall en viss följd av bokstäver är en giltig sammansättning eller en felstavning. Vidare har många nybildade eller mindre vanliga ord helt enkelt inte lagts in i stavningsordlistan ännu och blir därmed rödmarkerade. Slutligen har ordlistan medvetet utelämnat vissa korrekta men ovanliga ord.
+
+En följd av att många av de rödmarkerade orden faktiskt inte behöver vara felstavade är att man inte ska lita blint på stavningsordlistan. Det är viktigt att man gör en egen bedömning för varje ord som rödmarkeras och inte automatiskt ändrar dem för att få bort rödmarkeringen.
+
+Paradoxalt nog är det de som är duktiga på att stava som har bäst nytta av rättstavningsordlistan. Ordlistan hjälper nämligen till att hitta oavsiktliga skrivfel, men duktiga skribenter har självförtroende nog att ignorera felaktiga rödmarkeringar.
+
+Varför rödmarkeras inte vissa felstavade ord?
+Vissa felstavade ord rödmarkeras inte av stavningsordlistan. Detta kan bero på att de maskeras av något annat, korrekt ord. Det kan också bero på att de maskeras av en (eventuellt felaktig) autogenererad sammansättning. I vissa sällsynta fall kan det också bero på att ett felaktigt ord har smugit sig in i stavningsordlistan.
+
+Varför inte använda SAOL istället?
+En vanlig invändning mot rättstavningsordlistan är att dess kvalitet är undermålig och att exempelvis Svenska Akademiens ordlista, SAOL, "är tusen gånger bättre". Denna invändning är helt korrekt. Kvaliteten på DSSO betraktat som en ordbok är undermålig och i det avseendet är SAOL sannolikt mer än "tusen gånger bättre". Men faktum är att DSSO:s rättstavningsordlista är avsevärt bättre än SAOL på vad som gäller här, nämligen datoriserad rättstavningskontroll. Några av skälen till detta är följande:
+
+Egennamn och förkortningar
+En rättstavningsordlista måste kunna hantera sådant som innehåller bokstäver men som inte är lexikonord, exempelvis egennamn och förkortningar. Det gör DSSO:s rättstavningsordlista men inte vanliga ordböcker.
+
+Sammansättningar
+Svenska språket tillåter oändligt många sammansättningar. En ordbok som SAOL har bara plats för ett urval. En svensk rättstavningsordlista måste däremot kunna detektera och godkänna giltiga sammansättningar utan att de behöver vara listade på förhand.
+
+Ovanliga ord
+Ordböcker som SAOL missar att rödmarkera många felstavningar, t.ex. "avet" i st.f. "arvet" och "minde" i st.f. "mindre". Detta beror på att ordböcker innehåller många sällan förekommande böjningsformer som kan maskera felstavningar av ord som används mer frekvent. DSSO:s rättstavningsordlista utelämnar medvetet vissa korrekta ord ifall de förekommer ytterst sällan och är mycket lika något vanligt förekommande ord.
+
+Nya ord
+Varje vecka bildas flera nya ord som rättstavningsordlistan bör acceptera. T.ex. "appar" eller "vuvuzelan". SAOL uppdateras sällan och har därför inte de senaste årens nybildade ord. DSSO:s rättstavningsordlista uppdateras snabbt och ofta och är alltid aktuell.
+
+Modern stavning
+Ordböcker som SAOL har ofta strikta regler för stavning som kan ha blivit förlegade och inte längre följs av en majoritet av kunniga skribenter. DSSO:s rättstavningsordlista är inte "normerande" utan tillåter modern stavning.
+
+Facktermer och lånord
+Ordböcker som SAOL tar bara med ett begränsat urval facktermer och lånord. DSSO:s rättstavningsordlista innehåller ett stort antal facktermer och lånord, samt även många utländska termer som inte har någon svensk motsvarighet och som ofta förekommer i löpande svensk text.
+
+Förslag på rättelse av rödmarkerade ord
+När ett ord rödmarkerats brukar man få en lista av ord att ersätta det rödmarkerade ordet med. Här måste man förstå att det rödmarkerade ordet mycket väl kan vara rättstavat (vilket vi förklarade ovan), och då ska man självfallet ignorera förslagen. I själva verket ska man absolut inte betrakta listan som "rättelseförslag", utan bara en lista av snarlika ord som inte skulle rödmarkeras. Listan kan tjäna som en ledtråd till varför ordet rödmarkerades. Mer än 80% av förslagen i listan brukar vara felaktiga! (Detta är inget konstigt: högst ett av orden i listan är ju det som man faktiskt hade för avsikt att skriva, och listan brukar innehålla cirka fem ord.) Observera att listan ofta innehåller autogenererade sammansättningar, varav vissa kan förefalla vansinniga. T.ex. kanske listan till det rödmarkerade ordet "hyrdator" innehåller den autogenererade sammansättningen "myrdator". Rättstavningsordlistan kan inte, och försöker inte, göra någon intelligent rimlighetsbedömning av vilka ord som sätts samman (i detta fall "myra" och "dator"). Detta kan te sig störande, i synnerhet för ovana skribenter. Därför måste vi åter betona att listan måste tas med en nypa salt. Skälet till att den tillåts innehålla autogenererade sammansättningar är att det kan vara utomordentligt användbart; t.ex. kan sammansättningen "krigsmaterielexport" autogenereras som förslag till den svårupptäckta felskrivningen "krigsmatrielexport". (En erfaren skribent skulle annars kunna tro att rödmarkeringen berodde på att ordlistan inte klarade av en så komplex sammansättning och inte på att en bokstav råkat falla bort.)
+
+Särskrivningar
+Ett vanligt förekommande skrivfel är att sammansatta ord särskrivs. Exempelvis "lunch meny" i stället för "lunchmeny" eller "ränte höjning" i stället för "räntehöjning". Eftersom rättstavningsordlistan inte ser och förstår sammanhanget detekteras inte felaktiga särskrivningar i de fall de båda delarna i sig är korrekta ord ("ränte" i exemplet ovan kommer dock att rödmarkeras). Den typ av stavningsordlistor som beskrivs här kommer aldrig att tillförlitligt kunna detektera felaktiga särskrivningar, så rättstavningsordlistan försöker inte ens göra det. Däremot har rättstavningsordlistan en regel om att aldrig föreslå särskrivning av rödmarkerade ord. Exempelvis rödmarkeras "fotbolloch", men listan på rättstavningsförslag inkluderar inte den korrekta särskrivningen "fotboll och". Skälet till detta är att risken är stor att rättstavningsordlistan annars skulle kunna föreslå felaktig särskrivning av vissa sammansättningar som den misslyckas med att detektera, t.ex. sammansättningen "hyrdator" i "En hyrdator kostar 1000 kr/mån".
+
+Hur sammansatta ord hanteras
+Eftersom svenska språket tillåter (nästan) oändligt många sammansättningar kan rättstavningsordlistan inte på förhand lista dem alla. Vissa sammansättningar hanteras i stället genom att autogenereras med hjälp av enkla regler. I huvudsak går reglerna ut på att sammansättningar får pusslas ihop av ett förstaord, eventuellt ett eller två mellanord, och sedan ett slutord. T.ex. pusslas "avfallsförbränningsstationer" ihop av förstaordet "avfalls", mellanordet "förbrännings" och slutordet "stationer". I rättstavningsordlistan har ett antal ord lagts in som giltiga förstaord, t.ex. "avfalls", "underhållnings" och "ränte". De flesta substantiv, adjektiv och verb som finns i ordlistan har markerats som giltiga slutord. Ett begränsat antal mellanord finns också inlagda.
+
+T.ex. tillåts "räntehöjningar" eftersom "ränte" är ett godkänt förstaord och "höjningar" ett godkänt slutord. Däremot godkänns inte "räntahöjningar" eller "räntanhöjningar".
+
+En risk med att lägga in för många första-, mellan- och slutord i ordlistan är att de då kan pusslas samman så att nästan vilken följd av bokstäver som helst räknas som en godkänd sammansättning. Därför har vissa ordled som visserligen kan förekomma i sammansättningar, men som inte förekommer ofta, utelämnats ur ordlistan. Ju kortare ordleden är, desto mer restriktiv är ordlistan med att tillåta dem i autogenererade sammansättningar. För att kompensera i de fall då giltiga första- eller slutord medvetet utelämnats ur ordlistan, har de vanligaste sammansättningarna som innehåller dessa lagts in separat. T.ex. tillåts kanske inte "ask" generellt som ett förstaord, men "askträ", "askgrå", "askfat" m.fl. har lagts in i ordlistan tillsammans med respektive böjningsformer.
+
+Några "tumregler" för hur ordlistan autogenererar sammansättningar är att substantiv med minst tre bokstäver tillåts som slutord, medan det för verb och adjektiv krävs minst fem bokstäver. För första ord tillåts ett begränsat antal substantiv med tre bokstäver, medan de flesta substantiv, adjektiv och verb av längd fyra (eller gärna mer) har ett motsvarande förstaord inlagt. Vad beträffar mellanord krävs att det är vanligt förekommande och består av minst fem bokstäver.
+
+Riktlinjerna ovan följs dock inte alltid, utan bl.a. påverkas som sagt bedömningen av hur ofta orden förekommer samt av huruvida någon förväxlingsrisk med felstavningar föreligger. Det är alltså inte alltid helt lätt att genomskåda det sätt som rättstavningsordlistan hanterar sammansättningar på.
+
+Rättstavning i olika program
+Vissa program kan bara hantera delar av den information som finns i rättstavningsordlistan. Exempelvis kan rättstavningsmotorn i Firefox 3 (se www.mozilla.com/firefox/) inte hantera ord som innehåller bindestreck. För t.ex. "35-åringen", "blu-ray", "ränte- och finanspolitik" kontrollerar Firefox om ordlistan godkänner "åringen", "blu", "ray" och "ränte" som separata ord, varför de kommer att rödmarkeras. I andra program som exempelvis OpenOffice.org och Hunspell hanteras dock bindestrecket så att sådana ord inte rödmarkeras.
+
+Än värre är det med vissa program vars rättstavningsmotor inte kan hantera regler för sammansatta ord, t.ex. GNU Aspell, Myspell, Firefox 2 och Thunderbird 2. Eftersom sammansättningar är centrala för svenska språket blir kvaliteten på stavningskontrollen i sådana program bedrövlig. Detta är omöjligt att fullt ut lösa via själva ordlistan, så den som vill ha en acceptabel svensk stavningskontroll måste välja ett program vars rättstavningsmotor kan hantera sammansättningar (bl.a. Hunspell och program som använder Hunspell, t.ex. OpenOffice.org, Libre Office, Firefox 3 och Thunderbird 3).

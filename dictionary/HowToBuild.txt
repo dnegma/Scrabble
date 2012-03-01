@@ -1,0 +1,14 @@
+Introduction
+The DSSO database contains Swedish dictionary data in a compact format. For the data to be useful, information has to be extracted and rebuilt for a specific purpose. Below we explain how to do so. We assume the source code tree has been checked out using subversion, e.g.
+
+svn checkout http://dsso.googlecode.com/svn/trunk/ dsso-read-only
+Building the Hunspell dictionary
+For information on Hunspell, see http://hunspell.sourceforge.net/
+
+To build a dictionary to be used by the Hunspell spell checker, go to the dssobuild directory in the source code tree and run the command make. This will work in GNU/Linux and similar systems with Perl and GNU make installed. The dictionary will be built in two files named sv.aff and sv.dic.
+
+Building the dictionary for OpenOffice.org
+OpenOffice.org and Libre Office use the hunspell spell checker. Thus you can use the Hunspell dictionary directly in these programs. However, it will be easier to install if it is packaged as an OpenOffice.org extension. To do so, first make sure building the hunspell dictionary (as described above) works. Then enter the oodict directory and run the command make. The resulting file will be named ooo_swedish_dict_XXX.oxt, where XXX is the release name, taken from the file release in the main directory of the source code tree.
+
+Building the dictionary for Firefox
+Firefox (and also Thunderbird and SeaMonkey) use the hunspell spell checker. Thus you can use the Hunspell dictionary directly in these programs. However, it will be easier to install if it is packaged as a Firefox add-on. To do so, first make sure building the hunspell dictionary (as described above) works. Then enter the ffdict directory and run the command make. The resulting file will be named svensk_r_atilde_curren_ttstavningsordlista-XXX-fx+sm+tb.xpi, where XXX is the release name, taken from the file release in the main directory of the source code tree.

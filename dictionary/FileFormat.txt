@@ -1,0 +1,29 @@
+Introduction
+The dsso-X.YY.txt release files, and the file dssodb.txt in the source code tree, contain Swedish dictionary data in a compact format. In this page, we describe the file format.
+
+Details
+The character encoding is iso-8859-1.
+
+Lines starting with the # characters are comments. Empty lines should be ignored.
+
+Otherwise, the file consists of "records", where each record describes a word and all its inflections. (Sometimes, we use the term "syntactic unit" for such a record.) As an example, a record could look like this:
+
+552161r5 < verb > run:run:ran:run:running
+DEFINITION 1: Walking fast
+Each record starts with an integer, followed by "r" and another integer. Then it contains the grammar class between the characters < and >. Next we have a "label" for the word (or syntactic unit), which would normally be the canonical representation/inflection of the word. Finally, separated by colons, the first line of a record contains the various inflections of the word in each inflectional class.
+
+Note 1: If alternative spellings exist, they are separated by commas.
+
+Note 2: A certain field might be empty, i.e. there may be two consecutive colons. An empty field simply means that information is not yet stored in the database.
+
+Note 3: If the word cannot exist in a certain inflectional class, then the corresponding field contains an exclamation mark.
+
+Note 4: What grammar classes are allowed, and the number if (and order of) inflectional classes for each grammar class, is decided by a grammar which we will describe elsewhere.
+
+Note 5: The initial integer in each record is an identifier which must be unique. It is used when referencing the record from another record.
+
+Note 6: The integer given after the "r" character is the revision number of the record. This is used for version control when merging different version of the database.
+
+Note 7: After the first line, the record may contain zero or more lines starting with a letter. These contain additional information about the word (syntactic unit). Currently recognised labels are "DEFINITION", "BASEWORDS", "COMPOUND", "HYPHENATION".
+
+Note 8: Lastly, the record may contain one or more lines with the label "CUSTOM". These are comments or annotations, which may be used by specific tools. E.g. when building the Swedish Hunspell dictionary, the CUSTOM lines contain information about the word's properties when used in compound words.
