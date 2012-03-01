@@ -14,8 +14,9 @@ import java.util.regex.Pattern;
  * 
  */
 public class RegexDictionary {
+	private static final String WORDLINEREGEX = "\\d+r\\d+<\\w+>\\w+:(\\w*\\W*)*";
 
-	HashSet<String> dictionary;
+	private HashSet<String> dictionary;
 	
 	public RegexDictionary(String fileName) {		
 		dictionary = new HashSet<String>(readDictionaryFromFile(fileName));
@@ -40,7 +41,7 @@ public class RegexDictionary {
 			String textLine;
 			while((textLine = br.readLine()) != null) {				
 				Pattern regexLineStartsWithInteger = Pattern
-						.compile("\\d+r\\d+<\\w+>\\w+:(\\w*\\W*)*");
+						.compile(WORDLINEREGEX);
 				Matcher lineWithWord = regexLineStartsWithInteger.matcher(textLine);
 				
 				if (lineWithWord.matches()) {
