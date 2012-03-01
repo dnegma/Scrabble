@@ -11,22 +11,24 @@
 \maketitle
 \tableofcontents
 
-
-\chapter{Introduction}
-{\bf FREJ}
-
-dskljfalsdjkfklasdf end frej jsgf wsilfw lflwjkfg kwgFLKWf lwg flwkbf lwg fkjw.ef lekwf kwjnf lkajrhf k
-
-hej jag heter
-\\\\
-{\bf DIANA}
-
-dadjskfsdaljkf
-end diana
-
 \chapter{Problem statement}
+When playing a game of Scrabble; what are the key factors that lead to a win? This study aim to explore how heuristic affect the performance of a player. In addition, an investigation will be made in which are the more important heurristic rules, and which are redundant.
 \chapter{Background}
+How to play a close to perfect game of Scrabble is a well studied problem. It is not as trivial as chess, checkers or tic tac toe, since there are many factors included in Scrabble that are not a part of the other classical games. For further explanations we shall introduce the expressions \emph{deterministi}c and \emph{non-deterministic}. 
+
+\begin{description}
+\item[Deterministic] A game is deterministic if the players have all possible information about the state of the game, and possible future states.
+\item[Non-deterministic] In contrast to a deterministic game, a non-deterministic game does not let the players now all information about the game's current or future states.
+\end{description}
+
+Unfortunately, it is not as easy to determine in which folder to put the game of Scrabble. It is not a deterministic game for sure, since we do not know which tiles are possessed by the opponent. At the same time, one could not say that it is completely non-deterministic. Imagine the end of a game, at that time all the tiles are either on the board, on the player's hand or on the opponent's hand. This results in a situation where one could figure out the complete information scope of the current state. Of course, this requires the player to know exactly how many pieces of each tiles exist in the game.
+
 \chapter{Approach}
+Some problems that are introduced when doing research in this area are how to represent the dictionary, what algorithms to use for the search and what should be taken in consideration when deciding which move is the best.
+\section{Dictionary representation}
+The dictionary can be represented i several different ways. Studies have been made in which is the most efficient strategy in both memory space and time cost. As a result from researching in the area, the DAWG/GADDAG representation was chosen. The parameters that were considered in making this decision were difficulty in implementation and search time cost in each of the options.
+
+This study is based on the Swedish Dictionary which is available for download on the internet. To simplify the study and reduce time cost, only the normal form of each word is used. This resulted in a dictionary with a quite large vocabulary, more precise; 52000 words.
 \chapter{Results}
 \chapter{Conclusions}
 \chapter{Discussion}
