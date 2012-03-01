@@ -12,20 +12,18 @@
 \tableofcontents
 
 
-\chapter{Introduction}
-{\bf FREJ}
-
-dskljfalsdjkfklasdf end frej jsgf wsilfw lflwjkfg kwgFLKWf lwg flwkbf lwg fkjw.ef lekwf kwjnf lkajrhf k
-
-hej jag heter
-\\\\
-{\bf DIANA}
-
-dadjskfsdaljkf
-end diana
+\chapter{Introduction}	
 
 \chapter{Problem statement}
 \chapter{Background}
+How to play a successful game of Scrabble is a well studied problem. The difficulty is significantly larger than in games like chess, checkers or tic tac toe, since there are many smaller problems that form the one. For further explanations we introduce the expressions deterministic and non-deterministic. A game is deterministic when the players have all possible information about the game's current and future states. In the same sence, a non-deterministic game does not fulfill these conditions. The game of Scrabble is not deterministic, since we do not have all information at each round, but it is not non-deterministic either, since the further to the end of the game we are getting, the more we know about each state to finally in the end hav all information possible. This is because the tiles in the bag get fewer and fewer as the players go on, to reach a point where it is completely empty. This is when we can calculate which tiles must be on the hand of the opponent.
+\section{Research}
+
+
+\section{Search problem}
+One of the most challenging problems to solve is the serach through the dictionary for legal moves. The agent must be able to find a word given some already known letters, which can be placed anywhere in the word.
+
+It is preferable if the agent knows all possible words, but that would produce a huge dictionary in which a search would be time consuming. In earlier research in this area, it has been shown that an efficient strategy to store a large number of words is in a directed acyclic word graph. In the mentioned graph, each edge represents a letter. WHen following edges along a path we can find a word. To represent the end of a word there are special nodes called anchor nodes introduced.
 \chapter{Approach}
 \chapter{Results}
 \chapter{Conclusions}
