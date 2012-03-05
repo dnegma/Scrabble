@@ -6,26 +6,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Class for importing words from text file into a dictionary. The file is read
+ * Class for importing words from a text file into a dictionary. The file is read
  * line by line, and the basic form of each word is saved into a hashset
  * representing the dictionary.
  * 
- * @author Diana Gren, Frej Connolly.
- * 
+ * @author Diana Gren, Frej Connolly. 
  */
 public class RegexDictionary {
 	private static final String WORDLINEREGEX = "\\d+r\\d+<\\w+>[\\wåäö]+:(\\w*\\W*)*";
 
 	private static HashSet<String> dictionary;
 	
-//	public RegexDictionary(String fileName) {		
-//		dictionary = new HashSet<String>(readDictionaryFromFile(fileName));
-//		printDictionary();
-//		System.out.println("Size of dictionary: " + dictionary.size()
-//				+ " words.");
-//		
-//	}
-
 	/**
 	 * Read file and import words into hashset.
 	 * 
@@ -70,7 +61,7 @@ public class RegexDictionary {
 	 * file.
 	 * 
 	 * @param stringLine Line to extract word from.
-	 * @return Extracted word.
+	 * @return String Extracted word.
 	 */
 	private static String extractWordFromStringLine(String stringLine) {
 		String[] lineSplit = stringLine.split("[<|>|:]");
@@ -81,6 +72,9 @@ public class RegexDictionary {
 		return null; 
 	}
 	
+	/**
+	 * Print out all words stored in dictionary. Each word on new line.
+	 */
 	public static void printDictionary() {
 		StringBuilder output = new StringBuilder();
 		for (String word : dictionary) {
@@ -88,8 +82,4 @@ public class RegexDictionary {
 		}
 		System.out.println(output.toString());
 	}
-
-//	public static void main(String[] args) {
-//		new RegexDictionary("dictionary/dsso-1.52_utf8.txt");
-//	}
 }

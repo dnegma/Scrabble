@@ -26,8 +26,5 @@ public class Node {
 		children.put(letter, child);
 		return child;
 	}
-	
-	
-	
-	
+		
 }
