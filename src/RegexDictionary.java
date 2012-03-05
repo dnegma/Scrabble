@@ -14,17 +14,17 @@ import java.util.regex.Pattern;
  * 
  */
 public class RegexDictionary {
-	private static final String WORDLINEREGEX = "\\d+r\\d+<\\w+>\\w+:(\\w*\\W*)*";
+	private static final String WORDLINEREGEX = "\\d+r\\d+<\\w+>[\\wåäö]+:(\\w*\\W*)*";
 
-	private HashSet<String> dictionary;
+	private static HashSet<String> dictionary;
 	
-	public RegexDictionary(String fileName) {		
-		dictionary = new HashSet<String>(readDictionaryFromFile(fileName));
-		printDictionary();
-		System.out.println("Size of dictionary: " + dictionary.size()
-				+ " words.");
-		
-	}
+//	public RegexDictionary(String fileName) {		
+//		dictionary = new HashSet<String>(readDictionaryFromFile(fileName));
+//		printDictionary();
+//		System.out.println("Size of dictionary: " + dictionary.size()
+//				+ " words.");
+//		
+//	}
 
 	/**
 	 * Read file and import words into hashset.
@@ -32,21 +32,22 @@ public class RegexDictionary {
 	 * @param fileName Name of file to import.
 	 * @return Hashset containing all words.
 	 */
-	private HashSet<String> readDictionaryFromFile(String fileName) {
+	public static HashSet<String> readDictionaryFromFile(String fileName) {
 		HashSet<String> wordList = new HashSet<String>();
 		BufferedReader br = null;
 		
 		try {
 			br = new BufferedReader(new FileReader(fileName));
 			String textLine;
-			while((textLine = br.readLine()) != null) {				
+			while((textLine = br.readLine()) != null) {		
+				textLine.toLowerCase();
 				Pattern regexLineStartsWithInteger = Pattern
 						.compile(WORDLINEREGEX);
 				Matcher lineWithWord = regexLineStartsWithInteger.matcher(textLine);
 				
 				if (lineWithWord.matches()) {
 					String word = extractWordFromStringLine(textLine);
-					if (word != null) {
+					if (word != null) {						
 						wordList.add(word);
 					}
 				}								
@@ -71,7 +72,7 @@ public class RegexDictionary {
 	 * @param stringLine Line to extract word from.
 	 * @return Extracted word.
 	 */
-	private String extractWordFromStringLine(String stringLine) {
+	private static String extractWordFromStringLine(String stringLine) {
 		String[] lineSplit = stringLine.split("[<|>|:]");
 		if (!lineSplit[1].equals("egennamn")) {
 			if (!lineSplit[2].equals(""))
@@ -80,15 +81,15 @@ public class RegexDictionary {
 		return null; 
 	}
 	
-	public void printDictionary() {
+	public static void printDictionary() {
 		StringBuilder output = new StringBuilder();
 		for (String word : dictionary) {
 			output.append(word + "\n");
 		}
 		System.out.println(output.toString());
 	}
-	
-	public static void main(String[] args) {
-		new RegexDictionary("dictionary/dsso-1.52_utf8.txt");
-	}
+
+//	public static void main(String[] args) {
+//		new RegexDictionary("dictionary/dsso-1.52_utf8.txt");
+//	}
 }
