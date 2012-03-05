@@ -2,19 +2,36 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-
+/**
+ * Class for importing words from text file into a dictionary. The file is read
+ * line by line, and the basic form of each word is saved into a hashset
+ * representing the dictionary.
+ * 
+ * @author Diana Gren, Frej Connolly.
+ * 
+ */
 public class RegexDictionary {
+	private static final String WORDLINEREGEX = "\\d+r\\d+<\\w+>\\w+:(\\w*\\W*)*";
 
-	HashSet<String> dictionary;
-	
+	private HashSet<String> dictionary;
 	
 	public RegexDictionary(String fileName) {		
-		dictionary = readDictionaryFromFile(fileName);	
+		dictionary = new HashSet<String>(readDictionaryFromFile(fileName));
+		printDictionary();
+		System.out.println("Size of dictionary: " + dictionary.size()
+				+ " words.");
 		
 	}
 
+	/**
+	 * Read file and import words into hashset.
+	 * 
+	 * @param fileName Name of file to import.
+	 * @return Hashset containing all words.
+	 */
 	private HashSet<String> readDictionaryFromFile(String fileName) {
 		HashSet<String> wordList = new HashSet<String>();
 		BufferedReader br = null;
@@ -23,36 +40,42 @@ public class RegexDictionary {
 			br = new BufferedReader(new FileReader(fileName));
 			String textLine;
 			while((textLine = br.readLine()) != null) {				
-				Pattern regexLineStartsWithInteger = Pattern.compile("\\d"); 
+				Pattern regexLineStartsWithInteger = Pattern
+						.compile(WORDLINEREGEX);
 				Matcher lineWithWord = regexLineStartsWithInteger.matcher(textLine);
 				
 				if (lineWithWord.matches()) {
-					System.out.println("found a match!");
 					String word = extractWordFromStringLine(textLine);
-					System.out.println(word);
-					if (word != null)
+					if (word != null) {
 						wordList.add(word);
+					}
 				}								
 			}
 		} catch (IOException e){
 			System.err.println("File not found " + e);		
 		} finally {
 			try {
-				br.close();
+				if (br != null)
+					br.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		return wordList;
 	}
 	
+	/**
+	 * Extract a word in basic form from an input line received when reading the
+	 * file.
+	 * 
+	 * @param stringLine Line to extract word from.
+	 * @return Extracted word.
+	 */
 	private String extractWordFromStringLine(String stringLine) {
-		System.out.println(stringLine);
-		String[] lineSplit = stringLine.split("<>:");
+		String[] lineSplit = stringLine.split("[<|>|:]");
 		if (!lineSplit[1].equals("egennamn")) {
-			if (!lineSplit[3].equals(""))
-				return lineSplit[3];
+			if (!lineSplit[2].equals(""))
+				return lineSplit[2];
 		}
 		return null; 
 	}
