@@ -1,32 +1,31 @@
 package game;
 
 public class Move {
-	private static final byte HORIZONTAL = 0;
-	private static final byte VERTICAL = 1;
+	public static final byte HORIZONTAL = 0;
+	public static final byte VERTICAL = 1;
 	
 	private char[] word;
 	private int startRow;
 	private int startColumn;
-	private int columnSize;
-	private int rowSize;
+	private byte direction;
 
-	public Move(char[] word, int index, byte direction) {
+	/**
+	 * Create a new move 
+	 * 
+	 * @param word
+	 * @param startRow
+	 * @param startColumn
+	 * @param direction HORIZONTAL or VERTICAL
+	 */
+	public Move(char[] word, int startRow, int startColumn, byte direction) {
 		this.word = word;
-		if (direction == HORIZONTAL) {
-			this.columnSize = word.length;
-			this.rowSize = 0;
-		} else if (direction == VERTICAL) {
-			this.rowSize = word.length;
-			this.columnSize = 0;
-		}
+		this.direction = direction;
+		this.startRow = startRow;
+		this.startColumn = startColumn;		
 	}
 
 	public char[] getWord() {
-		return word;
-	}
-
-	public void setWord(char[] word) {
-		this.word = word;
+		return this.word;
 	}
 
 	public int getStartRow() {
@@ -36,13 +35,9 @@ public class Move {
 	public int getStartColumn() {
 		return this.startColumn;
 	}
-
-	public int getColumnSize() {
-		return columnSize;
-	}
-
-	public int getRowSize() {
-		return rowSize;
+	
+	public byte getDirection() {
+		return this.direction;
 	}
 
 }

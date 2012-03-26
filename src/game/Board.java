@@ -25,18 +25,15 @@ public class Board {
 	 * @param letter
 	 * @param column zero-indexed
 	 * @param row zero-indexed
-	 * @return true if successfully placed letter on board
+	 * @return square info
 	 */
-	public boolean placeTile(char letter, int row, int column) {		
-		if (isOutsideBoardLimits(row, column))
-			return false;		
-		if (isOccupiedCell(row, column))
-			return false;
-		
+	public byte placeTile(char letter, int row, int column) {
+		byte squareInfo = board[row][column]; 
 		board[row][column] = (byte)letter;
-		return true;
+		
+		return squareInfo;
 	}
-	private boolean isOutsideBoardLimits(int row, int column) {
+	public boolean isOutsideBoardLimits(int row, int column) {
 		return column >= BOARD_SIZE || row >= BOARD_SIZE || column < 0 || row < 0;
 	}
 	
@@ -46,7 +43,7 @@ public class Board {
 	 * @param column zero-indexed
 	 * @return true if square is occupied
 	 */
-	public boolean isOccupiedCell(int row, int column) {
+	public boolean isOccupiedSquare(int row, int column) {
 		byte square = board[row][column];
 		if (square >= CENTER_SQUARE)
 			return true;
@@ -59,7 +56,7 @@ public class Board {
 	 * @param row zero-indexed
 	 * @return
 	 */
-	public byte getCellContent(int row, int column) {
+	public byte getSquareContent(int row, int column) {
 		if (!isOutsideBoardLimits(row, column))
 			return board[row][column];
 		return 0;
@@ -72,5 +69,9 @@ public class Board {
 			}
 			System.out.println();
 		}
+	}
+	
+	public byte[][] getBoard() {
+		return this.board;
 	}
 }

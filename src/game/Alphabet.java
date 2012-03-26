@@ -71,4 +71,12 @@ public class Alphabet {
 	public static HashMap<Character, Integer> getLetterPoints() {
 		return letterPoints;
 	}
+	
+	public static int getLetterPoint(char letter) {
+		return letterPoints.get(letter);
+	}
+	
+	public static int getLetterAmount(char letter) {
+		return letterAmounts.get(letter);
+	}
 }
