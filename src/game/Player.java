@@ -26,6 +26,7 @@ public abstract class Player {
 		return false;
 	}
 	
+	public abstract Move generateMove();
 	public abstract char[] generateWord();
 
 }

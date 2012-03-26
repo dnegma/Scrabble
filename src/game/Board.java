@@ -17,7 +17,8 @@ public class Board {
 	Board()
 	{
 		board = new byte[BOARD_SIZE][BOARD_SIZE];
-		
+		board[7][7] = TWO_LETTER_BONUS;
+		printBoard();
 	}
 	/**
 	 *  
@@ -64,5 +65,12 @@ public class Board {
 		return 0;
 	}
 	
-	
+	public void printBoard() {
+		for (byte[] row : this.board) {
+			for (byte cell : row) {
+				System.out.print(cell + "\t");
+			}
+			System.out.println();
+		}
+	}
 }
