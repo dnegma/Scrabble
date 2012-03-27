@@ -16,10 +16,10 @@ public abstract class Player {
 	}
 	
 	public char[] placeWord() {
-		char[] word = generateWord();
+//		char[] word = generateWord();
 		// removeTileFromHand(word);
-		getTiles(word.length);
-		return word;
+//		getTiles(word.length);
+		return null;
 	}
 
 	
@@ -75,5 +75,8 @@ public abstract class Player {
 		tilesOnHand.add(letter);		
 	}
 	
+	public boolean noTilesLeftOnHand() {
+		return getNumberOfTilesOnHand() == 0;
+	}
 
 }

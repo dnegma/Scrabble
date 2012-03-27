@@ -14,17 +14,18 @@ public class Game {
 	
 	private static Player player1;	
 	private static Player player2;
-	
+	private int turn;
 	private int nrOfPasses;
 	
-	public Game() {
+	public Game(boolean player1StartsPlaying) {
 //		player1 = new Player();
 //		player2 = new Player();
 		board = new Board();
 		Alphabet.initializeAlphabet(GAME_LANGUAGE);
 		this.tilesInBag = initTileBag();
 		this.nrOfPasses = 0;
-		
+		this.turn = (player1StartsPlaying) ? -1 : 1;
+		play();
 	}
 	
 	private List<Character> initTileBag() {
@@ -40,11 +41,39 @@ public class Game {
 	}
 
 	public void play() {
-		
+		while (!gameOver()) {
+			Player player = (turn < 0) ? player1 : player2;
+			boolean successfulMove = playTurn(player);
+			turn = -turn;
+		}
+		System.out.println("Game over!");
 	}
 
+	private boolean playTurn(Player player) {
+		Move move = player.generateMove();
+		
+		if (move == null)
+			return false;
+		// Check if word fits onto board.
+		if (board.isOutsideBoardLimits(move.getEndRow(), move.getEndColumn()))
+			return false;
+		
+		int points = makeMove(move, player);
+		player.addPointsToScore(points);
+		return true;
+	}
+	/**
+	 * Game's over when there's no tiles left to pickup and one player have placed out all their 
+	 * tiles OR both players have passed 2 times each in a row.	 
+	 * @return
+	 */
 	public boolean gameOver() {
-		if (tilesInBag.isEmpty() && player1.getNrOfPasses() >= 2 || )
+		if (getNrOfPasses() >= 4 || 
+				(tilesInBag.isEmpty() && 
+						(player1.noTilesLeftOnHand() || player2.noTilesLeftOnHand())))
+			return true;
+		
+		return false;	
 	}
 	
 	/**
@@ -52,7 +81,7 @@ public class Game {
 	 * @param move
 	 * @return
 	 */
-	public boolean makeMove(Move move, Player player) {
+	public int makeMove(Move move, Player player) {
 
 		// Get word and where to place on board 
 		char[] tilesToPlace = move.getWord();		
@@ -65,9 +94,7 @@ public class Game {
 		int wordPoints = 0;
 		int wordBonus = 1;		
 		
-		// Check if word fits onto board.
-		if (board.isOutsideBoardLimits(endRow, endColumn))
-			return false;
+		
 		
 		// Place word on board
 		int tile = 0;
@@ -108,9 +135,9 @@ public class Game {
 			wordPoints = wordPoints + 50;
 
 		// add score to player
-		player.addPointsToScore(wordPoints);
+		//player.addPointsToScore(wordPoints);
 		
-		return true;
+		return wordPoints;
 	}
 
 	public void giveTilesToPlayer(Player player) {
@@ -129,7 +156,7 @@ public class Game {
 	}
 
 	public static void main(String[] args) {
-		new Game();
+		new Game(true);
 	}
 	
 	public void incrementPass() {
