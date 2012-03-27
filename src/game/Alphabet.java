@@ -79,4 +79,5 @@ public class Alphabet {
 	public static int getLetterAmount(char letter) {
 		return letterAmounts.get(letter);
 	}
+	
 }

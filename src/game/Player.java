@@ -1,15 +1,18 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Player {
-	private static final int NUMBER_TILES_ON_HAND = 8;
-	protected byte[] tilesOnHand;
+	public static final int MAX_TILES_ON_HAND = 8;
+	List<Character> tilesOnHand;
+	//protected byte[] tilesOnHand;
 	
-	int score;
 	private static Board board;
+	private int score;
 	
-	public Player(Board board) {
-		
-		tilesOnHand = new byte[NUMBER_TILES_ON_HAND];
+	public Player(Board board) {		
+		this.tilesOnHand = new ArrayList<Character>(MAX_TILES_ON_HAND);
 	}
 	
 	public char[] placeWord() {
@@ -18,38 +21,59 @@ public abstract class Player {
 		getTiles(word.length);
 		return word;
 	}
+
 	
-	private boolean getNewTiles(int nrOfTilesToGet) {
-		return false;
+	public int getNumberOfTilesOnHand() {
+		return this.tilesOnHand.size();
 	}
 	
-	private boolean removeTileFromHand(char tile) {
-		int size = tilesOnHand.length;
-		int charIndex = findCharIndexInTilesOnHand(tile);
+	public int getNumberOfNewTilesNeeded() {
+		return MAX_TILES_ON_HAND - this.tilesOnHand.size();
+	}
+ 
+	private boolean removeTileFromHand(char letter) {
+		int charIndex = findLetterIndexInTilesOnHand(letter);
 		
 		if (charIndex < 0)
 			return false;
 		
-		byte[] newHand = new byte[size-1];
-		System.arraycopy(tilesOnHand, 0, newHand, 0, charIndex);
-		System.arraycopy(tilesOnHand, charIndex+1, newHand, charIndex+1, newHand.length-charIndex);
-		tilesOnHand = newHand;
+		this.tilesOnHand.remove(charIndex);
 		return true;
 	}
 
 	/**
-	 * @param tile
+	 * @param letter
 	 * @return
 	 */
-	private int findCharIndexInTilesOnHand(char tile) {
-		int size = tilesOnHand.length;
+	private int findLetterIndexInTilesOnHand(char letter) {
+		int size = tilesOnHand.size();
 		for (int i = 0; i < size; i++) {
-			if (tile == (char) tilesOnHand[i]) {
+			if (letter == tilesOnHand.get(i)) {
 				return i;
 			}
 		}
 		return -1;
 	}
 	
+	public void addPointsToScore(int points) {
+		this.score = this.score + points;
+	}
+	/**
+	 * @param player
+	 * @return
+	 */
+	public boolean placedAllTiles() {
+		return tilesOnHand.size() == 0;
+	}
 	public abstract Move generateMove();
+
+	/**
+	 * Receive and store one new tile to hand.
+	 * @param letter
+	 */
+	public void receiveTile(char letter) {
+		tilesOnHand.add(letter);		
+	}
+	
+
 }

@@ -8,7 +8,9 @@ public class Move {
 	private int startRow;
 	private int startColumn;
 	private byte direction;
-
+	private int endRow;
+	private int endColumn;
+	
 	/**
 	 * Create a new move 
 	 * 
@@ -22,6 +24,16 @@ public class Move {
 		this.direction = direction;
 		this.startRow = startRow;
 		this.startColumn = startColumn;		
+		
+		// Decide which direction to place word	
+		if (direction == Move.HORIZONTAL) {
+			this.endRow = startRow;
+			this.endColumn = startColumn + word.length;			
+		} else {
+			// Vertical
+			this.endRow = startRow + word.length;
+			this.endColumn = startColumn;
+		}
 	}
 
 	public char[] getWord() {
@@ -38,6 +50,14 @@ public class Move {
 	
 	public byte getDirection() {
 		return this.direction;
+	}
+	
+	public int getEndRow() {
+		return this.endRow;
+	}
+	
+	public int getEndColumn() {
+		return this.endColumn;
 	}
 
 }
