@@ -28,10 +28,10 @@ public class Move {
 		// Decide which direction to place word	
 		if (direction == Move.HORIZONTAL) {
 			this.endRow = startRow;
-			this.endColumn = startColumn + word.length;			
+			this.endColumn = startColumn + word.length -1;			
 		} else {
 			// Vertical
-			this.endRow = startRow + word.length;
+			this.endRow = startRow + word.length -1;
 			this.endColumn = startColumn;
 		}
 	}

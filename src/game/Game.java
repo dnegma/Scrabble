@@ -18,11 +18,11 @@ public class Game {
 	private int nrOfPasses;
 	
 	public Game(boolean player1StartsPlaying) {
-//		player1 = new Player();
-//		player2 = new Player();
+		player1 = new TestPlayer1(board);
+		player2 = new TestPlayer2(board);
 		board = new Board();
 		Alphabet.initializeAlphabet(GAME_LANGUAGE);
-		this.tilesInBag = initTileBag();
+		tilesInBag = initTileBag();
 		this.nrOfPasses = 0;
 		this.turn = (player1StartsPlaying) ? -1 : 1;
 		play();
@@ -44,7 +44,15 @@ public class Game {
 		while (!gameOver()) {
 			Player player = (turn < 0) ? player1 : player2;
 			boolean successfulMove = playTurn(player);
+			if (!successfulMove)
+				incrementPass();
+			else 
+				resetPasses();
 			turn = -turn;
+			board.printBoard();
+			System.out.println();
+			System.out.println("----------------------------------");
+			System.out.println();
 		}
 		System.out.println("Game over!");
 	}
@@ -115,16 +123,13 @@ public class Game {
 						break;
 					case Board.THREE_WORD_BONUS:
 						wordBonus = wordBonus * 3;
-						break;						
-					default:
-						// no bonus square. just add the letter point
-						wordPoints = wordPoints + Alphabet.getLetterPoint(letter);
-						break;
+						break;											
 					}
+					// get next tile
+					tile = tile + 1;
 				}	
-				// get next tile
-				tile = tile + 1;
-				
+				// no bonus square. just add the letter point
+				wordPoints = wordPoints + Alphabet.getLetterPoint((char)board.getSquareContent(row, column));
 			}
 		}		
 		// Add (possibly) word bonuses
@@ -159,6 +164,9 @@ public class Game {
 		new Game(true);
 	}
 	
+	public void resetPasses() {
+		this.nrOfPasses = 0;
+	}
 	public void incrementPass() {
 		this.nrOfPasses = nrOfPasses + 1;
 	}

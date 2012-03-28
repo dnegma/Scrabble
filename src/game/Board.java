@@ -18,7 +18,6 @@ public class Board {
 	{
 		board = new byte[BOARD_SIZE][BOARD_SIZE];
 		board[7][7] = TWO_LETTER_BONUS;
-		printBoard();
 	}
 	/**
 	 *  
@@ -65,6 +64,8 @@ public class Board {
 	public void printBoard() {
 		for (byte[] row : this.board) {
 			for (byte cell : row) {
+				
+				String letter = new String();
 				System.out.print(cell + "\t");
 			}
 			System.out.println();
