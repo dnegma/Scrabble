@@ -12,7 +12,7 @@
 
 
 \chapter{Introduction}
-Scrabble is an old classic word game that requires a great pool of knowledge and a sharp eye from the players. It was invented in the early 90s, and was first sold in 1949 [10]. Ever since the computer started to take place, there has been attempts to create an agent that would play Scrabble and win. The most famous one is called Maven and was implemented in the 80s.
+Scrabble is an old classic word game that requires a great pool of knowledge and a sharp eye from the players. It was invented in the early 90s, and was first sold in 1949 \cite{scrabbleforbund}. Ever since the computer started to take place, there has been attempts to create an agent that would play Scrabble and win. The first one is called \emph{Maven} and is even today a very powerful player.
 
 Wordfeud is an immensely popular software implementation for smart phones. The most significant difference to Scrabble is that it is restricted to be played by only two players.
 
@@ -43,17 +43,22 @@ Unfortunately, it is not as easy to determine in which folder to put the game of
 This chapter will describe solutions of one of the major problems when implementing the agent; the dictionary representation. Which solution that in the end was chosen, and why, will also be explained. The considered game strategies to investigate are presented in the second section of the chapter.
 
 \section{Dictionary representation}
-The dictionary can be represented i several different ways. Studies have been made in which is the most efficient strategy in both memory space and time cost. As a result from researching in the area, the DAWG/GADDAG representation was chosen. The parameters that were considered in making this decision were difficulty in implementation and search time cost in each of the options.
+When playing Scrabble in a tournament each player needs to finish all the rounds within a time frame, usually 25 minutes. Which means searching for words needs to be fast. The dictionary can be represented i several different waysand studies have been made in which is the most efficient strategy in both memory space and time cost, with the result being GADDAG and DAWG \cite{faster}\cite{fastest}, both different tyoes of minimizations of a trie. This section will look deeper into each of the alternatives, and explain both advantages and disadvantages with each of them.
 
-This study is based on the Swedish Dictionary which is available for download on the internet. To simplify the study and reduce time cost, only the normal form of each word is used. This resulted in a dictionary with a quite large vocabulary, more precise; 52000 words.
-\subsection{DAWG}
-When playing Scrabble in a tournament each player needs to finish all the rounds within a time frame, usually 25 minutes. Which means searching for words needs to be fast. Appel and Jacobson showed that when using a directed acyclic word graph DAWG it's easy to find legit words. The data structure is an evolution of a trie where each word corresponds to a path from the root. Each edge representing a letter and nodes flags end of a word. At the time discovering the DAWG disk space were limited and an English dictionary with 94240 words would take up 117150 nodes and 179618 edges. It would occupy over half a megabyte.
+This study used a Trie, with the reason that it would be fairly easy to implement, but still be a powerful tool when searching for words. The words included are from the Swedish Dictionary, witch is available online for download. All words are represented on the normal form to simplify and keep the study within reasonable limits. This resulted in a dicitonary consisting of a little over 52000 words.
+
+\subsection{Trie}
+
 \begin{figure}
 \centering
 \includegraphics[scale=0.6]{trie}
 \caption{Words represented as a Trie}
 \end{figure}
+\subsection{DAWG}
+Appel and Jacobson \cite{fastest} showed that when using a directed acyclic word graph DAWG it's easy to find legit words. The data structure is an evolution of a trie where each word corresponds to a path from the root. Each edge representing a letter and nodes flags end of a word. At the time discovering the DAWG disk space were limited and an English dictionary with 94240 words would take up 117150 nodes and 179618 edges. It would occupy over half a megabyte.
+
 By using a directed graph instead and letting nodes be shared by several edges it would dramatically reduce size to 19853 nodes and disk space 175 kB. For example the words awesome, awesomeness, awesomely would all share the first 7 nodes. When adding the word greatly it could share the last two letters l and y with the same nodes as the last two for awesomely. Nodes mark the the end of words with a boolean EOW.
+
 \subsection{GADDAG}
 \section{Game strategies}
 This study will focus on investigating three types of strategies, where all three will have one main objective each to take in consideration:
