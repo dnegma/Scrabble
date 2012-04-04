@@ -1,25 +1,28 @@
 package dictionary;
-import java.util.HashSet;
+
+import java.util.List;
 
 public class Dawg {
 	
-	private Node rootNode;
-	
-	public Dawg() {
-		rootNode = new Node();
-	}
+	private static Node rootNode = new Node('#');
+
+	//
+	// public Dawg() {
+	// rootNode = new Node((char) 0);
+	// }
 	
 	/**
 	 * Create a DAWG (directed acyclic word graph) from text file with list of words.
 	 * 
 	 * @param String fileName
 	 */
-	public void initDawg(String fileName) {
+	public static void initDawg(String fileName) {
 		long startTime = System.currentTimeMillis();
-		HashSet<String> dictionary = RegexDictionary.readDictionaryFromFile(fileName);
+		List<String> dictionary = RegexDictionary
+				.readDictionaryFromFile(fileName);
 
 		for (String word : dictionary) {
-			char[] wordarray = word.toCharArray();
+			char[] wordarray = word.toUpperCase().toCharArray();
 			addWordToDawg(rootNode, wordarray, 0);
 		} 
 		long endTime = System.currentTimeMillis();
@@ -28,11 +31,12 @@ public class Dawg {
 		
 		// Measure time for searching the word "abortör" 500 times
 		startTime = System.currentTimeMillis();			
+		boolean found = false;
 		for(int i=0; i<52000; i++) 	
-			findWord("abortör");		
+			found = findWord("ABORTÖR");
 		endTime = System.currentTimeMillis();
 		System.out.println("Search time: " + (endTime - startTime) 
-				+ " milliseconds.");
+				+ " milliseconds. " + found);
 	}
 	
 	/**
@@ -42,7 +46,8 @@ public class Dawg {
 	 * @param char[] word inserted to DAWG
 	 * @param int letterIndex index to select letter in word 
 	 */
-	private void addWordToDawg(Node currentNode, char[] word, int letterIndex) {
+	private static void addWordToDawg(Node currentNode, char[] word,
+			int letterIndex) {
 		
 		if (letterIndex >= word.length) {
 			currentNode.setEow();
@@ -69,7 +74,7 @@ public class Dawg {
 	 * @param word search string
 	 * @return boolean true if found
 	 */
-	public boolean findWord(String word) {
+	public static boolean findWord(String word) {
 		char[] wordArray = word.toCharArray();
 		return findWordRecursively(rootNode, wordArray, 0);
 	}
@@ -82,7 +87,8 @@ public class Dawg {
 	 * @param letterIndex
 	 * @return boolean true if found
 	 */
-	private boolean findWordRecursively(Node currentNode, char[] word, int letterIndex) {
+	private static boolean findWordRecursively(Node currentNode, char[] word,
+			int letterIndex) {
 		// Finished searching through all letters  
 		if (letterIndex >= word.length) {
 			return true;
@@ -100,7 +106,10 @@ public class Dawg {
 		}			
 	}
 	
-	public static void main (String[] args){		
-		new Dawg().initDawg("dictionary/dsso-1.52_utf8.txt");				
+	public static Node getRootNode() {
+		return rootNode;
 	}
+	// public static void main (String[] args){
+	// new Dawg().initDawg("dictionary/dsso-1.52_utf8.txt");
+	// }
 }

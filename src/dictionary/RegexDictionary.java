@@ -2,7 +2,9 @@ package dictionary;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,7 +18,7 @@ import java.util.regex.Pattern;
 public class RegexDictionary {
 	private static final String WORDLINEREGEX = "\\d+r\\d+<\\w+>[\\wåäö]+:(\\w*\\W*)*";
 
-	private static HashSet<String> dictionary;
+	private static List<String> dictionary;
 	
 	/**
 	 * Read file and import words into hashset.
@@ -24,10 +26,10 @@ public class RegexDictionary {
 	 * @param fileName Name of file to import.
 	 * @return Hashset containing all words.
 	 */
-	public static HashSet<String> readDictionaryFromFile(String fileName) {
-		HashSet<String> wordList = new HashSet<String>();
+	public static List<String> readDictionaryFromFile(String fileName) {
+		List<String> wordList = new ArrayList<String>();
 		BufferedReader br = null;
-		
+		// 77Collections.sort(dictionary);
 		try {
 			br = new BufferedReader(new FileReader(fileName));
 			String textLine;
@@ -54,6 +56,7 @@ public class RegexDictionary {
 				e.printStackTrace();
 			}
 		}
+		Collections.sort(wordList);
 		return wordList;
 	}
 	

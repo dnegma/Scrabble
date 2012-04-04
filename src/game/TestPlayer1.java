@@ -24,4 +24,10 @@ public class TestPlayer1 extends Player {
 		return moves.remove(0);
 	}
 
+	@Override
+	public void saveLegalMoveIfBest(String partWord, int row, int column) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
