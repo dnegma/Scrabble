@@ -30,7 +30,6 @@ public class Square {
 	private int column;
 
 	private boolean isAnchor;
-	private boolean transposed;
 
 	private HashSet<Character> crosschecks;
 	Square nextLeft;
@@ -69,39 +68,55 @@ public class Square {
 	 * 
 	 * @param content
 	 */
-	public void setContent(char content) {
+	public void setContent(char content, boolean transposed) {
 		this.content = content;
 
-		if (nextDown != null && !nextDown.containsLetter())
-			nextDown.calculateCrossChecks();
-		if (nextUp != null && !nextUp.containsLetter())
-			nextUp.calculateCrossChecks();
-		if (nextLeft != null && !nextLeft.containsLetter())
-			nextLeft.calculateCrossChecks();
-		if (nextRight != null && !nextRight.containsLetter())
-			nextRight.calculateCrossChecks();
+		if (nextDown != null && !nextDown.containsLetter()) {
+			nextDown.calculateCrossChecks(transposed);
+			nextDown.setAnchor(true);
+		}
+		if (nextUp != null && !nextUp.containsLetter()) {
+			nextUp.calculateCrossChecks(transposed);
+			nextUp.setAnchor(true);
+		}
+		if (nextLeft != null && !nextLeft.containsLetter()) {
+			nextLeft.calculateCrossChecks(transposed);
+			nextLeft.setAnchor(true);
+		}
+		if (nextRight != null && !nextRight.containsLetter()) {
+			nextRight.calculateCrossChecks(transposed);
+			nextRight.setAnchor(true);
+		}
 	}
 
 	/**
 	 * Calculate which letters are legal to place on this square. This depends
 	 * on the neighbors, since a word has to be formed in any direction.
 	 */
-	private void calculateCrossChecks() {
+	private void calculateCrossChecks(boolean transposed) {
 		String word;
-		if (nextDown != null && nextDown.containsLetter())
-			word = verticalWord("", this, 1);
-		else if (nextUp != null && nextUp.containsLetter())
-			word = verticalWord("", this, -1);
+		if (getNextDown(transposed) != null
+				&& getNextDown(transposed).containsLetter())
+			word = verticalWord("", this, 1, transposed);
+		else if (getNextUp(transposed) != null
+				&& getNextUp(transposed).containsLetter())
+			word = verticalWord("", this, -1, transposed);
 		else
 			return;
 
 		crosschecks.clear();
-		char[] alphabet = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-				'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U',
-				'V', 'X', 'Y', 'Z', 'Å', 'Ä', 'Ö' };
-		for (int i = 0; i < alphabet.length; i++) {
+
+		for (int i = 0; i < Alphabet.alphabet.length; i++) {
 			if (Dawg.findWord(word))
-				crosschecks.add(alphabet[i]);
+				crosschecks.add(Alphabet.alphabet[i]);
+		}
+	}
+
+	public void initCrossCheck() {
+		crosschecks.clear();
+
+		for (int i = 0; i < Alphabet.alphabet.length; i++) {
+			crosschecks.add(Alphabet.alphabet[i]);
 		}
 	}
 
@@ -115,14 +130,18 @@ public class Square {
 	 * @param increment
 	 * @return
 	 */
-	private String verticalWord(String word, Square square, int increment) {
+	private String verticalWord(String word, Square square, int increment,
+			boolean transposed) {
 		if (!square.containsLetter())
 			return word;
 
 		if (increment < 0)
-			return verticalWord(word, square, increment) + square.getContent();
+			return verticalWord(word, square.getNextDown(transposed),
+					increment, transposed)
+					+ square.getContent();
 		else
-			return square.getContent() + verticalWord(word, square, increment);
+			return square.getContent()
+					+ verticalWord(word, square, increment, transposed);
 	}
 
 	/**
@@ -177,28 +196,6 @@ public class Square {
 	 */
 	public int getRow() {
 		return row;
-	}
-
-	public void transposeSquare() {
-		transposed = true;
-		swapRowColumn();
-		swapNeighbors();
-	}
-
-	private void swapNeighbors() {
-		Square tmp = nextDown;
-		nextDown = nextRight;
-		nextRight = tmp;
-
-		tmp = nextUp;
-		nextUp = nextLeft;
-		nextUp = tmp;
-	}
-
-	public void swapRowColumn() {
-		int tmp = row;
-		row = column;
-		column = tmp;
 	}
 
 	public Square getNextRight(boolean transposed) {

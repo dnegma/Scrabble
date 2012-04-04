@@ -143,7 +143,8 @@ public class Game {
 			for (int column=startColumn; column<=endColumn; column++){							
 				if (!board.isOccupiedSquare(row, column)) {
 					char letter = tilesToPlace[tile];
-					char squareInfo = board.placeTile(letter, row, column);
+					char squareInfo = board.placeTile(letter, row, column,
+							(direction == Move.VERTICAL));
 					switch (squareInfo) {
 					case Square.TWO_LETTER_BONUS:
 						wordPoints = wordPoints + Alphabet.getLetterPoint(letter) * 2;

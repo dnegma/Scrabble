@@ -21,8 +21,13 @@ public class Board {
 		for (int row = 0; row < BOARD_SIZE; row++) {
 			for (int column = 0; column < BOARD_SIZE; column++) {
 				board[row][column] = new Square('.', row, column);
-				if (row == 7 && column == 7)
-					board[row][column].setContent(Square.CENTER_SQUARE);
+				if (row == 7 && column == 7) {
+					Square square = board[row][column];
+					square.setContent(Square.CENTER_SQUARE, false);
+					square.setAnchor(true);
+					square.initCrossCheck();
+
+				}
 			}
 		}
 
@@ -40,21 +45,25 @@ public class Board {
 			}
 		}
 	}
+	
 	/**
-	 *  
+	 * 
 	 * @param letter
-	 * @param column zero-indexed
-	 * @param row zero-indexed
+	 * @param column
+	 *            zero-indexed
+	 * @param row
+	 *            zero-indexed
+	 * @param transposed
 	 * @return square info
 	 */
-	public char placeTile(char letter, int row, int column) {
+	public char placeTile(char letter, int row, int column, boolean transposed) {
 		
 		Square square = board[row][column];
 		if (square.containsLetter())
 			return Square.BUSY_SQUARE;
 		
 		square.setAnchor(false);
-		square.setContent(letter);
+		square.setContent(letter, transposed);
 		return letter;
 	}
 	public boolean isOutsideBoardLimits(int row, int column) {

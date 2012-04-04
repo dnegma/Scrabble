@@ -55,7 +55,7 @@ public abstract class Player {
 	 * @return
 	 */
 	private boolean firstRound() {
-		return !board.getSquare(7, 7).containsLetter();
+		return board.getSquare(CENTER_INDEX, CENTER_INDEX).getContent() == Square.CENTER_SQUARE;
 	}
 
 	/**
@@ -72,7 +72,7 @@ public abstract class Player {
 		for (int row = 0; row < Board.BOARD_SIZE; row++) {
 			for (int column = 0; column < Board.BOARD_SIZE; column++) {
 				Square square = board[row][column];
-				if (!square.containsLetter()) {
+				if (!square.isAnchor()) {
 					limit = limit + 1;
 				} else {
 					// if (column > 0) {
@@ -81,6 +81,7 @@ public abstract class Player {
 					leftPart("", Dawg.getRootNode(), limit, board[row][column],
 								transposed);
 					// }
+					limit = 0;
 				}
 			}
 			limit = 0;
@@ -105,6 +106,8 @@ public abstract class Player {
 					int index = findLetterIndexInTilesOnHand(letter);
 					tilesOnHand.remove(index);
 					Square toLeft = anchor.getNextLeft(transposed);
+					if (toLeft == null)
+						System.out.println();
 					leftPart(partWord + letter, nextNode, limit - 1,
 							toLeft, transposed);
 					tilesOnHand.add(letter);
@@ -134,6 +137,8 @@ public abstract class Player {
 					int index = findLetterIndexInTilesOnHand(letter);
 					tilesOnHand.remove(index);
 					Square toRight = square.getNextRight(transposed);
+					if (toRight == null)
+						System.out.println();
 					extendRight(partWord + letter, nextNode,
 							toRight, transposed);
 					tilesOnHand.add(letter);
@@ -143,6 +148,8 @@ public abstract class Player {
 			char letter = square.getContent();
 			if (node.getChildren().containsKey(letter)) {
 				Square toRight = square.getNextRight(transposed);
+				if (toRight == null)
+					System.out.println();
 				extendRight(partWord + letter, node.getChildren().get(letter),
 						toRight, transposed);
 			}
