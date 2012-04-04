@@ -26,7 +26,8 @@ public class TestPlayer2 extends Player {
 	}
 
 	@Override
-	public void saveLegalMoveIfBest(String partWord, int row, int column) {
+	public void saveLegalMoveIfBest(String partWord, int row, int column,
+			boolean transposed) {
 		// TODO Auto-generated method stub
 
 	}

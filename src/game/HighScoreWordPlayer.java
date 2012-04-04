@@ -8,10 +8,11 @@ public class HighScoreWordPlayer extends Player {
 	}
 
 	@Override
-	public void saveLegalMoveIfBest(String partWord, int row, int column) {
+	public void saveLegalMoveIfBest(String partWord, int row, int column, boolean transposed) {
 		if (scoreOf(partWord) > scoreOf(nextMove)) {
+			byte direction = (transposed) ? Move.VERTICAL : Move.HORIZONTAL;
 			nextMove = new Move(partWord.toCharArray(), row, column,
-					Move.HORIZONTAL);
+					direction);
 		}
 	}
 

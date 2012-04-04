@@ -40,7 +40,8 @@ public abstract class Player {
 		
 		if (firstRound()) {
 			leftPart("", Dawg.getRootNode(), CENTER_INDEX,
-					board.getSquare(CENTER_INDEX, CENTER_INDEX), false);
+					board.getSquare(CENTER_INDEX, CENTER_INDEX).getNextRight(
+							false), false);
 		} else {
 			generate(board.getBoard(), false);
 			generate(board.getTransposedBoard(), true);
@@ -74,12 +75,12 @@ public abstract class Player {
 				if (!square.containsLetter()) {
 					limit = limit + 1;
 				} else {
-					if (column > 0) {
-						Square toLeft = board[row][column]
-								.getNextLeft(transposed);
-						leftPart("", Dawg.getRootNode(), limit, toLeft,
+					// if (column > 0) {
+					// Square toLeft = board[row][column]
+					// .getNextLeft(transposed);
+					leftPart("", Dawg.getRootNode(), limit, board[row][column],
 								transposed);
-					}
+					// }
 				}
 			}
 			limit = 0;
@@ -124,7 +125,7 @@ public abstract class Player {
 		if (!square.containsLetter()) {
 			if (node.isEow()) {
 				saveLegalMoveIfBest(partWord,
-						square.getRow(), square.getColumn());
+						square.getRow(), square.getColumn(), transposed);
 			}
 			for (Node nextNode : node.getChildren().values()) {
 				char letter = nextNode.getLetter();
@@ -158,7 +159,7 @@ public abstract class Player {
 	 * @param column
 	 */
 	public abstract void saveLegalMoveIfBest(String partWord, int row,
-			int column);
+			int column, boolean transposed);
 
 	/**
 	 * Number on tiles the player has in the rack.
