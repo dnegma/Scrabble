@@ -1,20 +1,27 @@
-package game;
+package player;
+
+import game.Move;
+import game.WordNode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestPlayer1 extends Player {
+import board.Board;
+
+
+
+public class TestPlayer2 extends Player {
+
 	List<Move> moves;
 
-	public TestPlayer1(Board board) {
+	public TestPlayer2(Board board) {
 		super(board);
 		initMoves();
 	}
 
 	private void initMoves () {
 		moves = new ArrayList<Move>();
-		// moves.add(new Move("HEJ".toCharArray(), 7, 7, Move.VERTICAL));
-		// moves.add(new Move("ATT".toCharArray(), 7, 7, Move.HORIZONTAL));
+		// moves.add(new Move("AGA".toCharsArray(), 7, 10, Move.VERTICAL));
 		
 	}
 	@Override
@@ -36,5 +43,4 @@ public class TestPlayer1 extends Player {
 		// TODO Auto-generated method stub
 
 	}
-
 }

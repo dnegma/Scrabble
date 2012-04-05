@@ -1,5 +1,7 @@
 package game;
 
+import board.Square;
+
 public class WordNode {
 
 	char letter;

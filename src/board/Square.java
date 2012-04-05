@@ -1,7 +1,8 @@
-package game;
+package board;
 
 import java.util.HashSet;
 
+import dictionary.Alphabet;
 import dictionary.Dawg;
 
 /**
@@ -19,11 +20,11 @@ public class Square {
 	static final char INVALID_SQUARE = (char) -1;
 	static final char BUSY_SQUARE = 0;
 	static final char EMPTY = 48;
-	static final char TWO_LETTER_BONUS = 49;
-	static final char THREE_LETTER_BONUS = 50;
-	static final char TWO_WORD_BONUS = 51;
-	static final char THREE_WORD_BONUS = 52;
-	static final char CENTER_SQUARE = 53;
+	public static final char TWO_LETTER_BONUS = 49;
+	public static final char THREE_LETTER_BONUS = 50;
+	public static final char TWO_WORD_BONUS = 51;
+	public static final char THREE_WORD_BONUS = 52;
+	public static final char CENTER_SQUARE = 53;
 
 	private char content;
 	private int row;
@@ -95,19 +96,25 @@ public class Square {
 	 */
 	private void calculateCrossChecks(boolean transposed) {
 		String word;
-		if (getNextDown(transposed) != null
-				&& getNextDown(transposed).containsLetter())
-			word = verticalWord("", this, 1, transposed);
-		else if (getNextUp(transposed) != null
-				&& getNextUp(transposed).containsLetter())
-			word = verticalWord("", this, -1, transposed);
-		else
+		Square down = getNextDown(transposed);
+		Square up = getNextUp(transposed);
+
+		boolean downwards = false;
+		if (down != null && down.containsLetter()) {
+			word = verticalWord("", down, 1, transposed);
+			downwards = true;
+		} else if (up != null && up.containsLetter()) {
+			word = verticalWord("", up, -1, transposed);
+		} else {
 			return;
+		}
 
 		crosschecks.clear();
 
 		for (int i = 0; i < Alphabet.alphabet.length; i++) {
-			if (Dawg.findWord(word))
+			char letter = Alphabet.alphabet[i];
+			String checkWord = (downwards) ? letter + word : word + letter;
+			if (Dawg.findWord(checkWord))
 				crosschecks.add(Alphabet.alphabet[i]);
 		}
 	}
@@ -132,16 +139,17 @@ public class Square {
 	 */
 	private String verticalWord(String word, Square square, int increment,
 			boolean transposed) {
-		if (!square.containsLetter())
+		if (square == null || !square.containsLetter())
 			return word;
 
+		char letter = square.getContent();
 		if (increment < 0)
 			return verticalWord(word, square.getNextDown(transposed),
-					increment, transposed)
-					+ square.getContent();
+					increment, transposed) + letter;
 		else
-			return square.getContent()
-					+ verticalWord(word, square, increment, transposed);
+			return letter
+					+ verticalWord(word, square.getNextUp(transposed),
+							increment, transposed);
 	}
 
 	/**

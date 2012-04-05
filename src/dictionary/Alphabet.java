@@ -1,4 +1,4 @@
-package game;
+package dictionary;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -7,12 +7,13 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class Alphabet {
-	static HashMap<Character, Integer> letterAmounts = new HashMap<Character, Integer>();
+	public static HashMap<Character, Integer> letterAmounts = new HashMap<Character, Integer>();
 	static HashMap<Character, Integer> letterPoints = new HashMap<Character, Integer>();
 
-	static char[] alphabet = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G',
+	public static char[] alphabet = new char[] { 'A', 'B', 'C', 'D', 'E', 'F',
+			'G',
 			'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U',
-			'V', 'X', 'Y', 'Z', 'Å', 'Ä', 'Ö' };
+			'V', 'X', 'Y', 'Z'};
 	/**
 	 * Initialize alphabet with points and amount of each letter depending on
 	 * which language we are working with. Read info from a file representing
@@ -67,14 +68,6 @@ public class Alphabet {
 		}
 	}
 
-	public static HashMap<Character, Integer> getLetterAmounts() {
-		return letterAmounts;
-	}
-
-	public static HashMap<Character, Integer> getLetterPoints() {
-		return letterPoints;
-	}
-	
 	public static int getLetterPoint(char letter) {
 		return letterPoints.get(letter);
 	}

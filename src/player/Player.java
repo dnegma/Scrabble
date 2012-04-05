@@ -1,7 +1,13 @@
-package game;
+package player;
+
+import game.Move;
+import game.WordNode;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import board.Board;
+import board.Square;
 
 import dictionary.Dawg;
 import dictionary.Node;
@@ -10,8 +16,7 @@ public abstract class Player {
 	public static final int MAX_TILES_ON_HAND = 8;
 	public static final int CENTER_INDEX = 7;
 	List<Character> tilesOnHand;
-	//protected byte[] tilesOnHand;
-	
+
 	private Board board;
 	private int score;
 	protected Move nextMove;
@@ -20,11 +25,9 @@ public abstract class Player {
 		this.board = board;
 		this.tilesOnHand = new ArrayList<Character>(MAX_TILES_ON_HAND);
 	}
-	
+
 	public char[] placeWord() {
-//		char[] word = generateWord();
-		// removeTileFromHand(word);
-//		getTiles(word.length);
+
 		return null;
 	}
 
@@ -37,15 +40,9 @@ public abstract class Player {
 	 */
 	public Move generateMove() {
 		nextMove = null;
-		
-		// if (firstRound()) {
-		// leftPart("", Dawg.getRootNode(), CENTER_INDEX,
-		// board.getSquare(CENTER_INDEX, CENTER_INDEX).getNextRight(
-		// false), false);
-		// } else {
-			generate(board.getBoard(), false);
-			// generate(board.getTransposedBoard(), true);
-		// }
+
+		generate(board.getBoard(), false);
+		// generate(board.getTransposedBoard(), true);
 		return nextMove;
 	}
 
@@ -75,14 +72,10 @@ public abstract class Player {
 				if (!square.isAnchor()) {
 					limit = limit + 1;
 				} else {
-					// if (column > 0) {
-					// Square toLeft = board[row][column]
-					// .getNextLeft(transposed);
+
 					WordNode wn = new WordNode(square, null, '.');
 					leftPart("", wn, Dawg.getRootNode(), limit,
-							board[row][column],
-								transposed);
-					// }
+							board[row][column], transposed);
 					limit = 0;
 				}
 			}
@@ -191,7 +184,7 @@ public abstract class Player {
 	public int getNumberOfTilesOnHand() {
 		return this.tilesOnHand.size();
 	}
-	
+
 	/**
 	 * How many tiles the player is missing and should pick up for the next
 	 * round.
@@ -201,7 +194,7 @@ public abstract class Player {
 	public int getNumberOfNewTilesNeeded() {
 		return MAX_TILES_ON_HAND - this.tilesOnHand.size();
 	}
- 
+
 	/**
 	 * Remove tile from rack.
 	 * 
@@ -210,10 +203,10 @@ public abstract class Player {
 	 */
 	public boolean removeTileFromHand(char letter) {
 		int charIndex = findLetterIndexInTilesOnHand(letter);
-		
+
 		if (charIndex < 0)
 			return false;
-		
+
 		this.tilesOnHand.remove(charIndex);
 		return true;
 	}
@@ -234,7 +227,7 @@ public abstract class Player {
 		}
 		return -1;
 	}
-	
+
 	/**
 	 * Add points to our score.
 	 * 

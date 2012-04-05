@@ -1,4 +1,9 @@
-package game;
+package player;
+
+import board.Board;
+import dictionary.Alphabet;
+import game.Move;
+import game.WordNode;
 
 
 public class HighScoreWordPlayer extends Player {

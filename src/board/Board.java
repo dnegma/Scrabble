@@ -1,15 +1,15 @@
-package game;
+package board;
 
 public class Board {
 	
 	Square[][] board;
 	// byte[][] board;
-	static final int BOARD_SIZE = 15;
+	public static final int BOARD_SIZE = 15;
 	
 	/**
 	 * Create a new board
 	 */
-	Board()
+	public Board()
 	{
 		initBoard();
 		// board = new Square[BOARD_SIZE][BOARD_SIZE];

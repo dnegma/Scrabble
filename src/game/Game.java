@@ -1,9 +1,17 @@
 package game;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import board.Board;
+import board.Square;
+
+import player.HighScoreWordPlayer;
+import player.Player;
+
+import dictionary.Alphabet;
 import dictionary.Dawg;
 
 
@@ -46,11 +54,10 @@ public class Game {
 	 */
 	private List<Character> initTileBag() {
 		List<Character> tilesInBag = new ArrayList<Character>();
-		for (char letter : Alphabet.letterAmounts.keySet()) {
+		for (char letter : Alphabet.alphabet) {
 			int amount = Alphabet.getLetterAmount(letter);
-			for (int i = 0 ; i < amount; i++) {
+			for (int i = 0; i < amount; i++)
 				tilesInBag.add(letter);
-			}
 		}
 		Collections.shuffle(tilesInBag);
 		return tilesInBag;
@@ -71,6 +78,7 @@ public class Game {
 			turn = -turn;
 			board.printBoard();
 			System.out.println();
+			printTilesInBag();
 			System.out.println("----------------------------------");
 			System.out.println();
 		}
@@ -97,11 +105,13 @@ public class Game {
 	 * @return
 	 */
 	public boolean gameOver() {
-		if (getNrOfPasses() >= 4 || 
-				(tilesInBag.isEmpty() && 
-						(player1.placedAllTiles() || player2.placedAllTiles())))
+		if (player1.placedAllTiles() && tilesInBag.isEmpty())
 			return true;
-		
+		if (player2.placedAllTiles() && tilesInBag.isEmpty())
+			return true;
+		if (getNrOfPasses() >= 4)
+			return true;
+
 		return false;	
 	}
 	
@@ -116,7 +126,8 @@ public class Game {
 	 * @return
 	 */
 	public int makeMove(Move move, Player player) {
-		char[] word = move.getWord();
+		int wordScore = 0;
+		int wordBonus = 1;
 		WordNode wn = move.wn;
 
 		byte direction;
@@ -131,85 +142,40 @@ public class Game {
 				char letter = wn.letter;
 				char squareInfo = board.placeTile(letter, sq.getRow(),
 						sq.getColumn(), (direction == Move.VERTICAL));
+				wordScore = wordScore + getWordScore(squareInfo, letter);
+				wordBonus = wordBonus * getWordBonus(squareInfo, letter);
 				player.removeTileFromHand(letter);
+				wn = wn.previousNode;
+			} else {
 				wn = wn.previousNode;
 			}
 		}
 		return 0;
 	}
 
-	public int doMove(Move move, Player player) {
-
-		// Get word and where to place on board 
-		char[] tilesToPlace = move.getWord();
-		int startRow = move.getStartRow();
-		int startColumn = move.getStartColumn();	
-		int endRow = move.getEndRow();
-		int endColumn = move.getEndColumn();
-		
-		byte direction;
-		if (endColumn == startColumn)
-			direction = Move.VERTICAL;
-		else
-			direction = Move.HORIZONTAL;
-		// count points
-		int wordPoints = 0;
-		int wordBonus = 1;		
-		
-		
-		// if ()
-		// board.getSquare(startRow - 1, startColumn - 1).setAnchor(true);
-		
-		// Place word on board
-		int tile = 0;
-		for (int row=startRow; row<=endRow; row++) {
-			for (int column=startColumn; column<=endColumn; column++){							
-				if (!board.isOccupiedSquare(row, column)) {
-					char letter = tilesToPlace[tile];
-					char squareInfo = board.placeTile(letter, row, column,
-							(direction == Move.VERTICAL));
-					switch (squareInfo) {
-					case Square.TWO_LETTER_BONUS:
-						wordPoints = wordPoints + Alphabet.getLetterPoint(letter) * 2;
-						break;
-					case Square.THREE_LETTER_BONUS:
-						wordPoints = wordPoints + Alphabet.getLetterPoint(letter) * 3;
-						break;
-					case Square.TWO_WORD_BONUS:
-						wordBonus = wordBonus * 2;
-						break;
-					case Square.THREE_WORD_BONUS:
-						wordBonus = wordBonus * 3;
-						break;
-					case Square.BUSY_SQUARE:
-						if (direction == Move.HORIZONTAL)
-							row = row - 1;
-						else
-							column = column - 1;
-						continue;
-					}
-					// get next tile
-					tile = tile + 1;
-					player.removeTileFromHand(letter);
-				}	
-				// no bonus square. just add the letter point
-				wordPoints = wordPoints
-						+ Alphabet.getLetterPoint(board.getSquare(row, column)
-								.getContent());
-			}
-		}		
-		// Add (possibly) word bonuses
-		wordPoints = wordPoints * wordBonus;
-		
-		// Add (possibly) 50 points if the player uses all tiles on hand
-		if (player.placedAllTiles())
-			wordPoints = wordPoints + 50;
-
-		// add score to player
-		//player.addPointsToScore(wordPoints);
-		
-		return wordPoints;
+	private int getWordBonus(char squareInfo, char letter) {
+		switch (squareInfo) {
+		case Square.THREE_WORD_BONUS:
+			return 3;
+		case Square.TWO_WORD_BONUS:
+			return 2;
+		default:
+			return 1;
+		}
 	}
+
+	private int getWordScore(char squareInfo, char letter) {
+		int letterScore = Alphabet.getLetterPoint(letter);
+		switch (squareInfo) {
+		case Square.THREE_LETTER_BONUS:
+			return letterScore * 3;
+		case Square.TWO_LETTER_BONUS:
+			return letterScore * 2;
+		default:
+			return letterScore;
+		}
+	}
+
 
 	/**
 	 * Give new tiles to the player after he did a move. The player will receive
@@ -263,5 +229,13 @@ public class Game {
 	 */
 	public int getNrOfPasses() {
 		return this.nrOfPasses;
+	}
+
+	public void printTilesInBag() {
+		int tilesLeft = tilesInBag.size();
+		for (int i = 0; i < tilesLeft; i++) {
+			System.out.print(tilesInBag.get(i));
+		}
+		System.out.println();
 	}
 }
