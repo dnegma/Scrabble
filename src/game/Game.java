@@ -116,7 +116,6 @@ public class Game {
 	 * @return
 	 */
 	public int makeMove(Move move, Player player) {
-		char[] word = move.getWord();
 		WordNode wn = move.wn;
 
 		byte direction;
@@ -132,6 +131,8 @@ public class Game {
 				char squareInfo = board.placeTile(letter, sq.getRow(),
 						sq.getColumn(), (direction == Move.VERTICAL));
 				player.removeTileFromHand(letter);
+				wn = wn.previousNode;
+			} else {
 				wn = wn.previousNode;
 			}
 		}

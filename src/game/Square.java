@@ -95,19 +95,25 @@ public class Square {
 	 */
 	private void calculateCrossChecks(boolean transposed) {
 		String word;
-		if (getNextDown(transposed) != null
-				&& getNextDown(transposed).containsLetter())
-			word = verticalWord("", this, 1, transposed);
-		else if (getNextUp(transposed) != null
-				&& getNextUp(transposed).containsLetter())
-			word = verticalWord("", this, -1, transposed);
-		else
+		Square down = getNextDown(transposed);
+		Square up = getNextUp(transposed);
+
+		boolean downwards = false;
+		if (down != null && down.containsLetter()) {
+			word = verticalWord("", down, 1, transposed);
+			downwards = true;
+		} else if (up != null && up.containsLetter()) {
+			word = verticalWord("", up, -1, transposed);
+		} else {
 			return;
+		}
 
 		crosschecks.clear();
 
 		for (int i = 0; i < Alphabet.alphabet.length; i++) {
-			if (Dawg.findWord(word))
+			char letter = Alphabet.alphabet[i];
+			String checkWord = (downwards) ? letter + word : word + letter;
+			if (Dawg.findWord(checkWord))
 				crosschecks.add(Alphabet.alphabet[i]);
 		}
 	}
@@ -135,13 +141,14 @@ public class Square {
 		if (!square.containsLetter())
 			return word;
 
+		char letter = square.getContent();
 		if (increment < 0)
 			return verticalWord(word, square.getNextDown(transposed),
-					increment, transposed)
-					+ square.getContent();
+					increment, transposed) + letter;
 		else
-			return square.getContent()
-					+ verticalWord(word, square, increment, transposed);
+			return letter
+					+ verticalWord(word, square.getNextUp(transposed),
+							increment, transposed);
 	}
 
 	/**
