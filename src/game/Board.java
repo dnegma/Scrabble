@@ -34,11 +34,15 @@ public class Board {
 		for (int row = 0; row < BOARD_SIZE; row++) {
 			for (int column = 0; column < BOARD_SIZE; column++) {
 				Square square = board[row][column];
-				Square left = (column <= 0) ? null : board[row][column - 1];
-				Square right = (column >= BOARD_SIZE - 1) ? null
+				Square left = (column <= 0) ? new Square((char) -1, -1, -1)
+						: board[row][column - 1];
+				Square right = (column >= BOARD_SIZE - 1) ? new Square(
+						(char) -1, -1, -1)
 						: board[row][column + 1];
-				Square up = (row <= 0) ? null : board[row - 1][column];
-				Square down = (row >= BOARD_SIZE - 1) ? null
+				Square up = (row <= 0) ? new Square((char) -1, -1, -1)
+						: board[row - 1][column];
+				Square down = (row >= BOARD_SIZE - 1) ? new Square((char) -1,
+						-1, -1)
 						: board[row + 1][column];
 
 				square.setNeighbours(left, right, up, down);

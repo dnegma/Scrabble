@@ -116,6 +116,29 @@ public class Game {
 	 * @return
 	 */
 	public int makeMove(Move move, Player player) {
+		char[] word = move.getWord();
+		WordNode wn = move.wn;
+
+		byte direction;
+		if (move.getEndColumn() == move.getStartColumn())
+			direction = Move.VERTICAL;
+		else
+			direction = Move.HORIZONTAL;
+
+		while (wn.previousNode != null) {
+			Square sq = wn.square;
+			if (!board.isOccupiedSquare(sq.getRow(), sq.getColumn())) {
+				char letter = wn.letter;
+				char squareInfo = board.placeTile(letter, sq.getRow(),
+						sq.getColumn(), (direction == Move.VERTICAL));
+				player.removeTileFromHand(letter);
+				wn = wn.previousNode;
+			}
+		}
+		return 0;
+	}
+
+	public int doMove(Move move, Player player) {
 
 		// Get word and where to place on board 
 		char[] tilesToPlace = move.getWord();

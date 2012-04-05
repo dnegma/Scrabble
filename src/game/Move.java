@@ -11,6 +11,7 @@ public class Move {
 	private int endRow;
 	private int endColumn;
 	
+	WordNode wn;
 	/**
 	 * Create a new move 
 	 * 
@@ -19,11 +20,13 @@ public class Move {
 	 * @param startColumn
 	 * @param direction HORIZONTAL or VERTICAL
 	 */
-	public Move(char[] word, int startRow, int startColumn, byte direction) {
+	public Move(char[] word, WordNode wn, int startRow, int startColumn,
+			byte direction) {
 		this.word = word;
 		this.direction = direction;
 		this.startRow = startRow;
 		this.startColumn = startColumn;		
+		this.wn = wn;
 		
 		// Decide which direction to place word	
 		if (direction == Move.HORIZONTAL) {
