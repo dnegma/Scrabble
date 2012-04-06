@@ -98,26 +98,26 @@ public class Square {
 	 * on the neighbors, since a word has to be formed in any direction.
 	 */
 	private void calculateCrossChecks(boolean transposed) {
-		String word;
-		Square down = getNextDown(transposed);
-		Square up = getNextUp(transposed);
+		String wordDownwards = "";
+		String wordUpwards = "";
 
-		boolean downwards = false;
-		if (down != null && down.containsLetter()) {
-			word = verticalWord("", down, 1, transposed);
-			downwards = true;
+		Square downSquare = getNextDown(transposed);
+		Square upSquare = getNextUp(transposed);
+
+		if (downSquare != null && downSquare.containsLetter()) {
+			wordDownwards = verticalWord("", downSquare, 1, transposed);
 		}
-		if (up != null && up.containsLetter()) {
-			word = verticalWord("", up, -1, transposed);
-		} else {
-			return;
+
+		if (upSquare != null && upSquare.containsLetter()) {
+			wordUpwards = verticalWord("", upSquare, -1, transposed);
 		}
 
 		crosschecks.clear();
 
 		for (int i = 0; i < Alphabet.alphabet.length; i++) {
 			char letter = Alphabet.alphabet[i];
-			String checkWord = (downwards) ? letter + word : word + letter;
+
+			String checkWord = wordUpwards + letter + wordDownwards;
 			if (Dawg.findWord(checkWord))
 				crosschecks.add(Alphabet.alphabet[i]);
 		}
