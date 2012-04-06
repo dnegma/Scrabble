@@ -76,7 +76,7 @@ public class Dawg {
 	 */
 	public static boolean findWord(String word) {
 		char[] wordArray = word.toCharArray();
-		return findWordRecursively(rootNode, wordArray, 0);
+		return findWordRecursively(rootNode, word, 0);
 	}
 	
 	/** 
@@ -87,19 +87,23 @@ public class Dawg {
 	 * @param letterIndex
 	 * @return boolean true if found
 	 */
-	private static boolean findWordRecursively(Node currentNode, char[] word,
+	private static boolean findWordRecursively(Node currentNode, String word,
 			int letterIndex) {
 		// Finished searching through all letters  
-		if (letterIndex >= word.length) {
-			return true;
+		if (letterIndex >= word.length()) {
+			if (currentNode.isEow())
+				return true;
+			else
+				return false;
 		}
 		
-		char letter = word[letterIndex];		
+		char letter = word.charAt(letterIndex);
 		
 		if (currentNode.getChildren().containsKey(letter)) {	
 			// Continue searching for next letter
 			Node child = currentNode.getChildren().get(letter);			
-			return findWordRecursively(child, word, letterIndex + 1);			
+			return findWordRecursively(child, word,
+					letterIndex + 1);
 		} else {
 			// Letter not found.
 			return false;
