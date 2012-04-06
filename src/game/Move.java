@@ -1,66 +1,64 @@
 package game;
 
+import board.Square;
+
 public class Move {
-	public static final byte HORIZONTAL = 0;
-	public static final byte VERTICAL = 1;
-	
+
 	private char[] word;
-	private int startRow;
-	private int startColumn;
-	private byte direction;
-	private int endRow;
-	private int endColumn;
+	private Square endSquare;
+	private boolean transposed;
 	
-	LetterChain wn;
+	private LetterChain letterChain;
+
 	/**
-	 * Create a new move 
+	 * Create a new move
 	 * 
 	 * @param word
+	 * @param transposed
 	 * @param startRow
 	 * @param startColumn
-	 * @param direction HORIZONTAL or VERTICAL
+	 * @param direction
+	 *            HORIZONTAL or VERTICAL
 	 */
-	public Move(char[] word, LetterChain wn, int startRow, int startColumn,
-			byte direction) {
+	public Move(char[] word, LetterChain letterChain, Square endSquare,
+			boolean transposed) {
+		this.setWord(word);
+		this.setLetterChain(letterChain);
+		this.setEndSquare(endSquare);
+		this.setTransposed(transposed);
+
+	}
+
+	public void setTransposed(boolean transposed) {
+		this.transposed = transposed;
+	}
+
+	public boolean isTransposed() {
+		return transposed;
+	}
+
+	public void setEndSquare(Square endSquare) {
+		this.endSquare = endSquare;
+	}
+
+	public Square getEndSquare() {
+		return endSquare;
+	}
+
+	public void setLetterChain(LetterChain letterChain) {
+		this.letterChain = letterChain;
+	}
+
+	public LetterChain getLetterChain() {
+		return letterChain;
+	}
+
+	public void setWord(char[] word) {
 		this.word = word;
-		this.direction = direction;
-		this.startRow = startRow;
-		this.startColumn = startColumn;		
-		this.wn = wn;
-		
-		// Decide which direction to place word	
-		if (direction == Move.HORIZONTAL) {
-			this.endRow = startRow;
-			this.endColumn = startColumn + word.length - 1;
-		} else {
-			// Vertical
-			this.endRow = startRow + word.length - 1;
-			this.endColumn = startColumn;
-		}
 	}
 
 	public char[] getWord() {
-		return this.word;
-	}
-
-	public int getStartRow() {
-		return this.startRow;
-	}
-
-	public int getStartColumn() {
-		return this.startColumn;
-	}
-	
-	public byte getDirection() {
-		return this.direction;
-	}
-	
-	public int getEndRow() {
-		return this.endRow;
-	}
-	
-	public int getEndColumn() {
-		return this.endColumn;
+		return word;
 	}
 
 }

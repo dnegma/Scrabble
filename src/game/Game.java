@@ -75,7 +75,7 @@ public class Game {
 				resetPasses();
 			turn = -turn;
 			board.printBoard();
-			System.out.println();
+			System.out.println();			
 			printTilesInBag();
 			System.out.println("----------------------------------");
 			System.out.println();
@@ -89,12 +89,13 @@ public class Game {
 		if (move == null)
 			return false;
 		// Check if word fits onto board.
-		if (board.isOutsideBoardLimits(move.getEndRow(), move.getEndColumn()))
+		if (board.isOutsideBoardLimits(move.getEndSquare()))
 			return false;
 
 		int points = makeMove(move, player);
 		player.addPointsToScore(points);
 		giveTilesToPlayer(player);
+		System.out.println(move.getWord());
 		return true;
 	}
 	/**
@@ -124,27 +125,20 @@ public class Game {
 	 * @return
 	 */
 	public int makeMove(Move move, Player player) {
-		char[] word = move.getWord();
 		int wordScore = 0;
 		int wordBonus = 1;
-		LetterChain wn = move.wn;
+		LetterChain wn = move.getLetterChain();
 
-		byte direction;
-		if (move.getEndColumn() == move.getStartColumn())
-			direction = Move.VERTICAL;
-		else
-			direction = Move.HORIZONTAL;
-
-		boolean reversedChain = isReversedLetterChain(wn, move.getWord());
 		int letterIndex = 0;
+		Square sq = move.getEndSquare();
 		while (wn.getPrevious() != null) {
-			Square sq = wn.square;
 			if (!board.isOccupiedSquare(sq.getRow(), sq.getColumn())) {
 				char letter = wn.letter;
 				char squareInfo;
 
+				boolean isTransposed = move.isTransposed();
 				squareInfo = board.placeTile(letter, sq.getRow(),
-						sq.getColumn(), (direction == Move.VERTICAL));
+						sq.getColumn(), isTransposed);
 				wordScore = wordScore + getWordScore(squareInfo, letter);
 				wordBonus = wordBonus * getWordBonus(squareInfo, letter);
 				player.removeTileFromHand(letter);
@@ -153,15 +147,11 @@ public class Game {
 				wn = wn.getPrevious();
 			}
 			letterIndex = letterIndex + 1;
+			sq = sq.getNextLeft(move.isTransposed());
 		}
 		return 0;
 	}
 
-	private boolean isReversedLetterChain(LetterChain wn, char[] word) {
-		return  (wn.getSquare().getColumn() < wn.getPrevious().getSquare()
-				.getColumn()
-				&& wn.getLetter() == word[word.length - 1]);
-	}
 
 	private int getWordBonus(char squareInfo, char letter) {
 		switch (squareInfo) {

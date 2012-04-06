@@ -70,7 +70,10 @@ public class Board {
 		square.setContent(letter, transposed);
 		return letter;
 	}
-	public boolean isOutsideBoardLimits(int row, int column) {
+
+	public boolean isOutsideBoardLimits(Square square) {
+		int column = square.getColumn();
+		int row = square.getRow();
 		return column >= BOARD_SIZE || row >= BOARD_SIZE || column < 0 || row < 0;
 	}
 	

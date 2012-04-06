@@ -25,11 +25,6 @@ public abstract class Player {
 		this.tilesOnHand = new ArrayList<Character>(MAX_TILES_ON_HAND);
 	}
 
-	public char[] placeWord() {
-
-		return null;
-	}
-
 	/**
 	 * Generate move. Limit is set by how many non-anchor squares there are to
 	 * the left of the anchor, this is the maxmimum word we can find. As soon as
@@ -71,15 +66,33 @@ public abstract class Player {
 				if (!square.isAnchor()) {
 					limit = limit + 1;
 				} else {
+					LetterChain wn = new LetterChain(null, '.');
+					if (square.getNextLeft(transposed).containsLetter()) {
+						String word = findWordToLeft(square
+								.getNextLeft(transposed), transposed);
+						Node startNode = Dawg.getNodeForWord(word);
 
-					LetterChain wn = new LetterChain(square, null, '.');
-					leftPart("", wn, Dawg.getRootNode(), limit,
-							board[row][column], transposed);
+						extendRight(word, wn, startNode, square, square,
+								transposed);
+					} else {
+						leftPart("", wn, Dawg.getRootNode(), limit, square,
+								square, transposed);
+					}
 					limit = 0;
 				}
 			}
 			limit = 0;
 		}
+	}
+
+	private String findWordToLeft(Square square, boolean transposed) {
+		String word = "";
+		Square sq = square;
+		while (sq.containsLetter()) {
+			word = sq.getContent() + word;
+			sq = sq.getNextLeft(transposed);
+		}
+		return word;
 	}
 
 	/**
@@ -91,10 +104,10 @@ public abstract class Player {
 	 * @param anchor
 	 */
 	public void leftPart(String partWord, LetterChain lc, Node node, int limit,
-			Square anchor,
+			Square anchor, Square endSquare,
 			boolean transposed) {
 		// Square anchor = null;
-		extendRight(partWord, lc, node, anchor, transposed);
+		extendRight(partWord, lc, node, anchor, endSquare, transposed);
 		if (limit > 0) {
 			for (Node nextNode : node.getChildren().values()) {
 				char letter = nextNode.getLetter();
@@ -107,10 +120,10 @@ public abstract class Player {
 
 
 					// lc.setSquare(toLeft);
-					LetterChain nextLc = new LetterChain(anchor, lc, letter);
+					LetterChain nextLc = new LetterChain(lc, letter);
 					leftPart(partWord + letter, nextLc,
 							nextNode, limit - 1,
-							toLeft, transposed);
+							toLeft, endSquare, transposed);
 					tilesOnHand.add(letter);
 				}
 			}
@@ -126,12 +139,11 @@ public abstract class Player {
 	 * @param square
 	 */
 	private void extendRight(String partWord, LetterChain lc, Node node,
-			Square square,
+			Square square, Square endSquare,
 			boolean transposed) {
 		if (!square.containsLetter()) {
 			if (node.isEow()) {
-				saveLegalMoveIfBest(partWord, lc,
-						square.getRow(), square.getColumn(), transposed);
+				saveLegalMoveIfBest(partWord, lc, endSquare, transposed);
 			}
 			for (Node nextNode : node.getChildren().values()) {
 				char letter = nextNode.getLetter();
@@ -142,10 +154,10 @@ public abstract class Player {
 					Square toRight = square.getNextRight(transposed);
 					if (toRight == null)
 						System.out.println();
-					LetterChain nextLc = new LetterChain(square, lc, letter);
+					LetterChain nextLc = new LetterChain(lc, letter);
 					extendRight(partWord + letter, nextLc,
 							node.getChildren().get(letter),
-							toRight, transposed);
+							toRight, toRight, transposed);
 					tilesOnHand.add(letter);
 				}
 			}
@@ -155,11 +167,11 @@ public abstract class Player {
 				Square toRight = square.getNextRight(transposed);
 				if (toRight == null)
 					System.out.println();
-				LetterChain nextLc = new LetterChain(square, lc, letter);
+				LetterChain nextLc = new LetterChain(lc, letter);
 				extendRight(partWord + letter,
 						nextLc, node
 						.getChildren().get(letter),
-						toRight, transposed);
+						toRight, toRight, transposed);
 			}
 		}
 	}
@@ -175,8 +187,7 @@ public abstract class Player {
 	 * @param column
 	 */
 	public abstract void saveLegalMoveIfBest(String partWord, LetterChain lc,
-			int row,
-			int column, boolean transposed);
+			Square endSquare, boolean transposed);
 
 	/**
 	 * Number on tiles the player has in the rack.
