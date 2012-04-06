@@ -72,22 +72,25 @@ public class Square {
 	public void setContent(char content, boolean transposed) {
 		this.content = content;
 
-		if (nextDown != null && !nextDown.containsLetter()) {
-			nextDown.calculateCrossChecks(transposed);
-			nextDown.setAnchor(true);
+		if (this.containsLetter()) {
+			if (nextDown != null && !nextDown.containsLetter()) {
+				nextDown.calculateCrossChecks(transposed);
+				nextDown.setAnchor(true);
+			}
+			if (nextUp != null && !nextUp.containsLetter()) {
+				nextUp.calculateCrossChecks(transposed);
+				nextUp.setAnchor(true);
+			}
+			if (nextLeft != null && !nextLeft.containsLetter()) {
+				nextLeft.calculateCrossChecks(transposed);
+				nextLeft.setAnchor(true);
+			}
+			if (nextRight != null && !nextRight.containsLetter()) {
+				nextRight.calculateCrossChecks(transposed);
+				nextRight.setAnchor(true);
+			}
 		}
-		if (nextUp != null && !nextUp.containsLetter()) {
-			nextUp.calculateCrossChecks(transposed);
-			nextUp.setAnchor(true);
-		}
-		if (nextLeft != null && !nextLeft.containsLetter()) {
-			nextLeft.calculateCrossChecks(transposed);
-			nextLeft.setAnchor(true);
-		}
-		if (nextRight != null && !nextRight.containsLetter()) {
-			nextRight.calculateCrossChecks(transposed);
-			nextRight.setAnchor(true);
-		}
+
 	}
 
 	/**
@@ -103,7 +106,8 @@ public class Square {
 		if (down != null && down.containsLetter()) {
 			word = verticalWord("", down, 1, transposed);
 			downwards = true;
-		} else if (up != null && up.containsLetter()) {
+		}
+		if (up != null && up.containsLetter()) {
 			word = verticalWord("", up, -1, transposed);
 		} else {
 			return;
