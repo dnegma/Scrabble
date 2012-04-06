@@ -3,7 +3,7 @@ package dictionary;
 import java.util.Hashtable;
 import java.util.List;
 
-public class Dawg {
+public class Trie {
 	
 	private static Node rootNode = new Node('#');
 

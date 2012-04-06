@@ -10,7 +10,7 @@ import player.Player;
 import board.Board;
 import board.Square;
 import dictionary.Alphabet;
-import dictionary.Dawg;
+import dictionary.Trie;
 
 
 public class Game {
@@ -34,7 +34,7 @@ public class Game {
 		player1 = new HighScoreWordPlayer(board);
 		player2 = new HighScoreWordPlayer(board);
 		Alphabet.initializeAlphabet(GAME_LANGUAGE);
-		Dawg.initDawg("dictionary/dsso-1.52_utf8.txt");
+		Trie.initDawg("dictionary/dsso-1.52_utf8.txt");
 		tilesInBag = initTileBag();
 		giveTilesToPlayer(player1);
 		giveTilesToPlayer(player2);

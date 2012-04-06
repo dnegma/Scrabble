@@ -8,7 +8,7 @@ import java.util.List;
 
 import board.Board;
 import board.Square;
-import dictionary.Dawg;
+import dictionary.Trie;
 import dictionary.Node;
 
 public abstract class Player {
@@ -70,12 +70,12 @@ public abstract class Player {
 					if (square.getNextLeft(transposed).containsLetter()) {
 						String word = findWordToLeft(square
 								.getNextLeft(transposed), transposed);
-						Node startNode = Dawg.getNodeForWord(word);
+						Node startNode = Trie.getNodeForWord(word);
 
 						extendRight(word, word, wn, startNode, square, square,
 								transposed);
 					} else {
-						leftPart("", wn, Dawg.getRootNode(), limit, square,
+						leftPart("", wn, Trie.getRootNode(), limit, square,
 								square, transposed);
 					}
 					limit = 0;

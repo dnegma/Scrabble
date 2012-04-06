@@ -3,7 +3,7 @@ package board;
 import java.util.HashSet;
 
 import dictionary.Alphabet;
-import dictionary.Dawg;
+import dictionary.Trie;
 
 /**
  * Class for representing a square on the board. Each square has a maximum of
@@ -119,7 +119,7 @@ public class Square {
 			char letter = Alphabet.alphabet[i];
 
 			String checkWord = wordUpwards + letter + wordDownwards;
-			if (Dawg.findWord(checkWord))
+			if (Trie.findWord(checkWord))
 				crosschecks.add(Alphabet.alphabet[i]);
 		}
 	}
