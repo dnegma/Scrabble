@@ -20,6 +20,7 @@ public class Square {
 	static final char INVALID_SQUARE = (char) -1;
 	static final char BUSY_SQUARE = 0;
 	static final char EMPTY = 48;
+	public static final char WALL = 48;
 	public static final char TWO_LETTER_BONUS = 49;
 	public static final char THREE_LETTER_BONUS = 50;
 	public static final char TWO_WORD_BONUS = 51;

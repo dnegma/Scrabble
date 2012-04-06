@@ -1,12 +1,13 @@
 package player;
 
-import game.Move;
 import game.LetterChain;
+import game.Move;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import board.Board;
+import board.Square;
 
 
 
@@ -38,8 +39,8 @@ public class TestPlayer1 extends Player {
 	}
 
 	@Override
-	public void saveLegalMoveIfBest(String partWord, LetterChain wn, int row,
-			int column, boolean transposed) {
+	public void saveLegalMoveIfBest(String partWord, LetterChain wn,
+			Square square, boolean transposed) {
 		// TODO Auto-generated method stub
 
 	}

@@ -72,7 +72,7 @@ public abstract class Player {
 								.getNextLeft(transposed), transposed);
 						Node startNode = Dawg.getNodeForWord(word);
 
-						extendRight(word, wn, startNode, square, square,
+						extendRight(word, word, wn, startNode, square, square,
 								transposed);
 					} else {
 						leftPart("", wn, Dawg.getRootNode(), limit, square,
@@ -88,7 +88,7 @@ public abstract class Player {
 	private String findWordToLeft(Square square, boolean transposed) {
 		String word = "";
 		Square sq = square;
-		while (sq.containsLetter()) {
+		while (sq != null && sq.containsLetter()) {
 			word = sq.getContent() + word;
 			sq = sq.getNextLeft(transposed);
 		}
@@ -107,7 +107,7 @@ public abstract class Player {
 			Square anchor, Square endSquare,
 			boolean transposed) {
 		// Square anchor = null;
-		extendRight(partWord, lc, node, anchor, endSquare, transposed);
+		extendRight("", partWord, lc, node, anchor, endSquare, transposed);
 		if (limit > 0) {
 			for (Node nextNode : node.getChildren().values()) {
 				char letter = nextNode.getLetter();
@@ -138,11 +138,14 @@ public abstract class Player {
 	 * @param node
 	 * @param square
 	 */
-	private void extendRight(String partWord, LetterChain lc, Node node,
+	private void extendRight(String prefix, String partWord, LetterChain lc,
+			Node node,
 			Square square, Square endSquare,
 			boolean transposed) {
 		if (!square.containsLetter()) {
-			if (node.isEow()) {
+			if (node == null)
+				System.out.println();
+			if (node.isEow() && !partWord.equals(prefix)) {
 				saveLegalMoveIfBest(partWord, lc, endSquare, transposed);
 			}
 			for (Node nextNode : node.getChildren().values()) {
@@ -155,7 +158,7 @@ public abstract class Player {
 					if (toRight == null)
 						System.out.println();
 					LetterChain nextLc = new LetterChain(lc, letter);
-					extendRight(partWord + letter, nextLc,
+					extendRight(prefix, partWord + letter, nextLc,
 							node.getChildren().get(letter),
 							toRight, toRight, transposed);
 					tilesOnHand.add(letter);
@@ -168,7 +171,7 @@ public abstract class Player {
 				if (toRight == null)
 					System.out.println();
 				LetterChain nextLc = new LetterChain(lc, letter);
-				extendRight(partWord + letter,
+				extendRight(prefix, partWord + letter,
 						nextLc, node
 						.getChildren().get(letter),
 						toRight, toRight, transposed);
