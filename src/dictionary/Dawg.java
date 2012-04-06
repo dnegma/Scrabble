@@ -1,5 +1,6 @@
 package dictionary;
 
+import java.util.Hashtable;
 import java.util.List;
 
 public class Dawg {
@@ -116,4 +117,21 @@ public class Dawg {
 	// public static void main (String[] args){
 	// new Dawg().initDawg("dictionary/dsso-1.52_utf8.txt");
 	// }
+
+	public static Node getNodeForWord(String word) {
+		return getNodeRecursively(rootNode, word.toCharArray(), 0);
+	}
+
+	private static Node getNodeRecursively(Node currentNode, char[] word,
+			int letterIndex) {
+		if (letterIndex >= word.length)
+			return currentNode;
+
+
+		Hashtable<Character, Node> children = currentNode.getChildren();
+		char letter = word[letterIndex];
+		Node nextNode = children.get(letter);
+
+		return getNodeRecursively(nextNode, word, letterIndex + 1);
+	}
 }

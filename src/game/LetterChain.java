@@ -1,17 +1,14 @@
 package game;
 
-import board.Square;
 
 public class LetterChain {
 
 	char letter;
-	Square square;
 	LetterChain previousLetter;
 	LetterChain nextLetter;
 
 
-	public LetterChain(Square square, LetterChain previousNode, char letter) {
-		this.square = square;
+	public LetterChain(LetterChain previousNode, char letter) {
 		this.previousLetter = previousNode;
 		this.letter = letter;
 	}
@@ -40,25 +37,5 @@ public class LetterChain {
 		this.letter = letter;
 	}
 
-	public Square getSquare() {
-		return square;
-	}
-
-	public void setSquare(Square square) {
-		this.square = square;
-	}
-
-	public LetterChain reversedChain() {
-		LetterChain reversed = new LetterChain(getSquare(), null, getLetter());
-		LetterChain tmp = this;
-		while (tmp.getPrevious() != null) {
-			LetterChain tmpprev = tmp.getPrevious();
-			tmp.setPrevious(tmp);
-			reversed = new LetterChain(tmpprev.getSquare(), reversed,
-					tmpprev.getLetter());
-			tmp = tmpprev;
-		}
-		return reversed;
-	}
 
 }

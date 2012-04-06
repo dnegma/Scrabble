@@ -3,6 +3,7 @@ package player;
 import game.LetterChain;
 import game.Move;
 import board.Board;
+import board.Square;
 import dictionary.Alphabet;
 
 
@@ -13,13 +14,12 @@ public class HighScoreWordPlayer extends Player {
 	}
 
 	@Override
-	public void saveLegalMoveIfBest(String partWord, LetterChain wn, int row,
-			int column, boolean transposed) {
+	public void saveLegalMoveIfBest(String partWord, LetterChain wn,
+			Square endSquare, boolean transposed) {
 
 		if (scoreOf(partWord) > scoreOf(nextMove)) {
-			byte direction = (transposed) ? Move.VERTICAL : Move.HORIZONTAL;
-			nextMove = new Move(partWord.toCharArray(), wn, row, column,
-					direction);
+			nextMove = new Move(partWord.toCharArray(), wn, endSquare,
+					transposed);
 		}
 	}
 
