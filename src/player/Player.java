@@ -1,14 +1,13 @@
 package player;
 
+import game.LetterChain;
 import game.Move;
-import game.WordNode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import board.Board;
 import board.Square;
-
 import dictionary.Dawg;
 import dictionary.Node;
 
@@ -73,7 +72,7 @@ public abstract class Player {
 					limit = limit + 1;
 				} else {
 
-					WordNode wn = new WordNode(square, null, '.');
+					LetterChain wn = new LetterChain(square, null, '.');
 					leftPart("", wn, Dawg.getRootNode(), limit,
 							board[row][column], transposed);
 					limit = 0;
@@ -91,11 +90,11 @@ public abstract class Player {
 	 * @param limit
 	 * @param anchor
 	 */
-	public void leftPart(String partWord, WordNode wn, Node node, int limit,
+	public void leftPart(String partWord, LetterChain lc, Node node, int limit,
 			Square anchor,
 			boolean transposed) {
 		// Square anchor = null;
-		extendRight(partWord, wn, node, anchor, transposed);
+		extendRight(partWord, lc, node, anchor, transposed);
 		if (limit > 0) {
 			for (Node nextNode : node.getChildren().values()) {
 				char letter = nextNode.getLetter();
@@ -106,8 +105,10 @@ public abstract class Player {
 					if (toLeft == null)
 						System.out.println();
 
-					leftPart(partWord + letter,
-							new WordNode(anchor, wn, letter),
+
+					// lc.setSquare(toLeft);
+					LetterChain nextLc = new LetterChain(anchor, lc, letter);
+					leftPart(partWord + letter, nextLc,
 							nextNode, limit - 1,
 							toLeft, transposed);
 					tilesOnHand.add(letter);
@@ -120,16 +121,16 @@ public abstract class Player {
 	 * Extend a word to the right.
 	 * 
 	 * @param partWord
-	 * @param wn
+	 * @param lc
 	 * @param node
 	 * @param square
 	 */
-	private void extendRight(String partWord, WordNode wn, Node node,
+	private void extendRight(String partWord, LetterChain lc, Node node,
 			Square square,
 			boolean transposed) {
 		if (!square.containsLetter()) {
 			if (node.isEow()) {
-				saveLegalMoveIfBest(partWord, wn,
+				saveLegalMoveIfBest(partWord, lc,
 						square.getRow(), square.getColumn(), transposed);
 			}
 			for (Node nextNode : node.getChildren().values()) {
@@ -141,8 +142,8 @@ public abstract class Player {
 					Square toRight = square.getNextRight(transposed);
 					if (toRight == null)
 						System.out.println();
-					extendRight(partWord + letter, new WordNode(square, wn,
-							letter),
+					LetterChain nextLc = new LetterChain(square, lc, letter);
+					extendRight(partWord + letter, nextLc,
 							node.getChildren().get(letter),
 							toRight, transposed);
 					tilesOnHand.add(letter);
@@ -154,8 +155,9 @@ public abstract class Player {
 				Square toRight = square.getNextRight(transposed);
 				if (toRight == null)
 					System.out.println();
+				LetterChain nextLc = new LetterChain(square, lc, letter);
 				extendRight(partWord + letter,
-						new WordNode(square, wn, letter), node
+						nextLc, node
 						.getChildren().get(letter),
 						toRight, transposed);
 			}
@@ -168,11 +170,11 @@ public abstract class Player {
 	 * of what could be taken in consideration when deciding which move to keep.
 	 * 
 	 * @param partWord
-	 * @param wn
+	 * @param lc
 	 * @param row
 	 * @param column
 	 */
-	public abstract void saveLegalMoveIfBest(String partWord, WordNode wn,
+	public abstract void saveLegalMoveIfBest(String partWord, LetterChain lc,
 			int row,
 			int column, boolean transposed);
 

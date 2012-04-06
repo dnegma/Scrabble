@@ -1,7 +1,7 @@
 package player;
 
 import game.Move;
-import game.WordNode;
+import game.LetterChain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class TestPlayer2 extends Player {
 	}
 
 	@Override
-	public void saveLegalMoveIfBest(String partWord, WordNode wn, int row,
+	public void saveLegalMoveIfBest(String partWord, LetterChain wn, int row,
 			int column, boolean transposed) {
 		// TODO Auto-generated method stub
 

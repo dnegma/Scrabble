@@ -5,27 +5,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import board.Board;
-import board.Square;
-
 import player.HighScoreWordPlayer;
 import player.Player;
-
+import board.Board;
+import board.Square;
 import dictionary.Alphabet;
 import dictionary.Dawg;
 
 
 public class Game {
 	private static final String GAME_LANGUAGE = "swedish";
-	
+
 	private static Board board;
 	private static List<Character> tilesInBag;
-	
+
 	private static Player player1;	
 	private static Player player2;
 	private int turn;
 	private int nrOfPasses;
-	
+
 	/**
 	 * Start a new game. Parameter deciding which player should start.
 	 * 
@@ -44,7 +42,7 @@ public class Game {
 		this.turn = (player1StartsPlaying) ? -1 : 1;
 		play();
 	}
-	
+
 	/**
 	 * Initialize tile bag. There should be a fixed amount of each letter in the
 	 * beginning, so add them to a list and shuffle the list for some degree of
@@ -87,13 +85,13 @@ public class Game {
 
 	private boolean playTurn(Player player) {
 		Move move = player.generateMove();
-		
+
 		if (move == null)
 			return false;
 		// Check if word fits onto board.
 		if (board.isOutsideBoardLimits(move.getEndRow(), move.getEndColumn()))
 			return false;
-		
+
 		int points = makeMove(move, player);
 		player.addPointsToScore(points);
 		giveTilesToPlayer(player);
@@ -114,7 +112,7 @@ public class Game {
 
 		return false;	
 	}
-	
+
 	/**
 	 * Make the move. Place a word on the board, letters already located on the
 	 * board should not be touched. Different scores are retrieved from the
@@ -126,9 +124,10 @@ public class Game {
 	 * @return
 	 */
 	public int makeMove(Move move, Player player) {
+		char[] word = move.getWord();
 		int wordScore = 0;
 		int wordBonus = 1;
-		WordNode wn = move.wn;
+		LetterChain wn = move.wn;
 
 		byte direction;
 		if (move.getEndColumn() == move.getStartColumn())
@@ -136,21 +135,32 @@ public class Game {
 		else
 			direction = Move.HORIZONTAL;
 
-		while (wn.previousNode != null) {
+		boolean reversedChain = isReversedLetterChain(wn, move.getWord());
+		int letterIndex = 0;
+		while (wn.getPrevious() != null) {
 			Square sq = wn.square;
 			if (!board.isOccupiedSquare(sq.getRow(), sq.getColumn())) {
 				char letter = wn.letter;
-				char squareInfo = board.placeTile(letter, sq.getRow(),
+				char squareInfo;
+
+				squareInfo = board.placeTile(letter, sq.getRow(),
 						sq.getColumn(), (direction == Move.VERTICAL));
 				wordScore = wordScore + getWordScore(squareInfo, letter);
 				wordBonus = wordBonus * getWordBonus(squareInfo, letter);
 				player.removeTileFromHand(letter);
-				wn = wn.previousNode;
+				wn = wn.getPrevious();
 			} else {
-				wn = wn.previousNode;
+				wn = wn.getPrevious();
 			}
+			letterIndex = letterIndex + 1;
 		}
 		return 0;
+	}
+
+	private boolean isReversedLetterChain(LetterChain wn, char[] word) {
+		return  (wn.getSquare().getColumn() < wn.getPrevious().getSquare()
+				.getColumn()
+				&& wn.getLetter() == word[word.length - 1]);
 	}
 
 	private int getWordBonus(char squareInfo, char letter) {
@@ -186,12 +196,12 @@ public class Game {
 	public void giveTilesToPlayer(Player player) {
 		int nrOfTilesNeeded = player.getNumberOfNewTilesNeeded();
 		int tilesLeftInBag = tilesInBag.size();
-		
+
 		for (int i = 0; (i < tilesLeftInBag) && (i < nrOfTilesNeeded); i++) {
 			giveOneTileToPlayerAndRemoveItFromBag(player);
 		}		
 	}
-	
+
 	/**
 	 * Give one tile to a player and remove it from the common bag.
 	 * 
@@ -205,7 +215,7 @@ public class Game {
 	public static void main(String[] args) {
 		new Game(false);
 	}
-	
+
 	/**
 	 * Reset the number of passes that have been made. A pass is made when a
 	 * player cannot make a move. Four passes in a row between the two players
@@ -221,7 +231,7 @@ public class Game {
 	public void incrementPass() {
 		this.nrOfPasses = nrOfPasses + 1;
 	}
-	
+
 	/**
 	 * Get number of passes that have been made.
 	 * 

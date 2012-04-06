@@ -121,4 +121,17 @@ public class Board {
 		}
 		return transposed;
 	}
+
+	public char placeTileReversed(char letter, int letterIndex, int wordLength,
+			int row,
+			int column, boolean transposed) {
+		int colIndex = column + (wordLength - letterIndex - 1);
+		Square square = board[row][colIndex];
+		if (square.containsLetter())
+			return Square.BUSY_SQUARE;
+
+		square.setAnchor(false);
+		square.setContent(letter, transposed);
+		return letter;
+	}
 }
