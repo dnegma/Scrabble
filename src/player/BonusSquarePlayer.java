@@ -32,7 +32,7 @@ public class BonusSquarePlayer extends Player {
 
 		if (bonus > highestBonus || nextMove == null) {
 			setNextMove(partWord, lc, endSquare, transposed);
-			this.highestBonus = bonus;
+			setHighestBonus(bonus);
 		}
 	}
 
