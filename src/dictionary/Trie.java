@@ -4,14 +4,14 @@ import java.util.Hashtable;
 import java.util.List;
 
 public class Trie {
-	
+
 	private static Node rootNode = new Node('#');
 
 	//
 	// public Dawg() {
 	// rootNode = new Node((char) 0);
 	// }
-	
+
 	/**
 	 * Create a DAWG (directed acyclic word graph) from text file with list of words.
 	 * 
@@ -24,24 +24,21 @@ public class Trie {
 
 		for (String word : dictionary) {
 			char[] wordarray = word.toUpperCase().toCharArray();
-			if (word.startsWith("AG"))
-				System.out.println();
 			addWordToDawg(rootNode, wordarray, 0);
 		} 
 		long endTime = System.currentTimeMillis();
 		System.out.println("Dawg build time: " + (endTime - startTime) 
 				+ " milliseconds.");
-		
+
 		// Measure time for searching the word "abortör" 500 times
 		startTime = System.currentTimeMillis();			
 		boolean found = false;
-		for(int i=0; i<52000; i++) 	
-			found = findWord("AG");
+		found = findWord("JANI");
 		endTime = System.currentTimeMillis();
 		System.out.println("Search time: " + (endTime - startTime) 
 				+ " milliseconds. " + found);
 	}
-	
+
 	/**
 	 * Add a word to the dawg. Creates new Node objects for letters not found.
 	 * 
@@ -51,24 +48,24 @@ public class Trie {
 	 */
 	private static void addWordToDawg(Node currentNode, char[] word,
 			int letterIndex) {
-		
+
 		if (letterIndex >= word.length) {
 			currentNode.setEow();
-//			System.out.println("eow");
+			// System.out.println("eow");
 			return;
 		}
-		
+
 		char letter = word[letterIndex];
 		Node child;
 		if (currentNode.getChildren().containsKey(letter)) {
 			child = currentNode.getChildren().get(letter);	
-//			System.out.println(letter + " found. Following.");
+			// System.out.println(letter + " found. Following.");
 		} else {			
 			child = currentNode.addChild(letter);			
-//			System.out.println(letter + " added.");
+			// System.out.println(letter + " added.");
 		}
 		addWordToDawg(child, word, letterIndex + 1);
-//		System.out.println("Next!");
+		// System.out.println("Next!");
 	}
 
 	/**
@@ -81,7 +78,7 @@ public class Trie {
 		char[] wordArray = word.toCharArray();
 		return findWordRecursively(rootNode, word, 0);
 	}
-	
+
 	/** 
 	 * Help method for recursively search for a word string in the DAWG.
 	 * 
@@ -99,9 +96,9 @@ public class Trie {
 			else
 				return false;
 		}
-		
+
 		char letter = word.charAt(letterIndex);
-		
+
 		if (currentNode.getChildren().containsKey(letter)) {	
 			// Continue searching for next letter
 			Node child = currentNode.getChildren().get(letter);			
@@ -112,7 +109,7 @@ public class Trie {
 			return false;
 		}			
 	}
-	
+
 	public static Node getRootNode() {
 		return rootNode;
 	}

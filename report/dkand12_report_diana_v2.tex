@@ -48,10 +48,16 @@ All players that have some remaining tiles on the rack will get a penalty, which
 Appel and Jacobsen \cite{fastest} came to the conculsion that a word search will be incredibly fast in a \emph{Directed Acyclic Word Graph}, which in this study will be referred to as a \emph{DAWG}. A DAWG is generally built from a trie, and can be explaind like a minimized trie. Where a trie has a lot of redundancy, becuase of edges and nodes being identical, no such thing occurres in a DAWG. All the identical edges and nodes are removed, and reduced to only one occurancy. 
 
 \subsection{Word generation}
-The problem of generating words from the board can be explained in only one dimension, since placing a word vertically is the same idea as placing it horizontally, with the only difference that the board is transposed. Therefore, focus can be made on making a good algorithm for finding only legal horizontal moves. 
+The problem of generating legal moves can be reduces to one dimension. Instead of doing a search in two directions (up and right) it is possible to use an algorithm that generates words only horizontally. The argument is that generating a word vertically is basically the same thing as generating a word horizontally. The only difference is that the board is transposed. Therefore, the algorithm to generate words is limited to only generate horizontally, and for each move we do two searches, where one is over the transposed board.
 
 \subsubsection{Anchor squares}
 A key in the algorithm implemented are the \emph{anchor squares}, which are the empy squares next to a non-empty square. These are important since words can only be built from already existing tiles. In the very forst move there is only one anchor; the center square, since the player making the first move always has to start in the center square.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.6]{anchorBoard}
+\caption{Anchor squares. The adjacent tiles are the anchor tiles from which the word generation begins.}
+\end{figure}
 
 \subsubsection{Cross-check sets}
 When placing a word horizontally, the vertically placed letters also have to create a legal word. It is quite easy to establish that if we place a word horizontally, the vertical word can increas with only one letter at a time. This makes it possible to calculate, for each anchor square, which set of letters that are possible to place at that square. The calculations can be made before each move, and allows the player to place a word by row, without considering the rest of the board. The set of available letter for one square is in Appel and Jacobsen's paper \cite{fastest} referred to as a \emph{cross-check set}

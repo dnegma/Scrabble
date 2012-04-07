@@ -14,8 +14,6 @@ public class Board {
 	public Board()
 	{
 		initBoard();
-		// board = new Square[BOARD_SIZE][BOARD_SIZE];
-		// board[7][7] = TWO_LETTER_BONUS;
 	}
 
 	private void initBoard() {
@@ -28,7 +26,8 @@ public class Board {
 				board[row][column] = new Square('.', row, column);
 				Square square = board[row][column];
 				if (row == 7 && column == 7) {
-					square.setContent(Square.CENTER_SQUARE, false);
+					Square square = board[row][column];
+					square.setCenterSquare();
 					square.setAnchor(true);
 					square.initCrossCheck();
 				} else {
@@ -84,27 +83,24 @@ public class Board {
 
 	/**
 	 * 
-	 * @param row zero-indexed
-	 * @param column zero-indexed
-	 * @return true if square is occupied
-	 */
-	public boolean isOccupiedSquare(Square square) {
-		if (square.containsLetter())
-			return true;
-		return false;
-	}
-
-	/**
-	 * 
 	 * @param column zero-indexed
 	 * @param row zero-indexed
 	 * @return
 	 */
 	public Square getSquare(int row, int column) {
-		// Square square = board[row][column];
 		return board[row][column];
 	}
-
+	
+	/**
+	 * Print board. The board is printed in the following format.
+	 *  [A-Z]	= letter
+	 *  . 		= empty square
+	 *  
+	 * . . . H E J . . .
+	 * . . . A . O . . . 
+	 * . . . T U B . . . 
+	 * . . . T . B . . . 
+	 */
 	public void printBoard() {
 		for (Square[] row : this.board) {
 			for (Square cell : row) {
@@ -150,16 +146,19 @@ public class Board {
 		return transposed;
 	}
 
-	public char placeTileReversed(char letter, int letterIndex, int wordLength,
-			int row,
-			int column, boolean transposed) {
-		int colIndex = column + (wordLength - letterIndex - 1);
-		Square square = board[row][colIndex];
-		if (square.containsLetter())
-			return Square.BUSY_SQUARE;
-
-		square.setAnchor(false);
-		square.setContent(letter, transposed);
-		return letter;
+	/**
+	 * Calculate all cross check sets for the anchor squares before hand,
+	 * depending on if the board is transposed or not.
+	 * 
+	 * @param transposed
+	 */
+	public void calculateAllCrossChecks(boolean transposed) {
+		for (int row = 0; row < BOARD_SIZE; row++) {
+			for (int column = 0; column < BOARD_SIZE; column++) {
+				Square square = board[row][column];
+				if (square.isAnchor())
+					square.calculateCrossCheckSet(transposed);
+			}
+		}
 	}
 }

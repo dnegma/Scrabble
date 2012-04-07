@@ -18,7 +18,6 @@ public abstract class Player {
 
 	private Board board;
 	private int score;
-	protected Move nextMove;
 
 	public Player(Board board) {		
 		this.board = board;
@@ -33,11 +32,11 @@ public abstract class Player {
 	 * @return
 	 */
 	public Move generateMove() {
-		nextMove = null;
+		setNextMove(null);
 
 		generate(board.getBoard(), false);
-		// generate(board.getTransposedBoard(), true);
-		return nextMove;
+		generate(board.getTransposedBoard(), true);
+		return getNextMove();
 	}
 
 	/**
@@ -49,6 +48,16 @@ public abstract class Player {
 		return board.getSquare(CENTER_INDEX, CENTER_INDEX).getContent() == Square.CENTER_SQUARE;
 	}
 
+	public abstract void setNextMove(Move move);
+	public abstract Move getNextMove();
+	public abstract int getHighestBonus();
+
+	public abstract void setHighestBonus(int bonus);
+	
+	public void setNextMove(String partWord, LetterChain wn, Square endSquare,
+			boolean transposed) {
+		setNextMove(new Move(partWord.toCharArray(), wn, endSquare, transposed));
+	}
 	/**
 	 * Extracted method for generating moves depending on how the board is
 	 * located. WE want to be able to find words vertically as well as
@@ -59,6 +68,8 @@ public abstract class Player {
 	 * @param transposed
 	 */
 	private void generate(Square[][] board, boolean transposed) {
+		this.board.calculateAllCrossChecks(transposed);
+
 		int limit = 0;
 		for (int row = 0; row < Board.BOARD_SIZE; row++) {
 			for (int column = 0; column < Board.BOARD_SIZE; column++) {
@@ -142,15 +153,15 @@ public abstract class Player {
 			Node node,
 			Square square, Square endSquare,
 			boolean transposed) {
-		if (square == null)
+		if (square.getContent() == Square.WALL || node == null)
 			return;
 		if (!square.containsLetter()) {
 			// if (node == null)
 			// System.out.println();
 			if (node.isEow() && !partWord.equals(prefix)
 					&& square.crossCheckContains(node.getLetter())) {
-				// TODO bug. doesn't check existing word to right
-				saveLegalMoveIfBest(partWord, lc, endSquare, transposed);
+				if (!square.getNextRight(transposed).containsLetter())
+					saveLegalMoveIfBest(partWord, lc, endSquare, transposed);
 			}
 			for (Node nextNode : node.getChildren().values()) {
 				char letter = nextNode.getLetter();
@@ -284,6 +295,12 @@ public abstract class Player {
 	 */
 	public void receiveTile(char letter) {
 		tilesOnHand.add(letter);		
+	}
+
+	public void printRack() {
+		for (int i = 0; i < tilesOnHand.size(); i++)
+			System.out.print(tilesOnHand.get(i));
+		System.out.println();
 	}
 
 }

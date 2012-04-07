@@ -74,6 +74,7 @@ public class Game {
 			else 
 				resetPasses();
 			turn = -turn;
+			player.printRack();
 			board.printBoard();
 			System.out.println();			
 			printTilesInBag();
@@ -233,6 +234,7 @@ public class Game {
 	 * @param player
 	 */
 	private void giveOneTileToPlayerAndRemoveItFromBag(Player player) {
+		Collections.shuffle(tilesInBag);
 		char letter = tilesInBag.remove(0);
 		player.receiveTile(letter);
 	}
