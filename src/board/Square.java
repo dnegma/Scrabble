@@ -93,15 +93,17 @@ public class Square {
 		this.content = content;
 		isAnchor = false;
 
-		Square neighbor;
-		if (!(neighbor = this.getNextDown(transposed)).containsLetter())
-			neighbor.setAnchor(true);
-		if (!(neighbor = this.getNextUp(transposed)).containsLetter())
-			neighbor.setAnchor(true);
-		if (!(neighbor = this.getNextLeft(transposed)).containsLetter())
-			neighbor.setAnchor(true);
-		if (!(neighbor = this.getNextRight(transposed)).containsLetter())
-			neighbor.setAnchor(true);
+		if (this.containsLetter()) {
+			Square neighbor;
+			if (!(neighbor = this.getNextDown(transposed)).containsLetter())
+				neighbor.setAnchor(true);
+			if (!(neighbor = this.getNextUp(transposed)).containsLetter())
+				neighbor.setAnchor(true);
+			if (!(neighbor = this.getNextLeft(transposed)).containsLetter())
+				neighbor.setAnchor(true);
+			if (!(neighbor = this.getNextRight(transposed)).containsLetter())
+				neighbor.setAnchor(true);
+		}
 	}
 
 	/**
