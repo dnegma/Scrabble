@@ -23,7 +23,7 @@ public class BonusSquarePlayer extends Player {
 		int letterIndex = partWord.length() - 1;
 
 		int bonus = 0;
-		while (letterIndex >= 0) {
+		while (letterIndex >= 0 && square != null) {
 			char content = square.getContent();
 			char letter = partWord.charAt(letterIndex);
 			bonus = calculateHighestBonus(partWord, bonus, content, letter);

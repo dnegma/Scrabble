@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import player.BonusSquarePlayer;
 import player.HighScoreWordPlayer;
 import player.Player;
 import board.Board;
@@ -32,7 +33,7 @@ public class Game {
 	public Game(boolean player1StartsPlaying) {
 		board = new Board();
 		player1 = new HighScoreWordPlayer(board);
-		player2 = new HighScoreWordPlayer(board);
+		player2 = new BonusSquarePlayer(board);
 		Alphabet.initializeAlphabet(GAME_LANGUAGE);
 		Trie.initDawg("dictionary/dsso-1.52_utf8.txt");
 		tilesInBag = initTileBag();
@@ -81,6 +82,16 @@ public class Game {
 			System.out.println("----------------------------------");
 			System.out.println();
 		}
+		int score1, score2;
+		score1 = player1.getScore();
+		score2 = player2.getScore();
+		if (score1 > score2)
+			System.out.println("Player 1 wins! " +score1 + " - " + score2);
+		else if (score2 == score1)
+			System.out.println("Draw! " + score1 + " - " + score2);
+		else
+			System.out.println("Player 2 wins! " + score2 + " - " + score1);
+
 		System.out.println("Game over!");
 	}
 
