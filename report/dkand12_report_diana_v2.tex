@@ -44,8 +44,15 @@ All players that have some remaining tiles on the rack will get a penalty, which
 
 \subsection{Computer agents}
 \section{Research}
+As mentioned above, this is a well studied problem, and many papers and articles are to be found where different problems in the game of Scrabble have been studied. This paper will mostly refer to Appel and Jacobsen \cite{fastest} who discovered a way to represent the dictionary wo that it takes up minimum space in memory.
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{trie}
+\caption{Trie. Small dictionary consisting of 11 words represented as a trie.}
+\end{figure}
 \subsection{Dictionary}
-Appel and Jacobsen \cite{fastest} came to the conculsion that a word search will be incredibly fast in a \emph{Directed Acyclic Word Graph}, which in this study will be referred to as a \emph{DAWG}. A DAWG is generally built from a trie, and can be explaind like a minimized trie. Where a trie has a lot of redundancy, becuase of edges and nodes being identical, no such thing occurres in a DAWG. All the identical edges and nodes are removed, and reduced to only one occurancy. 
+Appel and Jacobsen \cite{fastest} came to the conclusion that a word search will be incredibly fast in a \emph{Directed Acyclic Word Graph}, which in this study will be referred to as a \emph{DAWG}. A DAWG is generally built from a trie, and can be explaind like a minimized trie. Where a trie has a lot of redundancy, becuase of edges and nodes being identical, no such thing occurres in a DAWG. All the identical edges and nodes are removed, and reduced to only one occurancy. 
+
 
 \subsection{Word generation}
 The problem of generating legal moves can be reduces to one dimension. Instead of doing a search in two directions (up and right) it is possible to use an algorithm that generates words only horizontally. The argument is that generating a word vertically is basically the same thing as generating a word horizontally. The only difference is that the board is transposed. Therefore, the algorithm to generate words is limited to only generate horizontally, and for each move we do two searches, where one is over the transposed board.
@@ -55,7 +62,7 @@ A key in the algorithm implemented are the \emph{anchor squares}, which are the 
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.6]{anchorBoard}
+\includegraphics[scale=0.5]{anchors}
 \caption{Anchor squares. The adjacent tiles are the anchor tiles from which the word generation begins.}
 \end{figure}
 
@@ -74,17 +81,18 @@ There were also some restrictions made to the game, since not all rules are take
 If one is a beginner at Scrabble, one probably has to make choices on what to focus on. To see which of the very basic strategis is the most successful one against the others, three agents with different strategies were implemented. The would play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game.
 
 \subsection{High score words}
-As a first naive approach, an agent that only cares about the word's score alone was implemented. The agent does not care about the bonus tiles or the moves of the other player at all. 
+One strategy one can use when playing Scrabble is the fact that some letters are more worth than others. These letter are less commonly used in the language and is therefore more difficult to use. Naturally, one would want to use them as soon as there is an opportunity, to not risk getting stuck later in the game. One od the agents tested in this study follows the strategy of placing higher score generating letters first. By all legal moves generated, the agent will chose the one were the word itself has the highest score.
 
 \subsection{Bonus tiles}
-As a second version, the agent will focus on reaching the bonus tiles. This means that the words played out can be much shorter than the previous agent's words, but still generate a great amount of points. 
+Sometimes, it can be more rewarding to place a relatively short word than a longer one. This is because of the bonus squares spread out on the board. The can multiply the value of either one letter, or the entire word placed, and can therefore generate quite high scores. The second agent strives to place words over bonus squares, to hopefully generate a high score. If there are several opportunities to reach a bonus tile, the most rewarding one is chosen by the agent, i.e. the word reaching the bonus square with the highest bonus.
 
 \subsection{Balance on rack}
-An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. This can be prevented by always keeping an extra eye on the balance between the consonants and the vowels on the rack, which will be the objectiv of our third agent.
+An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. The third agent tested tries to always keep a good balance between vowels and consonants on the rack, to avoid deadlocks later in the game. The agent knows the \emph{ideal ratio} and tries to lay out words so that the words left on the rack returns a ratio as close to the ideal ratio as possible. Tests with different ideal ratios are made.
 
 \section{Test results}
 \chapter{Conclusions}
 \chapter{Discussion}
+Naturally, the agent that only consideres a balance between tiles on the rack is not very successful. An improvement could be done to let it try to place a word with as high score as possible \emph{and} keep the balance. 
 
 \begin{thebibliography}{100}  
   \bibitem{perfectgame} Sheppard, B., 2002, Towards Perfect Play of Scrabble, Maastricht.
