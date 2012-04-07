@@ -75,14 +75,30 @@ public class Square {
 		// crosschecks.clear();
 		isAnchor = false;
 
+		Square upSquare = this.getNextUp(transposed);
+		Square downSquare = this.getNextDown(transposed);
+
 		if (this.containsLetter()) {
-			if (nextDown != null && !nextDown.containsLetter()) {
-				nextDown.calculateCrossChecks(transposed);
-				nextDown.setAnchor(true);
+			if (downSquare != null && !downSquare.containsLetter()) {
+				downSquare.calculateCrossChecks(transposed);
+
+				Square sq = upSquare;
+				while (sq.containsLetter()) {
+					sq = sq.getNextUp(transposed);
+				}
+
+				sq.calculateCrossChecks(transposed);
+				downSquare.setAnchor(true);
 			}
-			if (nextUp != null && !nextUp.containsLetter()) {
-				nextUp.calculateCrossChecks(transposed);
-				nextUp.setAnchor(true);
+			if (upSquare != null && !upSquare.containsLetter()) {
+				upSquare.calculateCrossChecks(transposed);
+
+				Square sq = downSquare;
+				while (sq.containsLetter()) {
+					sq = sq.getNextDown(transposed);
+				}
+				sq.calculateCrossChecks(transposed);
+				upSquare.setAnchor(true);
 			}
 			// if (nextLeft != null && !nextLeft.containsLetter()) {
 			// nextLeft.calculateCrossChecks(transposed);
@@ -151,11 +167,11 @@ public class Square {
 
 		char letter = square.getContent();
 		if (increment < 0)
-			return verticalWord(word, square.getNextDown(transposed),
+			return verticalWord(word, square.getNextUp(transposed),
 					increment, transposed) + letter;
 		else
 			return letter
-					+ verticalWord(word, square.getNextUp(transposed),
+					+ verticalWord(word, square.getNextDown(transposed),
 							increment, transposed);
 	}
 

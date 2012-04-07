@@ -147,7 +147,8 @@ public abstract class Player {
 		if (!square.containsLetter()) {
 			// if (node == null)
 			// System.out.println();
-			if (node.isEow() && !partWord.equals(prefix)) {
+			if (node.isEow() && !partWord.equals(prefix)
+					&& square.crossCheckContains(node.getLetter())) {
 				saveLegalMoveIfBest(partWord, lc, endSquare, transposed);
 			}
 			for (Node nextNode : node.getChildren().values()) {
@@ -157,8 +158,8 @@ public abstract class Player {
 					int index = findLetterIndexInTilesOnHand(letter);
 					tilesOnHand.remove(index);
 					Square toRight = square.getNextRight(transposed);
-					if (toRight == null)
-						System.out.println();
+					// if (toRight == null)
+					// System.out.println();
 					LetterChain nextLc = new LetterChain(lc, letter);
 					extendRight(prefix, partWord + letter, nextLc,
 							node.getChildren().get(letter),
