@@ -137,9 +137,9 @@ public class Game {
 			char letter = wn.letter;
 			boolean isTransposed = move.isTransposed();
 
-			if (!board.isOccupiedSquare(sq)) {
+			if (!sq.containsLetter()) {
 				char squareInfo = board.placeTile(letter, sq, isTransposed);
-				wordScore = wordScore + getWordScore(squareInfo, letter);
+				wordScore = wordScore + getLetterBonus(squareInfo, letter);
 				wordBonus = wordBonus * getWordBonus(squareInfo, letter);
 				
 				// Calculate adjacent word
@@ -167,13 +167,15 @@ public class Game {
 					adjacentSquareUp = adjacentSquareUp.getNextUp(isTransposed);
 					adjacentWord = true;
 				}
-				if (adjacentWord)
+				if (adjacentWord) {
 					// Add square letter point to adjacent word
-					adjacentWordsBonus += Alphabet.getLetterPoint(letter);
-
+					adjacentWordsBonus += getLetterBonus(squareInfo, letter);
+					// if there's a bonus, add it to the adjacent word
+					adjacentWordsBonus = adjacentWordsBonus
+							* getWordBonus(squareInfo, letter);
+				}
 				player.removeTileFromHand(letter);
 				wn = wn.getPrevious();
-
 			} else {
 				// Add point from existing letter on square.
 				wordScore = wordScore + Alphabet.getLetterPoint(letter);
@@ -197,7 +199,7 @@ public class Game {
 		}
 	}
 
-	private int getWordScore(char squareInfo, char letter) {
+	private int getLetterBonus(char squareInfo, char letter) {
 		int letterScore = Alphabet.getLetterPoint(letter);
 		switch (squareInfo) {
 			case Square.THREE_LETTER_BONUS:

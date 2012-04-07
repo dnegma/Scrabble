@@ -19,7 +19,7 @@ import dictionary.Trie;
 public class Square {
 	static final char INVALID_SQUARE = (char) -1;
 	static final char BUSY_SQUARE = 0;
-	static final char EMPTY = 48;
+	public static final char EMPTY = 48;
 	public static final char WALL = 48;
 	public static final char TWO_LETTER_BONUS = 49;
 	public static final char THREE_LETTER_BONUS = 50;
@@ -63,6 +63,25 @@ public class Square {
 		this.nextUp = up;
 		this.nextDown = down;
 
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof Square)) {
+			return false;
+		}
+
+		Square sq = (Square) obj;
+
+		return row == sq.getRow() && column == sq.getColumn();
+	}
+
+	@Override
+	public int hashCode() {
+		String hashy = Integer.toString(this.row) + Integer.toString(this.column);
+		return Integer.parseInt(hashy);
 	}
 
 	/**

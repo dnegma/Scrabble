@@ -149,6 +149,7 @@ public abstract class Player {
 			// System.out.println();
 			if (node.isEow() && !partWord.equals(prefix)
 					&& square.crossCheckContains(node.getLetter())) {
+				// TODO bug. doesn't check existing word to right
 				saveLegalMoveIfBest(partWord, lc, endSquare, transposed);
 			}
 			for (Node nextNode : node.getChildren().values()) {
