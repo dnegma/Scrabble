@@ -75,7 +75,6 @@ public class Trie {
 	 * @return boolean true if found
 	 */
 	public static boolean findWord(String word) {
-		char[] wordArray = word.toCharArray();
 		return findWordRecursively(rootNode, word, 0);
 	}
 
@@ -123,7 +122,7 @@ public class Trie {
 
 	private static Node getNodeRecursively(Node currentNode, char[] word,
 			int letterIndex) {
-		if (letterIndex >= word.length)
+		if (letterIndex >= word.length || currentNode == null)
 			return currentNode;
 
 

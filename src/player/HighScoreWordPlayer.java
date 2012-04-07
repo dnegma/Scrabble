@@ -10,7 +10,6 @@ import board.Square;
 public class HighScoreWordPlayer extends Player {
 
 	private Move nextMove;
-	private int highestBonus;
 	public HighScoreWordPlayer(Board board) {
 		super(board);
 	}
@@ -23,8 +22,8 @@ public class HighScoreWordPlayer extends Player {
 		if (!endSquare.crossCheckContains(partWord.charAt(lastLetter)))
 			return;
 		if (ScoreHandler.scoreOf(partWord) > ScoreHandler.scoreOf(nextMove)) {
-			nextMove = new Move(partWord.toCharArray(), wn, endSquare,
-					transposed);
+			this.setNextMove(new Move(partWord.toCharArray(), wn, endSquare,
+					transposed));
 		}
 	}
 
@@ -38,17 +37,11 @@ public class HighScoreWordPlayer extends Player {
 		return nextMove;
 	}
 
-	@Override
-	public int getHighestBonus() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
-	public void setHighestBonus(int bonus) {
+	public void resetParameters() {
 		// TODO Auto-generated method stub
 
 	}
-
 
 }
