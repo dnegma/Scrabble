@@ -53,6 +53,12 @@ The problem of generating legal moves can be reduces to one dimension. Instead o
 \subsubsection{Anchor squares}
 A key in the algorithm implemented are the \emph{anchor squares}, which are the empy squares next to a non-empty square. These are important since words can only be built from already existing tiles. In the very forst move there is only one anchor; the center square, since the player making the first move always has to start in the center square.
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.6]{anchorBoard}
+\caption{Anchor squares. The adjacent tiles are the anchor tiles from which the word generation begins.}
+\end{figure}
+
 \subsubsection{Cross-check sets}
 When placing a word horizontally, the vertically placed letters also have to create a legal word. It is quite easy to establish that if we place a word horizontally, the vertical word can increas with only one letter at a time. This makes it possible to calculate, for each anchor square, which set of letters that are possible to place at that square. The calculations can be made before each move, and allows the player to place a word by row, without considering the rest of the board. The set of available letter for one square is in Appel and Jacobsen's paper \cite{fastest} referred to as a \emph{cross-check set}
 

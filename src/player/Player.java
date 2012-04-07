@@ -18,7 +18,6 @@ public abstract class Player {
 
 	private Board board;
 	private int score;
-	protected Move nextMove;
 
 	public Player(Board board) {		
 		this.board = board;
@@ -33,11 +32,11 @@ public abstract class Player {
 	 * @return
 	 */
 	public Move generateMove() {
-		nextMove = null;
+		setNextMove(null);
 
 		generate(board.getBoard(), false);
 		generate(board.getTransposedBoard(), true);
-		return nextMove;
+		return getNextMove();
 	}
 
 	/**
@@ -49,6 +48,16 @@ public abstract class Player {
 		return board.getSquare(CENTER_INDEX, CENTER_INDEX).getContent() == Square.CENTER_SQUARE;
 	}
 
+	public abstract void setNextMove(Move move);
+	public abstract Move getNextMove();
+	public abstract int getHighestBonus();
+
+	public abstract void setHighestBonus(int bonus);
+	
+	public void setNextMove(String partWord, LetterChain wn, Square endSquare,
+			boolean transposed) {
+		setNextMove(new Move(partWord.toCharArray(), wn, endSquare, transposed));
+	}
 	/**
 	 * Extracted method for generating moves depending on how the board is
 	 * located. WE want to be able to find words vertically as well as

@@ -9,6 +9,8 @@ import board.Square;
 
 public class HighScoreWordPlayer extends Player {
 
+	private Move nextMove;
+	private int highestBonus;
 	public HighScoreWordPlayer(Board board) {
 		super(board);
 	}
@@ -26,6 +28,27 @@ public class HighScoreWordPlayer extends Player {
 		}
 	}
 
+	@Override
+	public void setNextMove(Move move) {
+		this.nextMove = move;
+	}
+
+	@Override
+	public Move getNextMove() {
+		return nextMove;
+	}
+
+	@Override
+	public int getHighestBonus() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setHighestBonus(int bonus) {
+		// TODO Auto-generated method stub
+
+	}
 
 
 }
