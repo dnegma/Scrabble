@@ -163,18 +163,14 @@ public class Square {
 		char letter = square.getContent();
 		if (transposed) {
 		}
-		if (!wordDown)
-			return (transposed) ? letter
-					+ verticalWord(word, square.getNextUp(transposed),
-							wordDown, transposed) : verticalWord(word,
-					square.getNextUp(transposed), wordDown, transposed)
-					+ letter;
-		else
-			return (transposed) ? verticalWord(word,
-					square.getNextDown(transposed), wordDown, transposed)
-					+ letter : letter
+		if (!wordDown) {
+			return verticalWord(word, square.getNextUp(transposed), wordDown,
+					transposed) + letter;
+		} else {
+			return letter
 					+ verticalWord(word, square.getNextDown(transposed),
 							wordDown, transposed);
+		}
 	}
 
 	/**
