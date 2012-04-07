@@ -169,6 +169,15 @@ public class Square {
 	}
 
 	/**
+	 * Check if square is occupied.
+	 * 
+	 * @return true if empty square
+	 */
+	public boolean isEmpty() {
+		return !containsLetter();
+	}
+
+	/**
 	 * Get content of square, can be either a letter, bonus or just an empty
 	 * normal square.
 	 * 

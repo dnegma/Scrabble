@@ -91,7 +91,9 @@ public class Game {
 		// Check if word fits onto board.
 
 		int points = makeMove(move, player);
+		System.out.println("Score: " + points);
 		player.addPointsToScore(points);
+		System.out.println("Total score: " + player.getScore());
 		giveTilesToPlayer(player);
 		System.out.println(move.getWord());
 		return true;
@@ -125,51 +127,85 @@ public class Game {
 	public int makeMove(Move move, Player player) {
 		int wordScore = 0;
 		int wordBonus = 1;
+		int adjacentWordsBonus = 0;
 		LetterChain wn = move.getLetterChain();
 
 		int letterIndex = 0;
 		Square sq = move.getEndSquare();
 		while (wn.getPrevious() != null && sq.getContent() != Square.WALL) {
-			if (!board.isOccupiedSquare(sq)) {
-				char letter = wn.letter;
-				char squareInfo;
 
-				boolean isTransposed = move.isTransposed();
-				squareInfo = board.placeTile(letter, sq, isTransposed);
+			char letter = wn.letter;
+			boolean isTransposed = move.isTransposed();
+
+			if (!board.isOccupiedSquare(sq)) {
+				char squareInfo = board.placeTile(letter, sq, isTransposed);
 				wordScore = wordScore + getWordScore(squareInfo, letter);
 				wordBonus = wordBonus * getWordBonus(squareInfo, letter);
+				
+				// Calculate adjacent word
+				// Tiles going down
+				boolean adjacentWord = false;
+				Square adjacentSquareDown = sq.getNextDown(isTransposed);
+				while (adjacentSquareDown.containsLetter()) {
+					char adjacentLetter = adjacentSquareDown.getContent();
+					int adjacentLetterPoint = Alphabet
+							.getLetterPoint(adjacentLetter);
+					adjacentWordsBonus += adjacentLetterPoint;
+					// Get next tile down
+					adjacentSquareDown = adjacentSquareDown
+							.getNextDown(isTransposed);
+					adjacentWord = true;
+				}
+				// Tiles going up
+				Square adjacentSquareUp = sq.getNextUp(isTransposed);
+				while (adjacentSquareUp.containsLetter()) {
+					char adjacentLetter = adjacentSquareUp.getContent();
+					int adjacentLetterPoint = Alphabet
+							.getLetterPoint(adjacentLetter);
+					adjacentWordsBonus += adjacentLetterPoint;
+					// Get next tile up
+					adjacentSquareUp = adjacentSquareUp.getNextUp(isTransposed);
+					adjacentWord = true;
+				}
+				if (adjacentWord)
+					// Add square letter point to adjacent word
+					adjacentWordsBonus += Alphabet.getLetterPoint(letter);
+
 				player.removeTileFromHand(letter);
 				wn = wn.getPrevious();
+
 			} else {
+				// Add point from existing letter on square.
+				wordScore = wordScore + Alphabet.getLetterPoint(letter);
 				wn = wn.getPrevious();
 			}
 			letterIndex = letterIndex + 1;
 			sq = sq.getNextLeft(move.isTransposed());
 		}
-		return 0;
+		return (wordScore * wordBonus) + adjacentWordsBonus;
 	}
 
 
 	private int getWordBonus(char squareInfo, char letter) {
 		switch (squareInfo) {
-		case Square.THREE_WORD_BONUS:
-			return 3;
-		case Square.TWO_WORD_BONUS:
-			return 2;
-		default:
-			return 1;
+			case Square.THREE_WORD_BONUS:
+				return 3;
+			case Square.TWO_WORD_BONUS:
+				return 2;
+			default:
+				return 1;
 		}
 	}
 
 	private int getWordScore(char squareInfo, char letter) {
 		int letterScore = Alphabet.getLetterPoint(letter);
 		switch (squareInfo) {
-		case Square.THREE_LETTER_BONUS:
-			return letterScore * 3;
-		case Square.TWO_LETTER_BONUS:
-			return letterScore * 2;
-		default:
-			return letterScore;
+			case Square.THREE_LETTER_BONUS:
+				return letterScore * 3;
+			case Square.TWO_LETTER_BONUS:
+				return letterScore * 2;
+			default:
+				return letterScore;
 		}
 	}
 

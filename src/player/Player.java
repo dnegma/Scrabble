@@ -256,6 +256,15 @@ public abstract class Player {
 	}
 
 	/**
+	 * Get total score points.
+	 * 
+	 * @return int points
+	 */
+	public int getScore() {
+		return this.score;
+	}
+
+	/**
 	 * If the player is out of tiles on the rack it means he played them all.
 	 * That qualifies for an extra bonus.
 	 * 

@@ -11,9 +11,8 @@ public class Alphabet {
 	static HashMap<Character, Integer> letterPoints = new HashMap<Character, Integer>();
 
 	public static char[] alphabet = new char[] { 'A', 'B', 'C', 'D', 'E', 'F',
-			'G',
-			'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U',
-			'V', 'X', 'Y', 'Z'};
+			'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T',
+			'U', 'V', 'X', 'Y', 'Z' };
 	/**
 	 * Initialize alphabet with points and amount of each letter depending on
 	 * which language we are working with. Read info from a file representing
