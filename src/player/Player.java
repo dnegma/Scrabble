@@ -39,15 +39,6 @@ public abstract class Player {
 		return getNextMove();
 	}
 
-	/**
-	 * If the center square is still empty, it means it is the first round.
-	 * 
-	 * @return
-	 */
-	private boolean firstRound() {
-		return board.getSquare(CENTER_INDEX, CENTER_INDEX).getContent() == Square.CENTER_SQUARE;
-	}
-
 	public abstract void setNextMove(Move move);
 	public abstract Move getNextMove();
 	public abstract int getHighestBonus();
