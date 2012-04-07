@@ -59,6 +59,8 @@ public abstract class Player {
 	 * @param transposed
 	 */
 	private void generate(Square[][] board, boolean transposed) {
+		this.board.calculateAllCrossChecks(transposed);
+
 		int limit = 0;
 		for (int row = 0; row < Board.BOARD_SIZE; row++) {
 			for (int column = 0; column < Board.BOARD_SIZE; column++) {
@@ -142,14 +144,15 @@ public abstract class Player {
 			Node node,
 			Square square, Square endSquare,
 			boolean transposed) {
-		if (square == null || node == null)
+		if (square.getContent() == Square.WALL || node == null)
 			return;
 		if (!square.containsLetter()) {
-			if (node == null)
-				System.out.println();
+			// if (node == null)
+			// System.out.println();
 			if (node.isEow() && !partWord.equals(prefix)
 					&& square.crossCheckContains(node.getLetter())) {
-				saveLegalMoveIfBest(partWord, lc, endSquare, transposed);
+				if (!square.getNextRight(transposed).containsLetter())
+					saveLegalMoveIfBest(partWord, lc, endSquare, transposed);
 			}
 			for (Node nextNode : node.getChildren().values()) {
 				char letter = nextNode.getLetter();
@@ -158,8 +161,8 @@ public abstract class Player {
 					int index = findLetterIndexInTilesOnHand(letter);
 					tilesOnHand.remove(index);
 					Square toRight = square.getNextRight(transposed);
-					if (toRight == null)
-						System.out.println();
+					// if (toRight == null)
+					// System.out.println();
 					LetterChain nextLc = new LetterChain(lc, letter);
 					extendRight(prefix, partWord + letter, nextLc,
 							node.getChildren().get(letter),
@@ -171,8 +174,8 @@ public abstract class Player {
 			char letter = square.getContent();
 			if (node.getChildren().containsKey(letter)) {
 				Square toRight = square.getNextRight(transposed);
-				if (toRight == null)
-					System.out.println();
+				// if (toRight == null)
+				// System.out.println();
 				LetterChain nextLc = new LetterChain(lc, letter);
 				extendRight(prefix, partWord + letter,
 						nextLc, node
@@ -283,6 +286,12 @@ public abstract class Player {
 	 */
 	public void receiveTile(char letter) {
 		tilesOnHand.add(letter);		
+	}
+
+	public void printRack() {
+		for (int i = 0; i < tilesOnHand.size(); i++)
+			System.out.print(tilesOnHand.get(i));
+		System.out.println();
 	}
 
 }

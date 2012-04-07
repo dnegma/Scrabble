@@ -72,69 +72,27 @@ public class Square {
 	 */
 	public void setContent(char content, boolean transposed) {
 		this.content = content;
-		// crosschecks.clear();
 		isAnchor = false;
 
-		// HashSet<Character> crosscheck = initCrossCheck();
-
-		for (int i = 0; i < 2; i++) {
-			if (this.containsLetter()) {
-				HashSet<Character> tmpCc = new HashSet<Character>();
-				Square upSquare = this.getNextUp(transposed);
-				Square downSquare = this.getNextDown(transposed);
-
-				if (downSquare != null && !downSquare.containsLetter()) {
-					tmpCc = downSquare.calculateCrossChecks(transposed);
-					downSquare.intersectCrossCheck(tmpCc);
-
-					Square sq = upSquare;
-					while (sq.containsLetter()) {
-						sq = sq.getNextUp(transposed);
-					}
-
-					tmpCc = sq.calculateCrossChecks(transposed);
-					sq.intersectCrossCheck(tmpCc);
-					downSquare.setAnchor(true);
-				} else if (upSquare != null && !upSquare.containsLetter()) {
-					tmpCc = upSquare.calculateCrossChecks(transposed);
-					upSquare.intersectCrossCheck(tmpCc);
-
-					Square sq = downSquare;
-					while (sq.containsLetter()) {
-						sq = sq.getNextDown(transposed);
-					}
-					tmpCc = sq.calculateCrossChecks(transposed);
-					sq.intersectCrossCheck(tmpCc);
-					upSquare.setAnchor(true);
-				}
-			}
-			transposed = !transposed;
-			// if (nextLeft != null && !nextLeft.containsLetter()) {
-			// nextLeft.calculateCrossChecks(transposed);
-			// nextLeft.setAnchor(true);
-			// }
-			// if (nextRight != null && !nextRight.containsLetter()) {
-			// nextRight.calculateCrossChecks(transposed);
-			// nextRight.setAnchor(true);
-			// }
-		}
-
-	}
-
-	private void intersectCrossCheck(HashSet<Character> tmpCc) {
-		crosschecks.clear();
-		crosschecks.addAll(tmpCc);
+		Square neighbor;
+		if (!(neighbor = this.getNextDown(transposed)).containsLetter())
+			neighbor.setAnchor(true);
+		if (!(neighbor = this.getNextUp(transposed)).containsLetter())
+			neighbor.setAnchor(true);
+		if (!(neighbor = this.getNextLeft(transposed)).containsLetter())
+			neighbor.setAnchor(true);
+		if (!(neighbor = this.getNextRight(transposed)).containsLetter())
+			neighbor.setAnchor(true);
 	}
 
 	/**
 	 * Calculate which letters are legal to place on this square. This depends
 	 * on the neighbors, since a word has to be formed in any direction.
 	 */
-	private HashSet<Character> calculateCrossChecks(boolean transposed) {
+	public void calculateCrossCheckSet(boolean transposed) {
 		String wordDownwards = "";
 		String wordUpwards = "";
 
-		HashSet<Character> cc = new HashSet<Character>();
 		Square downSquare = getNextDown(transposed);
 		Square upSquare = getNextUp(transposed);
 
@@ -146,14 +104,14 @@ public class Square {
 			wordUpwards = verticalWord("", upSquare, -1, transposed);
 		}
 
+		crosschecks.clear();
 		for (int i = 0; i < Alphabet.alphabet.length; i++) {
 			char letter = Alphabet.alphabet[i];
 
 			String checkWord = wordUpwards + letter + wordDownwards;
 			if (Trie.findWord(checkWord))
-				cc.add(Alphabet.alphabet[i]);
+				crosschecks.add(Alphabet.alphabet[i]);
 		}
-		return cc;
 	}
 
 	public HashSet<Character> initCrossCheck() {
@@ -188,8 +146,8 @@ public class Square {
 			return (transposed) ? letter
 					+ verticalWord(word, square.getNextUp(transposed),
 							increment, transposed) : verticalWord(word,
-					square.getNextUp(transposed),
-					increment, transposed) + letter;
+					square.getNextUp(transposed), increment, transposed)
+					+ letter;
 		else
 			return (transposed) ? verticalWord(word,
 					square.getNextDown(transposed), increment, transposed)

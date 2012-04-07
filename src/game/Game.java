@@ -74,6 +74,7 @@ public class Game {
 			else 
 				resetPasses();
 			turn = -turn;
+			player.printRack();
 			board.printBoard();
 			System.out.println();			
 			printTilesInBag();
@@ -137,7 +138,7 @@ public class Game {
 			char letter = wn.letter;
 			boolean isTransposed = move.isTransposed();
 
-			if (!board.isOccupiedSquare(sq)) {
+			if (!sq.containsLetter()) {
 				char squareInfo = board.placeTile(letter, sq, isTransposed);
 				wordScore = wordScore + getWordScore(squareInfo, letter);
 				wordBonus = wordBonus * getWordBonus(squareInfo, letter);
