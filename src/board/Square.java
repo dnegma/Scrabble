@@ -75,7 +75,7 @@ public class Square {
 
 		Square sq = (Square) obj;
 
-		return row == sq.getRow() && column == sq.getColumn();
+		return this.row == sq.getRow() && this.column == sq.getColumn();
 	}
 
 	@Override
@@ -138,9 +138,6 @@ public class Square {
 	}
 
 	public void initCrossCheck() {
-		HashSet<Character> cc = new HashSet<Character>();
-		// crosschecks.clear();
-
 		for (int i = 0; i < Alphabet.alphabet.length; i++) {
 			crosschecks.add(Alphabet.alphabet[i]);
 		}
@@ -232,8 +229,8 @@ public class Square {
 	 * 
 	 * @return
 	 */
-	public int getColumn(boolean transposed) {
-		return (transposed) ? Board.BOARD_SIZE - this.row : column;
+	public int getColumn() {
+		return this.column;
 	}
 
 	/**
@@ -241,8 +238,8 @@ public class Square {
 	 * 
 	 * @return
 	 */
-	public int getRow(boolean transposed) {
-		return (transposed) ? this.column : this.row;
+	public int getRow() {
+		return this.row;
 	}
 
 	public Square getNextRight(boolean transposed) {

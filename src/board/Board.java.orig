@@ -26,9 +26,20 @@ public class Board {
 				board[row][column] = new Square('.', row, column);
 				Square square = board[row][column];
 				if (row == 7 && column == 7) {
-					square.setCenterSquare();
+<<<<<<< HEAD
+					square.setContent(Square.CENTER_SQUARE, false);
 					square.setAnchor(true);
 					square.initCrossCheck();
+				} else {
+					// set bonus to square
+					char bonus = Bonus.getBonus(row, column);
+					if (bonus != Square.EMPTY)
+						square.setContent(bonus, false);
+=======
+					Square square = board[row][column];
+					square.setCenterSquare();
+					square.setAnchor(true);
+>>>>>>> 6fbe1364f45fff2ffb66f689bf7f857bdf6bae68
 				}
 			}
 		}
@@ -41,7 +52,7 @@ public class Board {
 						: board[row][column - 1];
 				Square right = (column >= BOARD_SIZE - 1) ? new Square(
 						Square.WALL, -1, -1)
-						: board[row][column + 1];
+ : board[row][column + 1];
 				Square up = (row <= 0) ? new Square(Square.WALL, -1, -1)
 						: board[row - 1][column];
 				Square down = (row >= BOARD_SIZE - 1) ? new Square(Square.WALL,
@@ -49,16 +60,8 @@ public class Board {
 						: board[row + 1][column];
 
 				square.setNeighbours(left, right, up, down);
-
-				// set bonus to square
-				if (square.getContent() != Square.CENTER_SQUARE) {
-					char bonus = Bonus.getBonus(row, column);
-					if (bonus != Square.EMPTY)
-						square.setContent(bonus, false);
-				}
 			}
 		}
-
 	}
 
 	/**
@@ -92,23 +95,14 @@ public class Board {
 	public Square getSquare(int row, int column) {
 		return board[row][column];
 	}
-	
-	/**
-	 * Print board. The board is printed in the following format.
-	 *  [A-Z]	= letter
-	 *  . 		= empty square
-	 *  
-	 * . . . H E J . . .
-	 * . . . A . O . . . 
-	 * . . . T U B . . . 
-	 * . . . T . B . . . 
-	 */
+<<<<<<< HEAD
+
 	public void printBoard() {
 		for (Square[] row : this.board) {
 			for (Square cell : row) {
 				// if (cell.getContent() == Square.BUSY_SQUARE)
 				if (cell.containsLetter()) {
-					System.out.print(cell.getContent());
+					System.err.print(cell.getContent());
 				} else {
 					switch(cell.getContent()) {
 					case Square.THREE_WORD_BONUS : 
@@ -128,6 +122,23 @@ public class Board {
 					}
 				}
 				System.out.print("\t");
+=======
+	
+	/**
+	 * Print board. The board is printed in the following format.
+	 *  [A-Z]	= letter
+	 *  . 		= empty square
+	 *  
+	 * . . . H E J . . .
+	 * . . . A . O . . . 
+	 * . . . T U B . . . 
+	 * . . . T . B . . . 
+	 */
+	public void printBoard() {
+		for (Square[] row : this.board) {
+			for (Square cell : row) {
+				System.out.print(cell.getContent() + "\t");
+>>>>>>> 6fbe1364f45fff2ffb66f689bf7f857bdf6bae68
 			}
 			System.out.println();
 			System.out.println();
