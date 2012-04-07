@@ -232,6 +232,7 @@ public class Game {
 	 * @param player
 	 */
 	private void giveOneTileToPlayerAndRemoveItFromBag(Player player) {
+		Collections.shuffle(tilesInBag);
 		char letter = tilesInBag.remove(0);
 		player.receiveTile(letter);
 	}
