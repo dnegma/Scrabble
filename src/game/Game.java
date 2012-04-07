@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import player.BalanceOnRackPlayer;
+import player.BonusSquarePlayer;
 import player.HighScoreWordPlayer;
 import player.Player;
 import board.Board;
@@ -36,7 +36,7 @@ public class Game {
 	public Game(boolean player1StartsPlaying) {
 		board = new Board();
 		player1 = new HighScoreWordPlayer(board);
-		player2 = new BalanceOnRackPlayer(board);
+		player2 = new BonusSquarePlayer(board);
 		Alphabet.initializeAlphabet(GAME_LANGUAGE);
 		Trie.initDawg("dictionary/dsso-1.52_utf8.txt");
 		tilesInBag = initTileBag();
@@ -78,6 +78,7 @@ public class Game {
 				incrementPass();
 			else 
 				resetPasses();
+			player.resetParameters();
 			player.printRack();
 			gui.updateBoard();
 			gui.updateScores(player, turn);

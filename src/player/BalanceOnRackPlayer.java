@@ -20,8 +20,7 @@ public class BalanceOnRackPlayer extends Player {
 	}
 
 	private void initVowels() {
-		char[] vowelChars = new char[] { 'A', 'E', 'I', 'O', 'U', 'Y', 'Å',
-				'Ä', 'Ö' };
+		char[] vowelChars = new char[] { 'A', 'E', 'I', 'O', 'U', 'Y' };
 		for (char c : vowelChars) {
 			vowels.add(c);
 		}
