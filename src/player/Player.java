@@ -24,6 +24,10 @@ public abstract class Player {
 		this.tilesOnHand = new ArrayList<Character>(MAX_TILES_ON_HAND);
 	}
 
+	public List<Character> getTilesOnHand() {
+		return tilesOnHand;
+	}
+
 	/**
 	 * Generate move. Limit is set by how many non-anchor squares there are to
 	 * the left of the anchor, this is the maxmimum word we can find. As soon as
@@ -41,9 +45,8 @@ public abstract class Player {
 
 	public abstract void setNextMove(Move move);
 	public abstract Move getNextMove();
-	public abstract int getHighestBonus();
 
-	public abstract void setHighestBonus(int bonus);
+	public abstract void resetParameters();
 	
 	public void setNextMove(String partWord, LetterChain wn, Square endSquare,
 			boolean transposed) {

@@ -11,6 +11,15 @@ public class BonusSquarePlayer extends Player {
 
 	private Move nextMove;
 	private int highestBonus = 0;
+
+	public int getHighestBonus() {
+		return highestBonus;
+	}
+
+	public void setHighestBonus(int highestBonus) {
+		this.highestBonus = highestBonus;
+	}
+
 	public BonusSquarePlayer(Board board) {
 		super(board);
 	}
@@ -56,16 +65,6 @@ public class BonusSquarePlayer extends Player {
 	}
 
 	@Override
-	public int getHighestBonus() {
-		return highestBonus;
-	}
-
-	@Override
-	public void setHighestBonus(int bonus) {
-		this.highestBonus = bonus;
-	}
-
-	@Override
 	public void setNextMove(Move move) {
 		this.nextMove = move;
 	}
@@ -73,6 +72,11 @@ public class BonusSquarePlayer extends Player {
 	@Override
 	public Move getNextMove() {
 		return this.nextMove;
+	}
+
+	@Override
+	public void resetParameters() {
+		this.highestBonus = 0;
 	}
 
 }

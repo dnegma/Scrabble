@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import player.BonusSquarePlayer;
+import player.BalanceOnRackPlayer;
 import player.HighScoreWordPlayer;
 import player.Player;
 import board.Board;
@@ -33,7 +33,7 @@ public class Game {
 	public Game(boolean player1StartsPlaying) {
 		board = new Board();
 		player1 = new HighScoreWordPlayer(board);
-		player2 = new BonusSquarePlayer(board);
+		player2 = new BalanceOnRackPlayer(board);
 		Alphabet.initializeAlphabet(GAME_LANGUAGE);
 		Trie.initDawg("dictionary/dsso-1.52_utf8.txt");
 		tilesInBag = initTileBag();
@@ -74,6 +74,7 @@ public class Game {
 				incrementPass();
 			else 
 				resetPasses();
+			player.resetParameters();
 			turn = -turn;
 			player.printRack();
 			board.printBoard();
@@ -85,6 +86,13 @@ public class Game {
 		int score1, score2;
 		score1 = player1.getScore();
 		score2 = player2.getScore();
+		for (Character letter : player1.getTilesOnHand()) {
+			score1 = score1 - Alphabet.getLetterPoint(letter);
+		}
+		for (Character letter : player2.getTilesOnHand()) {
+			score2 = score2 - Alphabet.getLetterPoint(letter);
+		}
+
 		if (score1 > score2)
 			System.out.println("Player 1 wins! " +score1 + " - " + score2);
 		else if (score2 == score1)
@@ -105,6 +113,8 @@ public class Game {
 		int points = makeMove(move, player);
 		System.out.println("Score: " + points);
 		player.addPointsToScore(points);
+		if (player.placedAllTiles())
+			player.addPointsToScore(50);
 		System.out.println("Total score: " + player.getScore());
 		giveTilesToPlayer(player);
 		System.out.println(move.getWord());
