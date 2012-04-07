@@ -44,7 +44,7 @@ public class Square {
 		this.content = content;
 		this.row = row;
 		this.column = column;
-
+		initCrossCheck();
 	}
 
 	/**
@@ -72,6 +72,8 @@ public class Square {
 	 */
 	public void setContent(char content, boolean transposed) {
 		this.content = content;
+		// crosschecks.clear();
+		isAnchor = false;
 
 		if (this.containsLetter()) {
 			if (nextDown != null && !nextDown.containsLetter()) {
@@ -82,14 +84,14 @@ public class Square {
 				nextUp.calculateCrossChecks(transposed);
 				nextUp.setAnchor(true);
 			}
-			if (nextLeft != null && !nextLeft.containsLetter()) {
-				nextLeft.calculateCrossChecks(transposed);
-				nextLeft.setAnchor(true);
-			}
-			if (nextRight != null && !nextRight.containsLetter()) {
-				nextRight.calculateCrossChecks(transposed);
-				nextRight.setAnchor(true);
-			}
+			// if (nextLeft != null && !nextLeft.containsLetter()) {
+			// nextLeft.calculateCrossChecks(transposed);
+			// nextLeft.setAnchor(true);
+			// }
+			// if (nextRight != null && !nextRight.containsLetter()) {
+			// nextRight.calculateCrossChecks(transposed);
+			// nextRight.setAnchor(true);
+			// }
 		}
 
 	}
@@ -191,6 +193,10 @@ public class Square {
 	 */
 	public HashSet<Character> getCrossChecks() {
 		return crosschecks;
+	}
+
+	public boolean crossCheckContains(char letter) {
+		return crosschecks.contains(letter);
 	}
 
 	/**

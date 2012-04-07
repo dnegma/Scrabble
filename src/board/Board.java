@@ -60,21 +60,15 @@ public class Board {
 	 * @param transposed
 	 * @return square info
 	 */
-	public char placeTile(char letter, int row, int column, boolean transposed) {
-		
-		Square square = board[row][column];
-		if (square.containsLetter())
-			return Square.BUSY_SQUARE;
-		
+	public char placeTile(char letter, Square square, boolean transposed) {
+
 		square.setAnchor(false);
 		square.setContent(letter, transposed);
 		return letter;
 	}
 
 	public boolean isOutsideBoardLimits(Square square) {
-		int column = square.getColumn();
-		int row = square.getRow();
-		return column >= BOARD_SIZE || row >= BOARD_SIZE || column < 0 || row < 0;
+		return square.getContent() == Square.WALL;
 	}
 	
 	/**
@@ -83,8 +77,7 @@ public class Board {
 	 * @param column zero-indexed
 	 * @return true if square is occupied
 	 */
-	public boolean isOccupiedSquare(int row, int column) {
-		Square square = board[row][column];
+	public boolean isOccupiedSquare(Square square) {
 		if (square.containsLetter())
 			return true;
 		return false;
@@ -107,6 +100,7 @@ public class Board {
 				// if (cell.getContent() == Square.BUSY_SQUARE)
 				System.out.print(cell.getContent() + "\t");
 			}
+			System.out.println();
 			System.out.println();
 		}
 	}

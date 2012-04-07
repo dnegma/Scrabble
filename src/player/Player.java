@@ -8,8 +8,8 @@ import java.util.List;
 
 import board.Board;
 import board.Square;
-import dictionary.Trie;
 import dictionary.Node;
+import dictionary.Trie;
 
 public abstract class Player {
 	public static final int MAX_TILES_ON_HAND = 8;
@@ -104,10 +104,10 @@ public abstract class Player {
 	 * @param anchor
 	 */
 	public void leftPart(String partWord, LetterChain lc, Node node, int limit,
-			Square anchor, Square endSquare,
+			Square square, Square anchor,
 			boolean transposed) {
 		// Square anchor = null;
-		extendRight("", partWord, lc, node, anchor, endSquare, transposed);
+		extendRight("", partWord, lc, node, anchor, anchor, transposed);
 		if (limit > 0) {
 			for (Node nextNode : node.getChildren().values()) {
 				char letter = nextNode.getLetter();
@@ -115,15 +115,15 @@ public abstract class Player {
 					int index = findLetterIndexInTilesOnHand(letter);
 					tilesOnHand.remove(index);
 					Square toLeft = anchor.getNextLeft(transposed);
-					if (toLeft == null)
-						System.out.println();
+					// if (toLeft == null)
+					// System.out.println();
 
 
 					// lc.setSquare(toLeft);
 					LetterChain nextLc = new LetterChain(lc, letter);
 					leftPart(partWord + letter, nextLc,
 							nextNode, limit - 1,
-							toLeft, endSquare, transposed);
+							toLeft, anchor, transposed);
 					tilesOnHand.add(letter);
 				}
 			}
@@ -142,9 +142,11 @@ public abstract class Player {
 			Node node,
 			Square square, Square endSquare,
 			boolean transposed) {
+		if (square == null)
+			return;
 		if (!square.containsLetter()) {
-			if (node == null)
-				System.out.println();
+			// if (node == null)
+			// System.out.println();
 			if (node.isEow() && !partWord.equals(prefix)) {
 				saveLegalMoveIfBest(partWord, lc, endSquare, transposed);
 			}
@@ -160,7 +162,7 @@ public abstract class Player {
 					LetterChain nextLc = new LetterChain(lc, letter);
 					extendRight(prefix, partWord + letter, nextLc,
 							node.getChildren().get(letter),
-							toRight, toRight, transposed);
+							toRight, square, transposed);
 					tilesOnHand.add(letter);
 				}
 			}
@@ -168,13 +170,13 @@ public abstract class Player {
 			char letter = square.getContent();
 			if (node.getChildren().containsKey(letter)) {
 				Square toRight = square.getNextRight(transposed);
-				if (toRight == null)
-					System.out.println();
+				// if (toRight == null)
+				// System.out.println();
 				LetterChain nextLc = new LetterChain(lc, letter);
 				extendRight(prefix, partWord + letter,
 						nextLc, node
 						.getChildren().get(letter),
-						toRight, toRight, transposed);
+						toRight, square, transposed);
 			}
 		}
 	}

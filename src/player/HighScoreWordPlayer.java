@@ -17,6 +17,9 @@ public class HighScoreWordPlayer extends Player {
 	public void saveLegalMoveIfBest(String partWord, LetterChain wn,
 			Square endSquare, boolean transposed) {
 
+		int lastLetter = partWord.length() - 1;
+		if (!endSquare.crossCheckContains(partWord.charAt(lastLetter)))
+			return;
 		if (scoreOf(partWord) > scoreOf(nextMove)) {
 			nextMove = new Move(partWord.toCharArray(), wn, endSquare,
 					transposed);

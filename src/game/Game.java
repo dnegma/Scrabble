@@ -89,8 +89,6 @@ public class Game {
 		if (move == null)
 			return false;
 		// Check if word fits onto board.
-		if (board.isOutsideBoardLimits(move.getEndSquare()))
-			return false;
 
 		int points = makeMove(move, player);
 		player.addPointsToScore(points);
@@ -131,14 +129,13 @@ public class Game {
 
 		int letterIndex = 0;
 		Square sq = move.getEndSquare();
-		while (wn.getPrevious() != null) {
-			if (!board.isOccupiedSquare(sq.getRow(), sq.getColumn())) {
+		while (wn.getPrevious() != null && sq.getContent() != Square.WALL) {
+			if (!board.isOccupiedSquare(sq)) {
 				char letter = wn.letter;
 				char squareInfo;
 
 				boolean isTransposed = move.isTransposed();
-				squareInfo = board.placeTile(letter, sq.getRow(),
-						sq.getColumn(), isTransposed);
+				squareInfo = board.placeTile(letter, sq, isTransposed);
 				wordScore = wordScore + getWordScore(squareInfo, letter);
 				wordBonus = wordBonus * getWordBonus(squareInfo, letter);
 				player.removeTileFromHand(letter);

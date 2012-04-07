@@ -24,6 +24,8 @@ public class Trie {
 
 		for (String word : dictionary) {
 			char[] wordarray = word.toUpperCase().toCharArray();
+			if (word.startsWith("AG"))
+				System.out.println();
 			addWordToDawg(rootNode, wordarray, 0);
 		} 
 		long endTime = System.currentTimeMillis();
@@ -34,7 +36,7 @@ public class Trie {
 		startTime = System.currentTimeMillis();			
 		boolean found = false;
 		for(int i=0; i<52000; i++) 	
-			found = findWord("ABORTÖR");
+			found = findWord("AG");
 		endTime = System.currentTimeMillis();
 		System.out.println("Search time: " + (endTime - startTime) 
 				+ " milliseconds. " + found);

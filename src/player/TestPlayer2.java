@@ -34,14 +34,12 @@ public class TestPlayer2 extends Player {
 
 	public void saveLegalMoveIfBest(String partWord, int row, int column,
 			boolean transposed) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void saveLegalMoveIfBest(String partWord, LetterChain wn,
 			Square square, boolean transposed) {
-		// TODO Auto-generated method stub
 
 	}
 }

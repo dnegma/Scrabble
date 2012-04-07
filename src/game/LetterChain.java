@@ -1,16 +1,20 @@
 package game;
 
+import board.Square;
+
 
 public class LetterChain {
 
 	char letter;
 	LetterChain previousLetter;
 	LetterChain nextLetter;
+	private Square square;
 
 
 	public LetterChain(LetterChain previousNode, char letter) {
 		this.previousLetter = previousNode;
 		this.letter = letter;
+		this.setSquare(square);
 	}
 
 	public LetterChain getPrevious() {
@@ -35,6 +39,14 @@ public class LetterChain {
 
 	public void setLetter(char letter) {
 		this.letter = letter;
+	}
+
+	public Square getSquare() {
+		return square;
+	}
+
+	public void setSquare(Square square) {
+		this.square = square;
 	}
 
 

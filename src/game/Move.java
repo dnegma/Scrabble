@@ -6,6 +6,7 @@ public class Move {
 
 	private char[] word;
 	private Square endSquare;
+	private Square startSquare;
 	private boolean transposed;
 	
 	private LetterChain letterChain;
@@ -29,6 +30,9 @@ public class Move {
 
 	}
 
+	public void setStartSquare(Square square) {
+		this.startSquare = square;
+	}
 	public void setTransposed(boolean transposed) {
 		this.transposed = transposed;
 	}
