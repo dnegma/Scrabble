@@ -44,7 +44,7 @@ public class Square {
 		this.content = content;
 		this.row = row;
 		this.column = column;
-		initCrossCheck();
+		crosschecks = initCrossCheck();
 	}
 
 	/**
@@ -75,31 +75,40 @@ public class Square {
 		// crosschecks.clear();
 		isAnchor = false;
 
-		Square upSquare = this.getNextUp(transposed);
-		Square downSquare = this.getNextDown(transposed);
+		// HashSet<Character> crosscheck = initCrossCheck();
 
-		if (this.containsLetter()) {
-			if (downSquare != null && !downSquare.containsLetter()) {
-				downSquare.calculateCrossChecks(transposed);
+		for (int i = 0; i < 2; i++) {
+			if (this.containsLetter()) {
+				HashSet<Character> tmpCc = new HashSet<Character>();
+				Square upSquare = this.getNextUp(transposed);
+				Square downSquare = this.getNextDown(transposed);
 
-				Square sq = upSquare;
-				while (sq.containsLetter()) {
-					sq = sq.getNextUp(transposed);
+				if (downSquare != null && !downSquare.containsLetter()) {
+					tmpCc = downSquare.calculateCrossChecks(transposed);
+					downSquare.intersectCrossCheck(tmpCc);
+
+					Square sq = upSquare;
+					while (sq.containsLetter()) {
+						sq = sq.getNextUp(transposed);
+					}
+
+					tmpCc = sq.calculateCrossChecks(transposed);
+					sq.intersectCrossCheck(tmpCc);
+					downSquare.setAnchor(true);
+				} else if (upSquare != null && !upSquare.containsLetter()) {
+					tmpCc = upSquare.calculateCrossChecks(transposed);
+					upSquare.intersectCrossCheck(tmpCc);
+
+					Square sq = downSquare;
+					while (sq.containsLetter()) {
+						sq = sq.getNextDown(transposed);
+					}
+					tmpCc = sq.calculateCrossChecks(transposed);
+					sq.intersectCrossCheck(tmpCc);
+					upSquare.setAnchor(true);
 				}
-
-				sq.calculateCrossChecks(transposed);
-				downSquare.setAnchor(true);
 			}
-			if (upSquare != null && !upSquare.containsLetter()) {
-				upSquare.calculateCrossChecks(transposed);
-
-				Square sq = downSquare;
-				while (sq.containsLetter()) {
-					sq = sq.getNextDown(transposed);
-				}
-				sq.calculateCrossChecks(transposed);
-				upSquare.setAnchor(true);
-			}
+			transposed = !transposed;
 			// if (nextLeft != null && !nextLeft.containsLetter()) {
 			// nextLeft.calculateCrossChecks(transposed);
 			// nextLeft.setAnchor(true);
@@ -112,14 +121,20 @@ public class Square {
 
 	}
 
+	private void intersectCrossCheck(HashSet<Character> tmpCc) {
+		crosschecks.clear();
+		crosschecks.addAll(tmpCc);
+	}
+
 	/**
 	 * Calculate which letters are legal to place on this square. This depends
 	 * on the neighbors, since a word has to be formed in any direction.
 	 */
-	private void calculateCrossChecks(boolean transposed) {
+	private HashSet<Character> calculateCrossChecks(boolean transposed) {
 		String wordDownwards = "";
 		String wordUpwards = "";
 
+		HashSet<Character> cc = new HashSet<Character>();
 		Square downSquare = getNextDown(transposed);
 		Square upSquare = getNextUp(transposed);
 
@@ -131,23 +146,24 @@ public class Square {
 			wordUpwards = verticalWord("", upSquare, -1, transposed);
 		}
 
-		crosschecks.clear();
-
 		for (int i = 0; i < Alphabet.alphabet.length; i++) {
 			char letter = Alphabet.alphabet[i];
 
 			String checkWord = wordUpwards + letter + wordDownwards;
 			if (Trie.findWord(checkWord))
-				crosschecks.add(Alphabet.alphabet[i]);
+				cc.add(Alphabet.alphabet[i]);
 		}
+		return cc;
 	}
 
-	public void initCrossCheck() {
-		crosschecks.clear();
+	public HashSet<Character> initCrossCheck() {
+		HashSet<Character> cc = new HashSet<Character>();
+		// crosschecks.clear();
 
 		for (int i = 0; i < Alphabet.alphabet.length; i++) {
-			crosschecks.add(Alphabet.alphabet[i]);
+			cc.add(Alphabet.alphabet[i]);
 		}
+		return cc;
 	}
 
 	/**
@@ -166,11 +182,18 @@ public class Square {
 			return word;
 
 		char letter = square.getContent();
+		if (transposed) {
+		}
 		if (increment < 0)
-			return verticalWord(word, square.getNextUp(transposed),
+			return (transposed) ? letter
+					+ verticalWord(word, square.getNextUp(transposed),
+							increment, transposed) : verticalWord(word,
+					square.getNextUp(transposed),
 					increment, transposed) + letter;
 		else
-			return letter
+			return (transposed) ? verticalWord(word,
+					square.getNextDown(transposed), increment, transposed)
+					+ letter : letter
 					+ verticalWord(word, square.getNextDown(transposed),
 							increment, transposed);
 	}
@@ -220,8 +243,8 @@ public class Square {
 	 * 
 	 * @return
 	 */
-	public int getColumn() {
-		return column;
+	public int getColumn(boolean transposed) {
+		return (transposed) ? Board.BOARD_SIZE - this.row : column;
 	}
 
 	/**
@@ -229,8 +252,8 @@ public class Square {
 	 * 
 	 * @return
 	 */
-	public int getRow() {
-		return row;
+	public int getRow(boolean transposed) {
+		return (transposed) ? this.column : this.row;
 	}
 
 	public Square getNextRight(boolean transposed) {
@@ -247,5 +270,9 @@ public class Square {
 
 	public Square getNextUp(boolean transposed) {
 		return (transposed) ? nextLeft : nextUp;
+	}
+
+	public void setCenterSquare() {
+		this.content = Square.CENTER_SQUARE;
 	}
 }

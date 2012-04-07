@@ -36,7 +36,7 @@ public abstract class Player {
 		nextMove = null;
 
 		generate(board.getBoard(), false);
-		// generate(board.getTransposedBoard(), true);
+		generate(board.getTransposedBoard(), true);
 		return nextMove;
 	}
 
@@ -142,11 +142,11 @@ public abstract class Player {
 			Node node,
 			Square square, Square endSquare,
 			boolean transposed) {
-		if (square == null)
+		if (square == null || node == null)
 			return;
 		if (!square.containsLetter()) {
-			// if (node == null)
-			// System.out.println();
+			if (node == null)
+				System.out.println();
 			if (node.isEow() && !partWord.equals(prefix)
 					&& square.crossCheckContains(node.getLetter())) {
 				saveLegalMoveIfBest(partWord, lc, endSquare, transposed);
@@ -158,8 +158,8 @@ public abstract class Player {
 					int index = findLetterIndexInTilesOnHand(letter);
 					tilesOnHand.remove(index);
 					Square toRight = square.getNextRight(transposed);
-					// if (toRight == null)
-					// System.out.println();
+					if (toRight == null)
+						System.out.println();
 					LetterChain nextLc = new LetterChain(lc, letter);
 					extendRight(prefix, partWord + letter, nextLc,
 							node.getChildren().get(letter),
@@ -171,8 +171,8 @@ public abstract class Player {
 			char letter = square.getContent();
 			if (node.getChildren().containsKey(letter)) {
 				Square toRight = square.getNextRight(transposed);
-				// if (toRight == null)
-				// System.out.println();
+				if (toRight == null)
+					System.out.println();
 				LetterChain nextLc = new LetterChain(lc, letter);
 				extendRight(prefix, partWord + letter,
 						nextLc, node

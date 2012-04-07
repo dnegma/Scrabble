@@ -23,10 +23,8 @@ public class Board {
 				board[row][column] = new Square('.', row, column);
 				if (row == 7 && column == 7) {
 					Square square = board[row][column];
-					square.setContent(Square.CENTER_SQUARE, false);
+					square.setCenterSquare();
 					square.setAnchor(true);
-					square.initCrossCheck();
-
 				}
 			}
 		}
