@@ -44,7 +44,7 @@ public class Square {
 		this.content = content;
 		this.row = row;
 		this.column = column;
-		crosschecks = initCrossCheck();
+		initCrossCheck();
 	}
 
 	/**
@@ -105,23 +105,26 @@ public class Square {
 		}
 
 		crosschecks.clear();
-		for (int i = 0; i < Alphabet.alphabet.length; i++) {
-			char letter = Alphabet.alphabet[i];
+		if (wordUpwards.equals("") && wordDownwards.equals("")) {
+			initCrossCheck();
+		} else {
+			for (int i = 0; i < Alphabet.alphabet.length; i++) {
+				char letter = Alphabet.alphabet[i];
 
-			String checkWord = wordUpwards + letter + wordDownwards;
-			if (Trie.findWord(checkWord))
-				crosschecks.add(Alphabet.alphabet[i]);
+				String checkWord = wordUpwards + letter + wordDownwards;
+				if (Trie.findWord(checkWord))
+					crosschecks.add(Alphabet.alphabet[i]);
+			}
 		}
 	}
 
-	public HashSet<Character> initCrossCheck() {
+	public void initCrossCheck() {
 		HashSet<Character> cc = new HashSet<Character>();
 		// crosschecks.clear();
 
 		for (int i = 0; i < Alphabet.alphabet.length; i++) {
-			cc.add(Alphabet.alphabet[i]);
+			crosschecks.add(Alphabet.alphabet[i]);
 		}
-		return cc;
 	}
 
 	/**
