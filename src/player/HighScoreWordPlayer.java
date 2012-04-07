@@ -2,9 +2,9 @@ package player;
 
 import game.LetterChain;
 import game.Move;
+import game.ScoreHandler;
 import board.Board;
 import board.Square;
-import dictionary.Alphabet;
 
 
 public class HighScoreWordPlayer extends Player {
@@ -20,46 +20,12 @@ public class HighScoreWordPlayer extends Player {
 		int lastLetter = partWord.length() - 1;
 		if (!endSquare.crossCheckContains(partWord.charAt(lastLetter)))
 			return;
-		if (scoreOf(partWord) > scoreOf(nextMove)) {
+		if (ScoreHandler.scoreOf(partWord) > ScoreHandler.scoreOf(nextMove)) {
 			nextMove = new Move(partWord.toCharArray(), wn, endSquare,
 					transposed);
 		}
 	}
 
-	/**
-	 * Calculate the score of a certain move, taking only the letters in
-	 * consideration.
-	 * 
-	 * @param move
-	 * @return
-	 */
-	private int scoreOf(Move move) {
-		if (move == null)
-			return 0;
 
-		char[] word = move.getWord();
-		int score = 0;
-
-		for (Character c : word)
-			score = score + Alphabet.getLetterPoint(c);
-
-		return score;
-	}
-
-	/**
-	 * Calculate score of a word where each letter has a certain score level.
-	 * 
-	 * @param partWord
-	 * @return
-	 */
-	private int scoreOf(String partWord) {
-		char[] word = partWord.toCharArray();
-		int score = 0;
-
-		for (Character c : word)
-			score = score + Alphabet.getLetterPoint(c);
-
-		return score;
-	}
 
 }
