@@ -1,6 +1,8 @@
 package game;
 
 
+import gui.ScrabbleGUI;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +19,7 @@ import dictionary.Trie;
 public class Game {
 	private static final String GAME_LANGUAGE = "swedish";
 
+	ScrabbleGUI gui;
 	private static Board board;
 	private static List<Character> tilesInBag;
 
@@ -41,6 +44,7 @@ public class Game {
 		giveTilesToPlayer(player2);
 		this.nrOfPasses = 0;
 		this.turn = (player1StartsPlaying) ? -1 : 1;
+		gui = new ScrabbleGUI(board, player1, player2);
 		play();
 	}
 
@@ -74,8 +78,10 @@ public class Game {
 				incrementPass();
 			else 
 				resetPasses();
-			turn = -turn;
 			player.printRack();
+			gui.updateBoard();
+			gui.updateScores(player, turn);
+			turn = -turn;
 			board.printBoard();
 			System.out.println();			
 			printTilesInBag();
@@ -86,7 +92,7 @@ public class Game {
 		score1 = player1.getScore();
 		score2 = player2.getScore();
 		if (score1 > score2)
-			System.out.println("Player 1 wins! " +score1 + " - " + score2);
+			System.out.println("Player 1 wins! " + score1 + " - " + score2);
 		else if (score2 == score1)
 			System.out.println("Draw! " + score1 + " - " + score2);
 		else
