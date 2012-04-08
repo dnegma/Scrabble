@@ -67,10 +67,19 @@ public class GameResult {
 		}
 	}
 	
+
 	@Override
 	public String toString() {
 		return getWinner() + "\t" + getWinnerScore() + "\t" + getLoserScore()
 				+ "\t" + getLoser();
+	}
+
+	public String getPlayer2() {
+		return player2;
+	}
+
+	public String getPlayer1() {
+		return player1;
 	}
 	
 }

@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import player.BalanceOnRackPlayer;
+import player.BonusSquarePlayer;
 import player.HighScoreWordPlayer;
 import player.Player;
 import board.Board;
@@ -74,11 +74,11 @@ public class GameTests extends Game {
 		Player player2Type = null;
 		Board boardType;
 
-		int nrOfGames = 100;
+		int nrOfGames = 1000;
 		for (int i = 0; i < nrOfGames; i++) {
 
 			boardType = new Board();
-			player1Type = new BalanceOnRackPlayer(boardType);
+			player1Type = new BonusSquarePlayer(boardType);
 			player2Type = new HighScoreWordPlayer(boardType);
 
 			boolean player1StartsPlaying;
@@ -110,10 +110,29 @@ public class GameTests extends Game {
 			String fileName, String filePath) {
 		String baseFilePath = "results/";
 		String fullPathTofile = baseFilePath + filePath + fileName;
-
+		int player1wins = 0;
+		int player2wins = 0;
+		String player1Name = results.get(0).getPlayer1();
+		String player2Name = results.get(0).getPlayer2();
+		int draws = 0;
+		for (GameResult gameResult : results) {
+			if (gameResult.getWinner().equals(gameResult.getPlayer1()))
+				player1wins = player1wins + 1;
+			else if (gameResult.getWinner().equals(gameResult.getPlayer2()))
+				player2wins = player2wins + 1;
+			else 
+				draws = draws + 1;
+		}
 		PrintWriter pw = null;
 		try {
 			pw = new PrintWriter(fullPathTofile);
+			if (player1wins >= player2wins)
+				pw.write(player1Name + " " + player1wins + " - " + player2wins
+						+ " " + player2Name);
+			else if (player2wins > player1wins)
+				pw.write(player2Name + " " + player2wins + " - " + player1wins
+						+ " " + player1Name);
+			pw.write(" draw: " + draws + "\n");
 			for (GameResult gameResult : results) {
 				pw.write(gameResult.toString() + "\n");
 			}
