@@ -71,11 +71,15 @@ public abstract class Player {
 				if (!square.isAnchor()) {
 					limit = limit + 1;
 				} else {
-					LetterChain wn = new LetterChain(null, '.');
+					LetterChain wn = new LetterChain(null, '.', false);
 					if (square.getNextLeft(transposed).containsLetter()) {
 						String word = findWordToLeft(square
 								.getNextLeft(transposed), transposed);
 						Node startNode = Trie.getNodeForWord(word);
+
+						for (int i = word.length() - 1; i >= 0; i--) {
+							wn = new LetterChain(wn, word.charAt(i), false);
+						}
 
 						extendRight(word, word, wn, startNode, square, square,
 								transposed);
@@ -125,7 +129,7 @@ public abstract class Player {
 
 
 					// lc.setSquare(toLeft);
-					LetterChain nextLc = new LetterChain(lc, letter);
+					LetterChain nextLc = new LetterChain(lc, letter, true);
 					leftPart(partWord + letter, nextLc,
 							nextNode, limit - 1,
 							toLeft, anchor, transposed);
@@ -166,7 +170,7 @@ public abstract class Player {
 					Square toRight = square.getNextRight(transposed);
 					// if (toRight == null)
 					// System.out.println();
-					LetterChain nextLc = new LetterChain(lc, letter);
+					LetterChain nextLc = new LetterChain(lc, letter, true);
 					extendRight(prefix, partWord + letter, nextLc,
 							node.getChildren().get(letter),
 							toRight, square, transposed);
@@ -179,7 +183,7 @@ public abstract class Player {
 				Square toRight = square.getNextRight(transposed);
 				// if (toRight == null)
 				// System.out.println();
-				LetterChain nextLc = new LetterChain(lc, letter);
+				LetterChain nextLc = new LetterChain(lc, letter, false);
 				extendRight(prefix, partWord + letter,
 						nextLc, node
 						.getChildren().get(letter),

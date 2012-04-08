@@ -121,7 +121,8 @@ public class ScrabbleGUI extends JFrame {
 	public void updateScores(Player player, int turn) {
 		String text = (turn < 0) ? player1.getClass().getSimpleName() : player2
 				.getClass().getSimpleName();
-		text = text + ": " + player.getScore() + " points!";
+
+		text = text + ": " + " (" + player.getScore() + ") points!";
 		if (turn < 0)
 			score1Label.setText(text);
 		else

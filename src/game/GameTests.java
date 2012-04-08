@@ -8,14 +8,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import player.BalanceOnRackPlayer;
 import player.BonusSquarePlayer;
-import player.HighScoreWordPlayer;
 import player.Player;
 import board.Board;
 import dictionary.Alphabet;
 import dictionary.Trie;
 
 public class GameTests extends Game {
+
+	private static int NR_OF_GAMES = 1000;
 
 	/**
 	 * Start a new game. Parameter deciding which player should start.
@@ -74,16 +76,16 @@ public class GameTests extends Game {
 		Player player2Type = null;
 		Board boardType;
 
-		int nrOfGames = 1000;
-		for (int i = 0; i < nrOfGames; i++) {
+		for (int i = 0; i < NR_OF_GAMES; i++) {
 
 			boardType = new Board();
+
 			player1Type = new BonusSquarePlayer(boardType);
-			player2Type = new HighScoreWordPlayer(boardType);
+			player2Type = new BalanceOnRackPlayer(boardType);
 
 			boolean player1StartsPlaying;
 
-			if (i > (nrOfGames / 2))
+			if (i > (NR_OF_GAMES / 2))
 				player1StartsPlaying = true;
 			else
 				player1StartsPlaying = false;
@@ -92,15 +94,15 @@ public class GameTests extends Game {
 					player1Type, player2Type, boardType).play();
 			results.add(result);
 		}
-		String player1Name = player1Type.getName();
-		String player2Name = player2Type.getName();
+		String player1Name = player1Type.getClass().getSimpleName();
+		String player2Name = player2Type.getClass().getSimpleName();
 		Date date = Calendar.getInstance().getTime();
 		String currentTime = DateFormat.getTimeInstance().format(date);
 		String currentDate = DateFormat.getDateInstance().format(date);
 		String dateTime = currentDate + "_" + currentTime;
-		String fileName = player1Name + "_" + player2Name + "_" + nrOfGames
-				+ "_" + dateTime;
-		String filePath = player1Name + "_" + player2Name + "/" + nrOfGames
+		String fileName = player1Type.getName() + "_" + player2Type.getName()
+				+ "_" + NR_OF_GAMES + "_" + dateTime + ".txt";
+		String filePath = player1Name + "_" + player2Name + "/" + NR_OF_GAMES
 				+ "/";
 
 		GameTests.printResultsToFile(results, fileName, filePath);
@@ -108,13 +110,18 @@ public class GameTests extends Game {
 
 	public static void printResultsToFile(List<GameResult> results,
 			String fileName, String filePath) {
+
 		String baseFilePath = "results/";
 		String fullPathTofile = baseFilePath + filePath + fileName;
+
 		int player1wins = 0;
 		int player2wins = 0;
+
 		String player1Name = results.get(0).getPlayer1();
 		String player2Name = results.get(0).getPlayer2();
+
 		int draws = 0;
+
 		for (GameResult gameResult : results) {
 			if (gameResult.getWinner().equals(gameResult.getPlayer1()))
 				player1wins = player1wins + 1;
@@ -123,7 +130,9 @@ public class GameTests extends Game {
 			else 
 				draws = draws + 1;
 		}
+		
 		PrintWriter pw = null;
+		
 		try {
 			pw = new PrintWriter(fullPathTofile);
 			if (player1wins >= player2wins)

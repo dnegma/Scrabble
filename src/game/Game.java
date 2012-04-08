@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 
 import player.BalanceOnRackPlayer;
-import player.BonusSquarePlayer;
 import player.HighScoreWordPlayer;
 import player.Player;
 import board.Board;
@@ -38,8 +37,8 @@ public class Game {
 	public Game(boolean player1StartsPlaying, Player player1Type,
 			Player player2Type, Board boardType) {
 		board = boardType;
-		player1 = new HighScoreWordPlayer(board);
-		player2 = new BonusSquarePlayer(board);
+		player1 = player1Type;
+		player2 = player2Type;
 		tilesInBag = initTileBag();
 		giveTilesToPlayer(player1);
 		giveTilesToPlayer(player2);
@@ -83,6 +82,7 @@ public class Game {
 			player.printRack();
 			gui.updateBoard();
 			gui.updateScores(player, turn);
+
 			turn = -turn;
 			System.out.println("Total score: " + player.getScore());
 			board.printBoard();
@@ -167,90 +167,29 @@ public class Game {
 	 * @return
 	 */
 	public int makeMove(Move move, Player player) {
-		int wordScore = 0;
-		int wordBonus = 1;
-		int adjacentWordsBonus = 0;
+
 		LetterChain wn = move.getLetterChain();
 
+		int score = ScoreHandler.scoreOf(move);
 		int letterIndex = 0;
 		Square sq = move.getEndSquare();
 		while (wn.getPrevious() != null && sq.getContent() != Square.WALL) {
 
-			char letter = wn.letter;
+			char letter = wn.getLetter();
 			boolean isTransposed = move.isTransposed();
 
 			if (!sq.containsLetter()) {
 				char squareInfo = board.placeTile(letter, sq, isTransposed);
-				wordScore = wordScore + getLetterBonus(squareInfo, letter);
-				wordBonus = wordBonus * getWordBonus(squareInfo, letter);
-				
-				// Calculate adjacent word
-				// Tiles going down
-				boolean adjacentWord = false;
-				Square adjacentSquareDown = sq.getNextDown(isTransposed);
-				while (adjacentSquareDown.containsLetter()) {
-					char adjacentLetter = adjacentSquareDown.getContent();
-					int adjacentLetterPoint = Alphabet
-							.getLetterPoint(adjacentLetter);
-					adjacentWordsBonus += adjacentLetterPoint;
-					// Get next tile down
-					adjacentSquareDown = adjacentSquareDown
-							.getNextDown(isTransposed);
-					adjacentWord = true;
-				}
-				// Tiles going up
-				Square adjacentSquareUp = sq.getNextUp(isTransposed);
-				while (adjacentSquareUp.containsLetter()) {
-					char adjacentLetter = adjacentSquareUp.getContent();
-					int adjacentLetterPoint = Alphabet
-							.getLetterPoint(adjacentLetter);
-					adjacentWordsBonus += adjacentLetterPoint;
-					// Get next tile up
-					adjacentSquareUp = adjacentSquareUp.getNextUp(isTransposed);
-					adjacentWord = true;
-				}
-				if (adjacentWord) {
-					// Add square letter point to adjacent word
-					adjacentWordsBonus += getLetterBonus(squareInfo, letter);
-					// if there's a bonus, add it to the adjacent word
-					adjacentWordsBonus = adjacentWordsBonus
-							* getWordBonus(squareInfo, letter);
-				}
+
 				player.removeTileFromHand(letter);
 				wn = wn.getPrevious();
 			} else {
-				// Add point from existing letter on square.
-				wordScore = wordScore + Alphabet.getLetterPoint(letter);
 				wn = wn.getPrevious();
 			}
 			letterIndex = letterIndex + 1;
 			sq = sq.getNextLeft(move.isTransposed());
 		}
-		return (wordScore * wordBonus) + adjacentWordsBonus;
-	}
-
-
-	private int getWordBonus(char squareInfo, char letter) {
-		switch (squareInfo) {
-			case Square.THREE_WORD_BONUS:
-				return 3;
-			case Square.TWO_WORD_BONUS:
-				return 2;
-			default:
-				return 1;
-		}
-	}
-
-	private int getLetterBonus(char squareInfo, char letter) {
-		int letterScore = Alphabet.getLetterPoint(letter);
-		switch (squareInfo) {
-			case Square.THREE_LETTER_BONUS:
-				return letterScore * 3;
-			case Square.TWO_LETTER_BONUS:
-				return letterScore * 2;
-			default:
-				return letterScore;
-		}
+		return score;
 	}
 
 

@@ -2,6 +2,7 @@ package player;
 
 import game.LetterChain;
 import game.Move;
+import game.ScoreHandler;
 
 import java.util.HashSet;
 
@@ -9,12 +10,12 @@ import board.Board;
 import board.Square;
 
 public class BalanceOnRackPlayer extends Player {
-	public static final float VOWELS = 3;
-	public static final float RATIO = (float) VOWELS
-			/ (float) Player.MAX_TILES_ON_HAND;
+	public static final int VOWELS = 3;
+	public static final int PENALTY_FACTOR = 1;
+
 	private HashSet<Character> vowels = new HashSet<Character>();
 	private Move nextMove;
-	private float ratioDifference;
+	private int highestScore;
 	public BalanceOnRackPlayer(Board board) {
 		super(board);
 		initVowels();
@@ -53,20 +54,21 @@ public class BalanceOnRackPlayer extends Player {
 				nrConsonants = nrConsonants + 1;
 		}
 
-		float newRatio = (float) nrVowels / (float) nrConsonants;
+		int penalty = Math.abs(nrVowels - VOWELS) * PENALTY_FACTOR;
 
-		float newRatioDifference = Math.abs(newRatio - RATIO);
-		if (newRatioDifference < ratioDifference) {
-			setNextMove(new Move(partWord.toCharArray(), lc, endSquare,
-					transposed));
-			ratioDifference = newRatioDifference;
+		Move move = new Move(partWord.toCharArray(), lc, endSquare, transposed);
+		int score = ScoreHandler.scoreOf(move) - penalty;
+
+		if (score > highestScore) {
+			setNextMove(move);
+			highestScore = score;
 		}
 
 	}
 
 	@Override
 	public void resetParameters() {
-		this.ratioDifference = tilesOnHand.size();
+		this.highestScore = 0;
 	}
 
 	@Override
@@ -74,7 +76,7 @@ public class BalanceOnRackPlayer extends Player {
 		String className = this.getClass().getSimpleName();
 		String ratio = BalanceOnRackPlayer.VOWELS + "-"
 				+ Player.MAX_TILES_ON_HAND;
-		return className + "_" + ratio;
+		return className + "_" + ratio + "_" + PENALTY_FACTOR + "penalty";
 	}
 
 }
