@@ -1,85 +1,73 @@
 package dictionary;
 
+import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.List;
 
 public class Trie {
 
 	private static Node rootNode = new Node('#');
 
-	//
-	// public Dawg() {
-	// rootNode = new Node((char) 0);
-	// }
-
 	/**
-	 * Create a DAWG (directed acyclic word graph) from text file with list of words.
+	 * Create a Trie from text file with list of words.
 	 * 
-	 * @param String fileName
+	 * @param String
+	 *            fileName
 	 */
-	public static void initDawg(String fileName) {
+	public static void initTrie(String fileName) {
 		long startTime = System.currentTimeMillis();
-		List<String> dictionary = RegexDictionary
+		HashSet<String> dictionary = RegexDictionary
 				.readDictionaryFromFile(fileName);
 
 		for (String word : dictionary) {
 			char[] wordarray = word.toUpperCase().toCharArray();
-			addWordToDawg(rootNode, wordarray, 0);
+			addWordToTrie(rootNode, wordarray, 0);
 		} 
 		long endTime = System.currentTimeMillis();
-		System.out.println("Dawg build time: " + (endTime - startTime) 
+		System.out.println("Trie build time: " + (endTime - startTime)
 				+ " milliseconds.");
-
-		// Measure time for searching the word "abortör" 500 times
-		startTime = System.currentTimeMillis();			
-		boolean found = false;
-		found = findWord("JANI");
-		endTime = System.currentTimeMillis();
-		System.out.println("Search time: " + (endTime - startTime) 
-				+ " milliseconds. " + found);
+		System.out.println(dictionary.size() + " words in dictionary "
+				+ fileName);
 	}
 
 	/**
-	 * Add a word to the dawg. Creates new Node objects for letters not found.
+	 * Add a word to the Trie. Creates new Node objects for letters not found.
 	 * 
 	 * @param Node currentNode
-	 * @param char[] word inserted to DAWG
-	 * @param int letterIndex index to select letter in word 
+	 * @param char[] word inserted to trie
+	 * @param int letterIndex index to select letter in word
 	 */
-	private static void addWordToDawg(Node currentNode, char[] word,
+	private static void addWordToTrie(Node currentNode, char[] word,
 			int letterIndex) {
 
 		if (letterIndex >= word.length) {
 			currentNode.setEow();
-			// System.out.println("eow");
 			return;
 		}
 
 		char letter = word[letterIndex];
 		Node child;
+
 		if (currentNode.getChildren().containsKey(letter)) {
-			child = currentNode.getChildren().get(letter);	
-			// System.out.println(letter + " found. Following.");
+			child = currentNode.getChildren().get(letter);
 		} else {			
 			child = currentNode.addChild(letter);			
-			// System.out.println(letter + " added.");
 		}
-		addWordToDawg(child, word, letterIndex + 1);
-		// System.out.println("Next!");
+		addWordToTrie(child, word, letterIndex + 1);
 	}
 
 	/**
-	 * Search for a word string in the DAWG.
-	 *  
-	 * @param word search string
+	 * Search for a word string in the trie.
+	 * 
+	 * @param word
+	 *            search string
 	 * @return boolean true if found
 	 */
 	public static boolean findWord(String word) {
 		return findWordRecursively(rootNode, word, 0);
 	}
 
-	/** 
-	 * Help method for recursively search for a word string in the DAWG.
+	/**
+	 * Help method for recursively search for a word string in the trie.
 	 * 
 	 * @param currentNode
 	 * @param word
@@ -112,9 +100,6 @@ public class Trie {
 	public static Node getRootNode() {
 		return rootNode;
 	}
-	// public static void main (String[] args){
-	// new Dawg().initDawg("dictionary/dsso-1.52_utf8.txt");
-	// }
 
 	public static Node getNodeForWord(String word) {
 		return getNodeRecursively(rootNode, word.toCharArray(), 0);

@@ -74,9 +74,9 @@ public class BalanceOnRackPlayer extends Player {
 	@Override
 	public String getName() {
 		String className = this.getClass().getSimpleName();
-		String ratio = BalanceOnRackPlayer.VOWELS + "-"
+		String ratio = BalanceOnRackPlayer.VOWELS + "of"
 				+ Player.MAX_TILES_ON_HAND;
-		return className + "_" + ratio + "_" + PENALTY_FACTOR + "penalty";
+		return className + "_" + ratio + "ratio_" + PENALTY_FACTOR + "penalty";
 	}
 
 }

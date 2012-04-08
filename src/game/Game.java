@@ -28,6 +28,7 @@ public class Game {
 	private int turn;
 
 	private int nrOfPasses;
+	private boolean player1StartsPlaying;
 
 	/**
 	 * Start a new game. Parameter deciding which player should start.
@@ -43,7 +44,8 @@ public class Game {
 		giveTilesToPlayer(player1);
 		giveTilesToPlayer(player2);
 		this.nrOfPasses = 0;
-		this.turn = (player1StartsPlaying) ? -1 : 1;
+		setPlayer1StartsPlaying(player1StartsPlaying);
+		this.turn = (isPlayer1StartsPlaying()) ? -1 : 1;
 	}
 
 	/**
@@ -104,7 +106,7 @@ public class Game {
 		String player1String = player1.getClass().getSimpleName();
 		String player2String = player2.getClass().getSimpleName();
 		GameResult result = new GameResult(player1String, score1,
-				player2String, score2);
+				player2String, score2, player1StartsPlaying);
 		
 
 		//		
@@ -179,7 +181,7 @@ public class Game {
 			boolean isTransposed = move.isTransposed();
 
 			if (!sq.containsLetter()) {
-				char squareInfo = board.placeTile(letter, sq, isTransposed);
+				board.placeTile(letter, sq, isTransposed);
 
 				player.removeTileFromHand(letter);
 				wn = wn.getPrevious();
@@ -221,7 +223,7 @@ public class Game {
 
 	public static void main(String[] args) {
 		Alphabet.initializeAlphabet(GAME_LANGUAGE);
-		Trie.initDawg("dictionary/dsso-1.52_utf8.txt");
+		Trie.initTrie("dictionary/dsso-1.52_utf8.txt");
 		
 		Board boardType = new Board();
 		Player player1Type = new BalanceOnRackPlayer(boardType);
@@ -285,4 +287,13 @@ public class Game {
 	public void setTurn(int turn) {
 		this.turn = turn;
 	}
+
+	protected boolean isPlayer1StartsPlaying() {
+		return player1StartsPlaying;
+	}
+
+	protected void setPlayer1StartsPlaying(boolean player1StartsPlaying) {
+		this.player1StartsPlaying = player1StartsPlaying;
+	}
+
 }

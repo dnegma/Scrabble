@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import player.BalanceOnRackPlayer;
-import player.BonusSquarePlayer;
+import player.HighScoreWordPlayer;
 import player.Player;
 import board.Board;
 import dictionary.Alphabet;
@@ -61,15 +61,16 @@ public class GameTests extends Game {
 		String player2String = player2.getClass().getSimpleName();
 
 		GameResult result = new GameResult(player1String, score1,
-				player2String, score2);
+				player2String, score2, isPlayer1StartsPlaying());
 
 		return result;
 
 	}
 
 	public static void main(String[] args) {
+		long startTime = System.currentTimeMillis();
 		Alphabet.initializeAlphabet(GAME_LANGUAGE);
-		Trie.initDawg("dictionary/dsso-1.52_utf8.txt");
+		Trie.initTrie("dictionary/dsso-1.52_utf8.txt");
 
 		List<GameResult> results = new ArrayList<GameResult>();
 		Player player1Type = null;
@@ -80,8 +81,8 @@ public class GameTests extends Game {
 
 			boardType = new Board();
 
-			player1Type = new BonusSquarePlayer(boardType);
-			player2Type = new BalanceOnRackPlayer(boardType);
+			player1Type = new BalanceOnRackPlayer(boardType);
+			player2Type = new HighScoreWordPlayer(boardType);
 
 			boolean player1StartsPlaying;
 
@@ -105,29 +106,39 @@ public class GameTests extends Game {
 		String filePath = player1Name + "_" + player2Name + "/" + NR_OF_GAMES
 				+ "/";
 
-		GameTests.printResultsToFile(results, fileName, filePath);
+		long endTime = System.currentTimeMillis();
+		int runTimeSeconds = (int) ((endTime - startTime) / 1000);
+		GameTests.printResultsToFile(results, fileName, filePath,
+				runTimeSeconds);
 	}
 
 	public static void printResultsToFile(List<GameResult> results,
-			String fileName, String filePath) {
+			String fileName, String filePath, int runTime) {
 
 		String baseFilePath = "results/";
 		String fullPathTofile = baseFilePath + filePath + fileName;
 
 		int player1wins = 0;
 		int player2wins = 0;
-
+		int player1winsStartedPlaying = 0;
+		int player2winsStartedPlaying = 0;
 		String player1Name = results.get(0).getPlayer1();
 		String player2Name = results.get(0).getPlayer2();
 
 		int draws = 0;
 
 		for (GameResult gameResult : results) {
-			if (gameResult.getWinner().equals(gameResult.getPlayer1()))
+			String winner = gameResult.getWinner();
+			boolean player1StartedPlaying = gameResult.isPlayer1Started();
+			if (winner.equals(gameResult.getPlayer1())) {
 				player1wins = player1wins + 1;
-			else if (gameResult.getWinner().equals(gameResult.getPlayer2()))
+				if (player1StartedPlaying)
+					player1winsStartedPlaying = player1winsStartedPlaying + 1;
+			} else if (winner.equals(gameResult.getPlayer2())) {
 				player2wins = player2wins + 1;
-			else 
+				if (!player1StartedPlaying)
+					player2winsStartedPlaying = player2winsStartedPlaying + 1;
+			} else
 				draws = draws + 1;
 		}
 		
@@ -135,13 +146,26 @@ public class GameTests extends Game {
 		
 		try {
 			pw = new PrintWriter(fullPathTofile);
+			pw.write("Runtime: " + runTime + " seconds");
+			pw.write("\n\n");
+			pw.write("Total wins: \n");
 			if (player1wins >= player2wins)
 				pw.write(player1Name + " " + player1wins + " - " + player2wins
 						+ " " + player2Name);
 			else if (player2wins > player1wins)
 				pw.write(player2Name + " " + player2wins + " - " + player1wins
 						+ " " + player1Name);
-			pw.write(" draw: " + draws + "\n");
+			pw.write("\n\n");
+			pw.write("Draws: " + draws);
+			pw.write("\n\n");
+			pw.write("Wins when started playing: \n");
+			if (player1winsStartedPlaying >= player2winsStartedPlaying)
+				pw.write(player1Name + " " + player1winsStartedPlaying + " - "
+						+ player2winsStartedPlaying + " " + player2Name);
+			else if (player2wins > player1wins)
+				pw.write(player2Name + " " + player2winsStartedPlaying + " - "
+						+ player1winsStartedPlaying + " " + player1Name);
+			pw.write("\n\n");
 			for (GameResult gameResult : results) {
 				pw.write(gameResult.toString() + "\n");
 			}

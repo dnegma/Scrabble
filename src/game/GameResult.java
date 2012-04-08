@@ -6,13 +6,15 @@ public class GameResult {
 	private String player2;
 	private int player1score;
 	private int player2score;
+	private boolean player1Started;
 
 	public GameResult(String player1, int player1score, String player2,
-			int player2score) {
+			int player2score, boolean player1started) {
 		this.setPlayer1(player1);
 		this.setPlayer2(player2);
 		this.setplayer1Score(player1score);
 		this.setplayer2Score(player2score);
+		this.setPlayer1Started(player1started);
 	}
 
 	public void setplayer2Score(int score) {
@@ -82,4 +84,12 @@ public class GameResult {
 		return player1;
 	}
 	
+	public boolean isPlayer1Started() {
+		return player1Started;
+	}
+
+	public void setPlayer1Started(boolean player1Started) {
+		this.player1Started = player1Started;
+	}
+
 }

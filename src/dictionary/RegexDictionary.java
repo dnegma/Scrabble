@@ -3,8 +3,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,8 +26,8 @@ public class RegexDictionary {
 	 * @param fileName Name of file to import.
 	 * @return Hashset containing all words.
 	 */
-	public static List<String> readDictionaryFromFile(String fileName) {
-		List<String> wordList = new ArrayList<String>();
+	public static HashSet<String> readDictionaryFromFile(String fileName) {
+		HashSet<String> wordList = new HashSet<String>();
 		BufferedReader br = null;
 		// 77Collections.sort(dictionary);
 		try {
@@ -42,9 +41,9 @@ public class RegexDictionary {
 				Matcher lineWithWord = regexLineStartsWithInteger.matcher(textLine);
 				
 				if (lineWithWord.matches()) {
-					String word = extractWordFromStringLine(textLine);
-					if (word != null) {						
-						wordList.add(word);
+					HashSet<String> foundWordsOnLine = extractWordFromStringLine(textLine);
+					if (!foundWordsOnLine.isEmpty()) {
+						wordList.addAll(foundWordsOnLine);
 					}
 				}								
 			}
@@ -58,7 +57,6 @@ public class RegexDictionary {
 				e.printStackTrace();
 			}
 		}
-		Collections.sort(wordList);
 		return wordList;
 	}
 	
@@ -69,13 +67,20 @@ public class RegexDictionary {
 	 * @param stringLine Line to extract word from.
 	 * @return String Extracted word.
 	 */
-	private static String extractWordFromStringLine(String stringLine) {
+	private static HashSet<String> extractWordFromStringLine(String stringLine) {
+		HashSet<String> foundWords = new HashSet<String>();
 		String[] lineSplit = stringLine.split("[<|>|:]");
 		if (!lineSplit[1].equals("egennamn")) {
-			if (!lineSplit[2].equals(""))
-				return lineSplit[2];
+			int foundWordsOnLine = lineSplit.length;
+			for (int i = 2; i < foundWordsOnLine; i++) {
+				String word = lineSplit[i];
+				if (!word.isEmpty())
+					if (!foundWords.contains(word))
+						foundWords.add(word);
+			}
+
 		}
-		return null; 
+		return foundWords;
 	}
 	
 	/**
