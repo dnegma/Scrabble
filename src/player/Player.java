@@ -22,6 +22,7 @@ public abstract class Player {
 	public Player(Board board) {		
 		this.board = board;
 		this.tilesOnHand = new ArrayList<Character>(MAX_TILES_ON_HAND);
+		resetParameters();
 	}
 
 	public List<Character> getTilesOnHand() {

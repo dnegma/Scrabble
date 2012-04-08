@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import player.BalanceOnRackPlayer;
-import player.HighScoreWordPlayer;
+import player.BonusSquareAndBalanceOnRackPlayer;
 import player.Player;
 import board.Board;
 import dictionary.Alphabet;
@@ -81,8 +81,8 @@ public class GameTests extends Game {
 
 			boardType = new Board();
 
-			player1Type = new BalanceOnRackPlayer(boardType);
-			player2Type = new HighScoreWordPlayer(boardType);
+			player1Type = new BonusSquareAndBalanceOnRackPlayer(boardType);
+			player2Type = new BalanceOnRackPlayer(boardType);
 
 			boolean player1StartsPlaying;
 
