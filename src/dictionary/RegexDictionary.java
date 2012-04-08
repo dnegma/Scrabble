@@ -1,7 +1,8 @@
 package dictionary;
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,7 +32,8 @@ public class RegexDictionary {
 		BufferedReader br = null;
 		// 77Collections.sort(dictionary);
 		try {
-			br = new BufferedReader(new FileReader(fileName));
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(
+					fileName), "UTF-8"));
 			String textLine;
 			while((textLine = br.readLine()) != null) {		
 				textLine.toLowerCase();
