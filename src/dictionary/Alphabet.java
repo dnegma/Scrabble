@@ -1,9 +1,10 @@
 package dictionary;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 
 public class Alphabet {
@@ -50,7 +51,8 @@ public class Alphabet {
 	 */
 	private static void readFromFile(String filename)
 			throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(filename));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				new FileInputStream(filename), "UTF-8"));
 
 		String line;
 		while ((line = reader.readLine()) != null) {
