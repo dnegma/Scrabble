@@ -90,7 +90,7 @@ public class ScrabbleGUI extends JFrame {
 		case Square.THREE_WORD_BONUS:
 			return Color.RED;
 		case Square.TWO_WORD_BONUS:
-			return new Color(255, 228, 225);
+			return new Color(255, 228, 150);
 		case Square.THREE_LETTER_BONUS:
 			return Color.CYAN;
 		case Square.TWO_LETTER_BONUS:
