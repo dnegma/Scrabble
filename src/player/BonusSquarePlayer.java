@@ -60,6 +60,10 @@ public class BonusSquarePlayer extends Player {
 			int wordBonus = ScoreHandler.scoreOf(partWord) * 3;
 			bonus = (wordBonus > bonus) ? wordBonus : bonus;
 			break;
+		case Square.TWO_WORD_BONUS:
+			wordBonus = ScoreHandler.scoreOf(partWord) * 2;
+			bonus = (wordBonus > bonus) ? wordBonus : bonus;
+			break;
 		}
 		return bonus;
 	}
@@ -77,6 +81,12 @@ public class BonusSquarePlayer extends Player {
 	@Override
 	public void resetParameters() {
 		this.highestBonus = 0;
+	}
+
+	@Override
+	public String getName() {
+		String className = this.getClass().getSimpleName();
+		return className;
 	}
 
 }

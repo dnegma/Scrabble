@@ -297,4 +297,5 @@ public abstract class Player {
 		System.out.println();
 	}
 
+	public abstract String getName();
 }

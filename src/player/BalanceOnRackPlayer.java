@@ -9,7 +9,9 @@ import board.Board;
 import board.Square;
 
 public class BalanceOnRackPlayer extends Player {
-	public static final float RATIO = 5f / 8f;
+	public static final float VOWELS = 3;
+	public static final float RATIO = (float) VOWELS
+			/ (float) Player.MAX_TILES_ON_HAND;
 	private HashSet<Character> vowels = new HashSet<Character>();
 	private Move nextMove;
 	private float ratioDifference;
@@ -65,6 +67,14 @@ public class BalanceOnRackPlayer extends Player {
 	@Override
 	public void resetParameters() {
 		this.ratioDifference = tilesOnHand.size();
+	}
+
+	@Override
+	public String getName() {
+		String className = this.getClass().getSimpleName();
+		String ratio = BalanceOnRackPlayer.VOWELS + "-"
+				+ Player.MAX_TILES_ON_HAND;
+		return className + "_" + ratio;
 	}
 
 }

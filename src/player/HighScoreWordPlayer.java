@@ -44,4 +44,11 @@ public class HighScoreWordPlayer extends Player {
 
 	}
 
+	@Override
+	public String getName() {
+		String className = this.getClass().getSimpleName();
+
+		return className;
+	}
+
 }
