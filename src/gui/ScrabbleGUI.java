@@ -16,6 +16,11 @@ import board.Board;
 import board.Square;
 
 public class ScrabbleGUI extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static final int SQUARE_SIZE = 10;
 
 	Board board;
