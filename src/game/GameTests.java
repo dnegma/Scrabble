@@ -18,7 +18,7 @@ import dictionary.Trie;
 
 public class GameTests extends Game {
 
-	private static int NR_OF_GAMES = 100;
+	private static int NR_OF_GAMES = 1000;
 
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
@@ -171,7 +171,7 @@ public class GameTests extends Game {
 		
 		try {
 			pw = new PrintWriter(fullPathTofile);
-			pw.write("Runtime: " + runTime + " seconds");
+			pw.write("Runtime: " + runTime + " seconds\n");
 			pw.write("Dictionary size: " + Trie.getDictionarySize() + " words.");
 			pw.write("\n\n");
 			pw.write("Total wins: \n");
