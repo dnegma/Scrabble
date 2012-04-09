@@ -8,8 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import player.BalanceOnRackPlayer;
-import player.BonusSquareAndBalanceOnRackPlayer;
+import player.BonusSquarePlayer;
+import player.HighScoreWordPlayer;
 import player.Player;
 import board.Board;
 import dictionary.Alphabet;
@@ -17,8 +17,52 @@ import dictionary.Trie;
 
 public class GameTests extends Game {
 
-	private static int NR_OF_GAMES = 100;
+	private static int NR_OF_GAMES = 1000;
 
+	public static void main(String[] args) {
+		long startTime = System.currentTimeMillis();
+		Alphabet.initializeAlphabet(GAME_LANGUAGE);
+		Trie.initTrie("dictionary/dsso-1.52_utf8.txt");
+		
+		List<GameResult> results = new ArrayList<GameResult>();
+		Player player1Type = null;
+		Player player2Type = null;
+		Board boardType;
+		
+		for (int i = 0; i < NR_OF_GAMES; i++) {
+			
+			boardType = new Board();
+			
+			player1Type = new BonusSquarePlayer(boardType);
+			player2Type = new HighScoreWordPlayer(boardType);
+			
+			boolean player1StartsPlaying;
+			
+			if (i > (NR_OF_GAMES / 2))
+				player1StartsPlaying = true;
+			else
+				player1StartsPlaying = false;
+			
+			GameResult result = new GameTests(player1StartsPlaying,
+					player1Type, player2Type, boardType).play();
+			results.add(result);
+		}
+		String player1Name = player1Type.getClass().getSimpleName();
+		String player2Name = player2Type.getClass().getSimpleName();
+		Date date = Calendar.getInstance().getTime();
+		String currentTime = DateFormat.getTimeInstance().format(date);
+		String currentDate = DateFormat.getDateInstance().format(date);
+		String dateTime = currentDate + "_" + currentTime;
+		String fileName = player1Type.getName() + "_" + player2Type.getName()
+		+ "_" + NR_OF_GAMES + "_" + dateTime + ".txt";
+		String filePath = player1Name + "_" + player2Name + "/" + NR_OF_GAMES
+		+ "/";
+		
+		long endTime = System.currentTimeMillis();
+		int runTimeSeconds = (int) ((endTime - startTime) / 1000);
+		GameTests.printResultsToFile(results, fileName, filePath,
+				runTimeSeconds);
+	}
 	/**
 	 * Start a new game. Parameter deciding which player should start.
 	 * 
@@ -67,50 +111,6 @@ public class GameTests extends Game {
 
 	}
 
-	public static void main(String[] args) {
-		long startTime = System.currentTimeMillis();
-		Alphabet.initializeAlphabet(GAME_LANGUAGE);
-		Trie.initTrie("dictionary/dsso-1.52_utf8.txt");
-		
-		List<GameResult> results = new ArrayList<GameResult>();
-		Player player1Type = null;
-		Player player2Type = null;
-		Board boardType;
-
-		for (int i = 0; i < NR_OF_GAMES; i++) {
-
-			boardType = new Board();
-
-			player1Type = new BonusSquareAndBalanceOnRackPlayer(boardType);
-			player2Type = new BalanceOnRackPlayer(boardType);
-
-			boolean player1StartsPlaying;
-
-			if (i > (NR_OF_GAMES / 2))
-				player1StartsPlaying = true;
-			else
-				player1StartsPlaying = false;
-
-			GameResult result = new GameTests(player1StartsPlaying,
-					player1Type, player2Type, boardType).play();
-			results.add(result);
-		}
-		String player1Name = player1Type.getClass().getSimpleName();
-		String player2Name = player2Type.getClass().getSimpleName();
-		Date date = Calendar.getInstance().getTime();
-		String currentTime = DateFormat.getTimeInstance().format(date);
-		String currentDate = DateFormat.getDateInstance().format(date);
-		String dateTime = currentDate + "_" + currentTime;
-		String fileName = player1Type.getName() + "_" + player2Type.getName()
-				+ "_" + NR_OF_GAMES + "_" + dateTime + ".txt";
-		String filePath = player1Name + "_" + player2Name + "/" + NR_OF_GAMES
-				+ "/";
-
-		long endTime = System.currentTimeMillis();
-		int runTimeSeconds = (int) ((endTime - startTime) / 1000);
-		GameTests.printResultsToFile(results, fileName, filePath,
-				runTimeSeconds);
-	}
 
 	public static void printResultsToFile(List<GameResult> results,
 			String fileName, String filePath, int runTime) {
@@ -147,6 +147,7 @@ public class GameTests extends Game {
 		try {
 			pw = new PrintWriter(fullPathTofile);
 			pw.write("Runtime: " + runTime + " seconds");
+			pw.write("Dictionary size: " + Trie.getDictionarySize() + " words.");
 			pw.write("\n\n");
 			pw.write("Total wins: \n");
 			if (player1wins >= player2wins)

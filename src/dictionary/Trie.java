@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Hashtable;
 
 public class Trie {
+	private static int dictionarySize;
 
 	private static Node rootNode = new Node('#');
 
@@ -40,7 +41,8 @@ public class Trie {
 		long endTime = System.currentTimeMillis();
 		System.out.println("Trie build time: " + (endTime - startTime)
 				+ " milliseconds.");
-		System.out.println(dictionary.size() + " words in dictionary.");
+		dictionarySize = dictionary.size();
+		System.out.println(dictionarySize + " words in dictionary.");
 	}
 
 	/**
@@ -172,5 +174,9 @@ public class Trie {
 		Node nextNode = children.get(letter);
 
 		return getNodeRecursively(nextNode, word, letterIndex + 1);
+	}
+
+	public static int getDictionarySize() {
+		return dictionarySize;
 	}
 }
