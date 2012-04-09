@@ -72,11 +72,9 @@ public class Board {
 	 * @param transposed
 	 * @return square info
 	 */
-	public char placeTile(char letter, Square square, boolean transposed) {
-		char previousLetter = square.getContent();
+	public void placeTile(char letter, Square square, boolean transposed) {
 		square.setAnchor(false);
 		square.setContent(letter, transposed);
-		return previousLetter;
 	}
 
 	public boolean isOutsideBoardLimits(Square square) {

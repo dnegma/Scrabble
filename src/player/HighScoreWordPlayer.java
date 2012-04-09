@@ -21,7 +21,9 @@ public class HighScoreWordPlayer extends Player {
 		int lastLetter = partWord.length() - 1;
 		if (!endSquare.crossCheckContains(partWord.charAt(lastLetter)))
 			return;
-		if (ScoreHandler.scoreOf(partWord) > ScoreHandler.scoreOf(nextMove)) {
+		if (nextMove == null
+				|| ScoreHandler.scoreOf(partWord) > ScoreHandler
+						.scoreOf(nextMove.getWord())) {
 			this.setNextMove(new Move(partWord.toCharArray(), wn, endSquare,
 					transposed));
 		}
@@ -42,6 +44,13 @@ public class HighScoreWordPlayer extends Player {
 	public void resetParameters() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String getName() {
+		String className = this.getClass().getSimpleName();
+
+		return className;
 	}
 
 }

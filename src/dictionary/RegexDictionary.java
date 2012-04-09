@@ -3,8 +3,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,18 +16,18 @@ import java.util.regex.Pattern;
  * @author Diana Gren, Frej Connolly. 
  */
 public class RegexDictionary {
-	private static final String WORDLINEREGEX = "\\d+r\\d+<\\w+>[\\wåäö]+:(\\w*\\W*)*";
+	private static final String WORDLINEREGEX = "\\d+r\\d+<\\w+>[\\wåäöéèêçñ]+:(\\w*\\W*)*";
 
 	private static List<String> dictionary;
-	
+
 	/**
 	 * Read file and import words into hashset.
 	 * 
 	 * @param fileName Name of file to import.
 	 * @return Hashset containing all words.
 	 */
-	public static List<String> readDictionaryFromFile(String fileName) {
-		List<String> wordList = new ArrayList<String>();
+	public static HashSet<String> readDictionaryFromFile(String fileName) {
+		HashSet<String> wordList = new HashSet<String>();
 		BufferedReader br = null;
 		// 77Collections.sort(dictionary);
 		try {
@@ -40,11 +39,11 @@ public class RegexDictionary {
 				Pattern regexLineStartsWithInteger = Pattern
 						.compile(WORDLINEREGEX);
 				Matcher lineWithWord = regexLineStartsWithInteger.matcher(textLine);
-				
+
 				if (lineWithWord.matches()) {
-					String word = extractWordFromStringLine(textLine);
-					if (word != null) {						
-						wordList.add(word);
+					HashSet<String> foundWordsOnLine = extractWordFromStringLine(textLine);
+					if (!foundWordsOnLine.isEmpty()) {
+						wordList.addAll(foundWordsOnLine);
 					}
 				}								
 			}
@@ -58,10 +57,9 @@ public class RegexDictionary {
 				e.printStackTrace();
 			}
 		}
-		Collections.sort(wordList);
 		return wordList;
 	}
-	
+
 	/**
 	 * Extract a word in basic form from an input line received when reading the
 	 * file.
@@ -69,15 +67,44 @@ public class RegexDictionary {
 	 * @param stringLine Line to extract word from.
 	 * @return String Extracted word.
 	 */
-	private static String extractWordFromStringLine(String stringLine) {
+	private static HashSet<String> extractWordFromStringLine(String stringLine) {
+		HashSet<String> foundWords = new HashSet<String>();
 		String[] lineSplit = stringLine.split("[<|>|:]");
 		if (!lineSplit[1].equals("egennamn")) {
-			if (!lineSplit[2].equals(""))
-				return lineSplit[2];
+			int foundWordsOnLine = lineSplit.length;
+			for (int i = 2; i < foundWordsOnLine; i++) {
+				String word = lineSplit[i];
+				if (!word.isEmpty()) {
+					String addWord = exchangeSpecialCharacters(word);
+					foundWords.add(addWord);
+				}
+			}
+
 		}
-		return null; 
+		return foundWords;
 	}
-	
+
+	private static String exchangeSpecialCharacters(String word) {
+		char[] wordArray = word.toCharArray();
+		char[] e = new char[] { 'é', 'è', 'ê' };
+		char c = 'ç';
+		char n = 'ñ';
+
+		if (word.equals("garçon"))
+			System.out.println();
+		for (int i = 0; i < wordArray.length; i++) {
+			for (char character : e) {
+				if (wordArray[i] == character) {
+					wordArray[i] = 'e';
+				}
+			}
+			if (wordArray[i] == c)
+				wordArray[i] = 'c';
+			if (wordArray[i] == n)
+				wordArray[i] = 'n';
+		}
+		return new String(wordArray);
+	}
 	/**
 	 * Print out all words stored in dictionary. Each word on new line.
 	 */

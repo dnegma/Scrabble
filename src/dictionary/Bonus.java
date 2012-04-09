@@ -24,13 +24,6 @@ public class Bonus {
 		} catch (IOException e) {
 			System.err.println("IOException: Could not read from file!");	
 		}
-		/*
-		 * for (Square key : bonuses.keySet()) System.out.println(key.getRow() +
-		 * " " + key.getColumn() + " = " + bonuses.get(key));
-		 * System.out.println("bonusen för (1, 3) är = " + getBonus(1, 3));
-		 * System.out.println("bonusen för (0, 0) är = " + getBonus(0, 0));
-		 * System.out.println("bonusen för (1, 5) är = " + getBonus(1, 5));
-		 */
 	}
 
 	/**

@@ -9,14 +9,14 @@ import java.util.HashSet;
 import board.Board;
 import board.Square;
 
-public class BalanceOnRackPlayer extends Player {
-	public static final int VOWELS = 2;
-	public static final int PENALTY_FACTOR = 2;
+public class BalanceOnRackWithZPowerPlayer extends Player {
+	public static final int VOWELS = 3;
+	public static final int PENALTY_FACTOR = 1;
 
 	private HashSet<Character> vowels = new HashSet<Character>();
 	private Move nextMove;
 	private int highestScore;
-	public BalanceOnRackPlayer(Board board) {
+	public BalanceOnRackWithZPowerPlayer(Board board) {
 		super(board);
 		initVowels();
 		resetParameters();
@@ -46,9 +46,13 @@ public class BalanceOnRackPlayer extends Player {
 
 		int nrVowels = 0;
 		int nrConsonants = 0;
+		int zPenalty = 10;
 
-		for (char c : tilesOnHand) {
-			if (vowels.contains(c))
+		boolean zTileLeftOnHand = false;
+		for (char tile : tilesOnHand) {
+			if (tile == 'Z')
+				zTileLeftOnHand = true;
+			if (vowels.contains(tile))
 				nrVowels = nrVowels + 1;
 			else
 				nrConsonants = nrConsonants + 1;
@@ -58,6 +62,8 @@ public class BalanceOnRackPlayer extends Player {
 
 		Move move = new Move(partWord.toCharArray(), lc, endSquare, transposed);
 		int score = ScoreHandler.scoreOf(move) - penalty;
+		if (zTileLeftOnHand)
+			score = score - zPenalty;
 
 		if (score > highestScore) {
 			setNextMove(move);
@@ -74,7 +80,7 @@ public class BalanceOnRackPlayer extends Player {
 	@Override
 	public String getName() {
 		String className = this.getClass().getSimpleName();
-		String ratio = BalanceOnRackPlayer.VOWELS + "of"
+		String ratio = BalanceOnRackWithZPowerPlayer.VOWELS + "of"
 				+ Player.MAX_TILES_ON_HAND;
 		return className + "_" + ratio + "ratio_" + PENALTY_FACTOR + "penalty";
 	}

@@ -5,14 +5,13 @@ import game.Move;
 import game.ScoreHandler;
 import board.Board;
 import board.Square;
-import dictionary.Alphabet;
 
-public class BonusSquarePlayer extends Player {
-
+public class BonusSquareOnlyPlayer extends Player{
 	private Move nextMove;
 	private int highestBonus;
-
-	public BonusSquarePlayer(Board board) {
+	private int highestScore;
+	
+	public BonusSquareOnlyPlayer(Board board) {
 		super(board);
 	}
 
@@ -26,36 +25,33 @@ public class BonusSquarePlayer extends Player {
 		int bonus = 0;
 		while (letterIndex >= 0 && square != null) {
 			char content = square.getContent();
-			char letter = partWord.charAt(letterIndex);
-			bonus = calculateHighestBonus(partWord, bonus, content, letter);
+			bonus = calculateHighestBonus(content, bonus);
 			square = square.getNextLeft(transposed);
 		}
 
+		Move move = new Move(partWord.toCharArray(), lc, endSquare, transposed);
 		if (bonus > highestBonus || nextMove == null) {
-			setNextMove(partWord, lc, endSquare, transposed);
+			setNextMove(move);
 			setHighestBonus(bonus);
+		} else if (bonus == 0 && highestBonus == 0) {
+			int score = ScoreHandler.scoreOf(move);
+			if (score > highestScore) {
+				setNextMove(move);
+				highestScore = score;
+			}
 		}
 	}
 
-	private int calculateHighestBonus(String partWord, int bonus, char content,
-			char letter) {
+	private int calculateHighestBonus(char content, int bonus) {
 		switch (content) {
 		case Square.THREE_LETTER_BONUS:
-			int letterBonus = Alphabet.getLetterPoint(letter) * 3;
-			bonus = (letterBonus > bonus) ? letterBonus : bonus;
-			break;
+			return (bonus > 3) ? bonus : 3;
 		case Square.TWO_LETTER_BONUS:
-			letterBonus = Alphabet.getLetterPoint(letter) * 2;
-			bonus = (letterBonus > bonus) ? letterBonus : bonus;
-			break;
+			return (bonus > 2) ? bonus : 2;
 		case Square.THREE_WORD_BONUS:
-			int wordBonus = ScoreHandler.scoreOf(partWord) * 3;
-			bonus = (wordBonus > bonus) ? wordBonus : bonus;
-			break;
+			return (bonus > 6) ? bonus : 6;
 		case Square.TWO_WORD_BONUS:
-			wordBonus = ScoreHandler.scoreOf(partWord) * 2;
-			bonus = (wordBonus > bonus) ? wordBonus : bonus;
-			break;
+			return (bonus > 4) ? bonus : 4;
 		}
 		return bonus;
 	}
@@ -81,6 +77,7 @@ public class BonusSquarePlayer extends Player {
 	@Override
 	public void resetParameters() {
 		this.highestBonus = 0;
+		this.highestScore = 0;
 	}
 
 	@Override
@@ -88,5 +85,4 @@ public class BonusSquarePlayer extends Player {
 		String className = this.getClass().getSimpleName();
 		return className;
 	}
-
 }

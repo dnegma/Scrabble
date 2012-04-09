@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import player.BonusSquarePlayer;
+import player.BalanceOnRackPlayer;
 import player.HighScoreWordPlayer;
 import player.Player;
 import board.Board;
@@ -17,7 +17,7 @@ import dictionary.Trie;
 
 
 public class Game {
-	private static final String GAME_LANGUAGE = "swedish";
+	public static final String GAME_LANGUAGE = "swedish";
 
 	ScrabbleGUI gui;
 	private static Board board;
@@ -26,26 +26,26 @@ public class Game {
 	private static Player player1;	
 	private static Player player2;
 	private int turn;
+
 	private int nrOfPasses;
+	private boolean player1StartsPlaying;
 
 	/**
 	 * Start a new game. Parameter deciding which player should start.
 	 * 
 	 * @param player1StartsPlaying
 	 */
-	public Game(boolean player1StartsPlaying) {
-		board = new Board();
-		player1 = new HighScoreWordPlayer(board);
-		player2 = new BonusSquarePlayer(board);
-		Alphabet.initializeAlphabet(GAME_LANGUAGE);
-		Trie.initDawg("dictionary/dsso-1.52_utf8.txt");
+	public Game(boolean player1StartsPlaying, Player player1Type,
+			Player player2Type, Board boardType) {
+		board = boardType;
+		player1 = player1Type;
+		player2 = player2Type;
 		tilesInBag = initTileBag();
 		giveTilesToPlayer(player1);
 		giveTilesToPlayer(player2);
 		this.nrOfPasses = 0;
-		this.turn = (player1StartsPlaying) ? -1 : 1;
-		gui = new ScrabbleGUI(board, player1, player2);
-		play();
+		setPlayer1StartsPlaying(player1StartsPlaying);
+		this.turn = (isPlayer1StartsPlaying()) ? -1 : 1;
 	}
 
 	/**
@@ -70,7 +70,9 @@ public class Game {
 	 * Play the game. Alternate between the two players and print the board's
 	 * current state between each move.
 	 */
-	public void play() {
+	public GameResult play() {
+		setGUI(new ScrabbleGUI(board, player1, player2));
+
 		while (!gameOver()) {
 			Player player = (turn < 0) ? player1 : player2;
 			boolean successfulMove = playTurn(player);
@@ -82,34 +84,42 @@ public class Game {
 			player.printRack();
 			gui.updateBoard();
 			gui.updateScores(player, turn);
+
 			turn = -turn;
+			System.out.println("Total score: " + player.getScore());
 			board.printBoard();
 			System.out.println();			
 			printTilesInBag();
 			System.out.println("----------------------------------");
 			System.out.println();
 		}
-		int score1, score2;
-		score1 = player1.getScore();
-		score2 = player2.getScore();
+
 		for (Character letter : player1.getTilesOnHand()) {
-			score1 = score1 - Alphabet.getLetterPoint(letter);
+			player1.removePointsFromScore(Alphabet.getLetterPoint(letter));
 		}
 		for (Character letter : player2.getTilesOnHand()) {
-			score2 = score2 - Alphabet.getLetterPoint(letter);
+			player2.removePointsFromScore(Alphabet.getLetterPoint(letter));
 		}
 
-		if (score1 > score2)
-			System.out.println("Player 1 wins! " + score1 + " - " + score2);
-		else if (score2 == score1)
-			System.out.println("Draw! " + score1 + " - " + score2);
-		else
-			System.out.println("Player 2 wins! " + score2 + " - " + score1);
+		GameResult result = new GameResult(player1, player2, player1StartsPlaying);
+		
 
-		System.out.println("Game over!");
+		//		
+		// if (score1 > score2){
+		// result = new GameResult(player1String, player2String, score1,
+		// score2);
+		// // System.out.println("Player 1 wins! " + score1 + " - " + score2);
+		// else if (score2 == score1)
+		// new GameResult(player1)
+		// // System.out.println("Draw! " + score1 + " - " + score2);
+		// else
+		// new Game
+		// // System.out.println("Player 2 wins! " + score2 + " - " + score1);
+
+		return result;
 	}
 
-	private boolean playTurn(Player player) {
+	protected boolean playTurn(Player player) {
 		Move move = player.generateMove();
 
 		if (move == null)
@@ -117,15 +127,16 @@ public class Game {
 		// Check if word fits onto board.
 
 		int points = makeMove(move, player);
-		System.out.println("Score: " + points);
+		// System.out.println("Score: " + points);
 		player.addPointsToScore(points);
 		if (player.placedAllTiles())
 			player.addPointsToScore(50);
-		System.out.println("Total score: " + player.getScore());
+		// System.out.println("Total score: " + player.getScore());
 		giveTilesToPlayer(player);
-		System.out.println(move.getWord());
+		// System.out.println(move.getWord());
 		return true;
 	}
+
 	/**
 	 * Game's over when there's no tiles left to pickup and one player have placed out all their 
 	 * tiles OR both players have passed 2 times each in a row.	 
@@ -153,90 +164,29 @@ public class Game {
 	 * @return
 	 */
 	public int makeMove(Move move, Player player) {
-		int wordScore = 0;
-		int wordBonus = 1;
-		int adjacentWordsBonus = 0;
+
 		LetterChain wn = move.getLetterChain();
 
+		int score = ScoreHandler.scoreOf(move);
 		int letterIndex = 0;
 		Square sq = move.getEndSquare();
 		while (wn.getPrevious() != null && sq.getContent() != Square.WALL) {
 
-			char letter = wn.letter;
+			char letter = wn.getLetter();
 			boolean isTransposed = move.isTransposed();
 
 			if (!sq.containsLetter()) {
-				char squareInfo = board.placeTile(letter, sq, isTransposed);
-				wordScore = wordScore + getLetterBonus(squareInfo, letter);
-				wordBonus = wordBonus * getWordBonus(squareInfo, letter);
-				
-				// Calculate adjacent word
-				// Tiles going down
-				boolean adjacentWord = false;
-				Square adjacentSquareDown = sq.getNextDown(isTransposed);
-				while (adjacentSquareDown.containsLetter()) {
-					char adjacentLetter = adjacentSquareDown.getContent();
-					int adjacentLetterPoint = Alphabet
-							.getLetterPoint(adjacentLetter);
-					adjacentWordsBonus += adjacentLetterPoint;
-					// Get next tile down
-					adjacentSquareDown = adjacentSquareDown
-							.getNextDown(isTransposed);
-					adjacentWord = true;
-				}
-				// Tiles going up
-				Square adjacentSquareUp = sq.getNextUp(isTransposed);
-				while (adjacentSquareUp.containsLetter()) {
-					char adjacentLetter = adjacentSquareUp.getContent();
-					int adjacentLetterPoint = Alphabet
-							.getLetterPoint(adjacentLetter);
-					adjacentWordsBonus += adjacentLetterPoint;
-					// Get next tile up
-					adjacentSquareUp = adjacentSquareUp.getNextUp(isTransposed);
-					adjacentWord = true;
-				}
-				if (adjacentWord) {
-					// Add square letter point to adjacent word
-					adjacentWordsBonus += getLetterBonus(squareInfo, letter);
-					// if there's a bonus, add it to the adjacent word
-					adjacentWordsBonus = adjacentWordsBonus
-							* getWordBonus(squareInfo, letter);
-				}
+				board.placeTile(letter, sq, isTransposed);
+
 				player.removeTileFromHand(letter);
 				wn = wn.getPrevious();
 			} else {
-				// Add point from existing letter on square.
-				wordScore = wordScore + Alphabet.getLetterPoint(letter);
 				wn = wn.getPrevious();
 			}
 			letterIndex = letterIndex + 1;
 			sq = sq.getNextLeft(move.isTransposed());
 		}
-		return (wordScore * wordBonus) + adjacentWordsBonus;
-	}
-
-
-	private int getWordBonus(char squareInfo, char letter) {
-		switch (squareInfo) {
-			case Square.THREE_WORD_BONUS:
-				return 3;
-			case Square.TWO_WORD_BONUS:
-				return 2;
-			default:
-				return 1;
-		}
-	}
-
-	private int getLetterBonus(char squareInfo, char letter) {
-		int letterScore = Alphabet.getLetterPoint(letter);
-		switch (squareInfo) {
-			case Square.THREE_LETTER_BONUS:
-				return letterScore * 3;
-			case Square.TWO_LETTER_BONUS:
-				return letterScore * 2;
-			default:
-				return letterScore;
-		}
+		return score;
 	}
 
 
@@ -267,7 +217,17 @@ public class Game {
 	}
 
 	public static void main(String[] args) {
-		new Game(false);
+		Alphabet.initializeAlphabet(GAME_LANGUAGE);
+		Trie.initTrie("dictionary/dsso-1.52_utf8.txt");
+		
+		Board boardType = new Board();
+		Player player1Type = new BalanceOnRackPlayer(boardType);
+		Player player2Type = new HighScoreWordPlayer(boardType);
+		boolean player1StartsPlaying = true;
+
+		GameResult result = new Game(player1StartsPlaying, player1Type,
+				player2Type, boardType).play();
+		result.printResult();
 	}
 
 	/**
@@ -302,4 +262,33 @@ public class Game {
 		}
 		System.out.println();
 	}
+	
+	protected void setGUI(ScrabbleGUI gui) {
+		this.gui = gui;
+	}
+
+	protected Player getPlayer1() {
+		return player1;
+	}
+
+	protected Player getPlayer2() {
+		return player2;
+	}
+
+	public int getTurn() {
+		return turn;
+	}
+
+	public void setTurn(int turn) {
+		this.turn = turn;
+	}
+
+	protected boolean isPlayer1StartsPlaying() {
+		return player1StartsPlaying;
+	}
+
+	protected void setPlayer1StartsPlaying(boolean player1StartsPlaying) {
+		this.player1StartsPlaying = player1StartsPlaying;
+	}
+
 }

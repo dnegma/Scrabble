@@ -118,11 +118,11 @@ public class Square {
 		Square upSquare = getNextUp(transposed);
 
 		if (downSquare != null && downSquare.containsLetter()) {
-			wordDownwards = verticalWord("", downSquare, true, transposed);
+			wordDownwards = verticalWord(downSquare, true, transposed);
 		}
 
 		if (upSquare != null && upSquare.containsLetter()) {
-			wordUpwards = verticalWord("", upSquare, false, transposed);
+			wordUpwards = verticalWord(upSquare, false, transposed);
 		}
 
 		crosschecks.clear();
@@ -155,20 +155,19 @@ public class Square {
 	 * @param wordDown
 	 * @return
 	 */
-	private String verticalWord(String word, Square square, boolean wordDown,
+	public String verticalWord(Square square, boolean wordDown,
 			boolean transposed) {
 		if (square == null || !square.containsLetter())
-			return word;
+			return "";
 
 		char letter = square.getContent();
-		if (transposed) {
-		}
+
 		if (!wordDown) {
-			return verticalWord(word, square.getNextUp(transposed), wordDown,
+			return verticalWord(square.getNextUp(transposed), wordDown,
 					transposed) + letter;
 		} else {
 			return letter
-					+ verticalWord(word, square.getNextDown(transposed),
+					+ verticalWord(square.getNextDown(transposed),
 							wordDown, transposed);
 		}
 	}
