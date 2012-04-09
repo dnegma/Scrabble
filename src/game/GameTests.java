@@ -17,7 +17,7 @@ import dictionary.Trie;
 
 public class GameTests extends Game {
 
-	private static int NR_OF_GAMES = 1000;
+	private static int NR_OF_GAMES = 100;
 
 	/**
 	 * Start a new game. Parameter deciding which player should start.
@@ -71,7 +71,7 @@ public class GameTests extends Game {
 		long startTime = System.currentTimeMillis();
 		Alphabet.initializeAlphabet(GAME_LANGUAGE);
 		Trie.initTrie("dictionary/dsso-1.52_utf8.txt");
-
+		
 		List<GameResult> results = new ArrayList<GameResult>();
 		Player player1Type = null;
 		Player player2Type = null;

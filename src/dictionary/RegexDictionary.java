@@ -16,10 +16,10 @@ import java.util.regex.Pattern;
  * @author Diana Gren, Frej Connolly. 
  */
 public class RegexDictionary {
-	private static final String WORDLINEREGEX = "\\d+r\\d+<\\w+>[\\wåäö]+:(\\w*\\W*)*";
+	private static final String WORDLINEREGEX = "\\d+r\\d+<\\w+>[\\wåäöéèêçñ]+:(\\w*\\W*)*";
 
 	private static List<String> dictionary;
-	
+
 	/**
 	 * Read file and import words into hashset.
 	 * 
@@ -39,7 +39,7 @@ public class RegexDictionary {
 				Pattern regexLineStartsWithInteger = Pattern
 						.compile(WORDLINEREGEX);
 				Matcher lineWithWord = regexLineStartsWithInteger.matcher(textLine);
-				
+
 				if (lineWithWord.matches()) {
 					HashSet<String> foundWordsOnLine = extractWordFromStringLine(textLine);
 					if (!foundWordsOnLine.isEmpty()) {
@@ -59,7 +59,7 @@ public class RegexDictionary {
 		}
 		return wordList;
 	}
-	
+
 	/**
 	 * Extract a word in basic form from an input line received when reading the
 	 * file.
@@ -74,15 +74,37 @@ public class RegexDictionary {
 			int foundWordsOnLine = lineSplit.length;
 			for (int i = 2; i < foundWordsOnLine; i++) {
 				String word = lineSplit[i];
-				if (!word.isEmpty())
-					if (!foundWords.contains(word))
-						foundWords.add(word);
+				if (!word.isEmpty()) {
+					String addWord = exchangeSpecialCharacters(word);
+					foundWords.add(addWord);
+				}
 			}
 
 		}
 		return foundWords;
 	}
-	
+
+	private static String exchangeSpecialCharacters(String word) {
+		char[] wordArray = word.toCharArray();
+		char[] e = new char[] { 'é', 'è', 'ê' };
+		char c = 'ç';
+		char n = 'ñ';
+
+		if (word.equals("garçon"))
+			System.out.println();
+		for (int i = 0; i < wordArray.length; i++) {
+			for (char character : e) {
+				if (wordArray[i] == character) {
+					wordArray[i] = 'e';
+				}
+			}
+			if (wordArray[i] == c)
+				wordArray[i] = 'c';
+			if (wordArray[i] == n)
+				wordArray[i] = 'n';
+		}
+		return new String(wordArray);
+	}
 	/**
 	 * Print out all words stored in dictionary. Each word on new line.
 	 */

@@ -1,5 +1,10 @@
 package dictionary;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashSet;
 import java.util.Hashtable;
 
@@ -10,29 +15,80 @@ public class Trie {
 	/**
 	 * Create a Trie from text file with list of words.
 	 * 
-	 * @param String
-	 *            fileName
+	 * @param String fileName
 	 */
 	public static void initTrie(String fileName) {
 		long startTime = System.currentTimeMillis();
 		HashSet<String> dictionary = RegexDictionary
 				.readDictionaryFromFile(fileName);
+		long endTime = System.currentTimeMillis();
+		System.out.println("Regex run time: " + (endTime - startTime)
+				+ " milliseconds.");
+		addWordsToTrie(dictionary);
+	}
 
+	public static void initTrie(HashSet<String> dictionary) {
+		addWordsToTrie(dictionary);
+	}
+
+	private static void addWordsToTrie(HashSet<String> dictionary) {
+		long startTime = System.currentTimeMillis();
 		for (String word : dictionary) {
 			char[] wordarray = word.toUpperCase().toCharArray();
 			addWordToTrie(rootNode, wordarray, 0);
-		} 
+		}
 		long endTime = System.currentTimeMillis();
 		System.out.println("Trie build time: " + (endTime - startTime)
 				+ " milliseconds.");
-		System.out.println(dictionary.size() + " words in dictionary "
+		System.out.println(dictionary.size() + " words in dictionary.");
+	}
+
+	/**
+	 * Serialize the dictionary saved as HashSet to hard disk.
+	 * 
+	 * @param fileName
+	 */
+	public static void saveDictionaryToDisk(String fileName) {
+
+		HashSet<String> dictionary = RegexDictionary
+				.readDictionaryFromFile(fileName);
+		try {
+			FileOutputStream fileOut = new FileOutputStream(fileName + ".ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(dictionary);
+			out.close();
+			fileOut.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
+		System.out.println("Saved dictionary to disk. " + dictionary.size()
+				+ " words in dictionary "
 				+ fileName);
+	}
+
+	public static HashSet<String> loadDictionaryFromDisk(String fileName) {
+		HashSet<String> dictionary = new HashSet<String>();
+		try {
+			FileInputStream fileIn = new FileInputStream(fileName + ".ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			dictionary = (HashSet<String>) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+			return null;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return dictionary;
 	}
 
 	/**
 	 * Add a word to the Trie. Creates new Node objects for letters not found.
 	 * 
-	 * @param Node currentNode
+	 * @param Node
+	 *            currentNode
 	 * @param char[] word inserted to trie
 	 * @param int letterIndex index to select letter in word
 	 */
