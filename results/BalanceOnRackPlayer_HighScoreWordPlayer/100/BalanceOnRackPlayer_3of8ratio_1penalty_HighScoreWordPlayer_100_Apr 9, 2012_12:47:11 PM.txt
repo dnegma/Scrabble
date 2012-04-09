@@ -1,0 +1,118 @@
+Runtime: 15 secondsDictionary size: 480391 words.
+
+Total wins: 
+BalanceOnRackPlayer 93 - 7 HighScoreWordPlayer
+
+Draws: 0
+
+Wins when started playing: 
+BalanceOnRackPlayer 48 - 6 HighScoreWordPlayer
+
+Mean values:
+402 BalanceOnRackPlayer
+261 HighScoreWordPlayer
+
+Median values:
+391 BalanceOnRackPlayer
+263 HighScoreWordPlayer
+
+BalanceOnRackPlayer	503	234	HighScoreWordPlayer
+BalanceOnRackPlayer	402	338	HighScoreWordPlayer
+BalanceOnRackPlayer	352	299	HighScoreWordPlayer
+BalanceOnRackPlayer	618	185	HighScoreWordPlayer
+BalanceOnRackPlayer	367	251	HighScoreWordPlayer
+BalanceOnRackPlayer	406	204	HighScoreWordPlayer
+BalanceOnRackPlayer	423	301	HighScoreWordPlayer
+BalanceOnRackPlayer	416	185	HighScoreWordPlayer
+BalanceOnRackPlayer	323	259	HighScoreWordPlayer
+BalanceOnRackPlayer	338	204	HighScoreWordPlayer
+BalanceOnRackPlayer	415	211	HighScoreWordPlayer
+BalanceOnRackPlayer	365	202	HighScoreWordPlayer
+BalanceOnRackPlayer	366	313	HighScoreWordPlayer
+BalanceOnRackPlayer	429	235	HighScoreWordPlayer
+BalanceOnRackPlayer	382	255	HighScoreWordPlayer
+BalanceOnRackPlayer	312	251	HighScoreWordPlayer
+BalanceOnRackPlayer	327	300	HighScoreWordPlayer
+BalanceOnRackPlayer	652	164	HighScoreWordPlayer
+BalanceOnRackPlayer	327	255	HighScoreWordPlayer
+BalanceOnRackPlayer	408	268	HighScoreWordPlayer
+BalanceOnRackPlayer	391	176	HighScoreWordPlayer
+BalanceOnRackPlayer	376	289	HighScoreWordPlayer
+BalanceOnRackPlayer	342	271	HighScoreWordPlayer
+HighScoreWordPlayer	310	288	BalanceOnRackPlayer
+BalanceOnRackPlayer	386	271	HighScoreWordPlayer
+BalanceOnRackPlayer	353	303	HighScoreWordPlayer
+BalanceOnRackPlayer	497	304	HighScoreWordPlayer
+HighScoreWordPlayer	352	258	BalanceOnRackPlayer
+BalanceOnRackPlayer	405	223	HighScoreWordPlayer
+BalanceOnRackPlayer	460	250	HighScoreWordPlayer
+BalanceOnRackPlayer	408	259	HighScoreWordPlayer
+HighScoreWordPlayer	295	291	BalanceOnRackPlayer
+HighScoreWordPlayer	418	389	BalanceOnRackPlayer
+BalanceOnRackPlayer	355	245	HighScoreWordPlayer
+BalanceOnRackPlayer	367	283	HighScoreWordPlayer
+BalanceOnRackPlayer	355	349	HighScoreWordPlayer
+HighScoreWordPlayer	344	312	BalanceOnRackPlayer
+BalanceOnRackPlayer	383	220	HighScoreWordPlayer
+BalanceOnRackPlayer	467	260	HighScoreWordPlayer
+BalanceOnRackPlayer	347	261	HighScoreWordPlayer
+BalanceOnRackPlayer	457	238	HighScoreWordPlayer
+BalanceOnRackPlayer	299	265	HighScoreWordPlayer
+BalanceOnRackPlayer	366	231	HighScoreWordPlayer
+BalanceOnRackPlayer	252	196	HighScoreWordPlayer
+BalanceOnRackPlayer	437	199	HighScoreWordPlayer
+BalanceOnRackPlayer	364	249	HighScoreWordPlayer
+BalanceOnRackPlayer	500	162	HighScoreWordPlayer
+BalanceOnRackPlayer	514	285	HighScoreWordPlayer
+BalanceOnRackPlayer	391	263	HighScoreWordPlayer
+BalanceOnRackPlayer	403	217	HighScoreWordPlayer
+HighScoreWordPlayer	326	291	BalanceOnRackPlayer
+BalanceOnRackPlayer	331	297	HighScoreWordPlayer
+BalanceOnRackPlayer	431	315	HighScoreWordPlayer
+BalanceOnRackPlayer	488	193	HighScoreWordPlayer
+BalanceOnRackPlayer	370	303	HighScoreWordPlayer
+BalanceOnRackPlayer	517	203	HighScoreWordPlayer
+BalanceOnRackPlayer	325	290	HighScoreWordPlayer
+BalanceOnRackPlayer	346	295	HighScoreWordPlayer
+BalanceOnRackPlayer	426	194	HighScoreWordPlayer
+BalanceOnRackPlayer	441	228	HighScoreWordPlayer
+BalanceOnRackPlayer	367	190	HighScoreWordPlayer
+BalanceOnRackPlayer	421	288	HighScoreWordPlayer
+BalanceOnRackPlayer	413	356	HighScoreWordPlayer
+BalanceOnRackPlayer	562	294	HighScoreWordPlayer
+BalanceOnRackPlayer	360	266	HighScoreWordPlayer
+BalanceOnRackPlayer	409	334	HighScoreWordPlayer
+BalanceOnRackPlayer	363	269	HighScoreWordPlayer
+BalanceOnRackPlayer	451	237	HighScoreWordPlayer
+BalanceOnRackPlayer	399	218	HighScoreWordPlayer
+BalanceOnRackPlayer	375	265	HighScoreWordPlayer
+BalanceOnRackPlayer	324	292	HighScoreWordPlayer
+BalanceOnRackPlayer	386	300	HighScoreWordPlayer
+BalanceOnRackPlayer	356	300	HighScoreWordPlayer
+BalanceOnRackPlayer	455	340	HighScoreWordPlayer
+BalanceOnRackPlayer	468	350	HighScoreWordPlayer
+BalanceOnRackPlayer	398	234	HighScoreWordPlayer
+BalanceOnRackPlayer	460	318	HighScoreWordPlayer
+BalanceOnRackPlayer	430	264	HighScoreWordPlayer
+BalanceOnRackPlayer	414	279	HighScoreWordPlayer
+BalanceOnRackPlayer	341	237	HighScoreWordPlayer
+BalanceOnRackPlayer	348	245	HighScoreWordPlayer
+BalanceOnRackPlayer	751	270	HighScoreWordPlayer
+BalanceOnRackPlayer	535	341	HighScoreWordPlayer
+BalanceOnRackPlayer	365	221	HighScoreWordPlayer
+BalanceOnRackPlayer	448	180	HighScoreWordPlayer
+BalanceOnRackPlayer	351	243	HighScoreWordPlayer
+BalanceOnRackPlayer	390	275	HighScoreWordPlayer
+BalanceOnRackPlayer	342	271	HighScoreWordPlayer
+BalanceOnRackPlayer	435	310	HighScoreWordPlayer
+BalanceOnRackPlayer	475	201	HighScoreWordPlayer
+BalanceOnRackPlayer	412	221	HighScoreWordPlayer
+BalanceOnRackPlayer	319	241	HighScoreWordPlayer
+BalanceOnRackPlayer	506	255	HighScoreWordPlayer
+BalanceOnRackPlayer	536	203	HighScoreWordPlayer
+BalanceOnRackPlayer	371	276	HighScoreWordPlayer
+HighScoreWordPlayer	304	287	BalanceOnRackPlayer
+BalanceOnRackPlayer	551	252	HighScoreWordPlayer
+BalanceOnRackPlayer	418	184	HighScoreWordPlayer
+BalanceOnRackPlayer	316	276	HighScoreWordPlayer
+BalanceOnRackPlayer	467	197	HighScoreWordPlayer

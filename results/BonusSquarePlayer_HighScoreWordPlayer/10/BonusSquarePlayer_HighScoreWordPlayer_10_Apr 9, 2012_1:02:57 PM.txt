@@ -1,0 +1,71 @@
+Runtime: 5 secondsDictionary size: 480391 words.
+
+Total wins: 
+BonusSquarePlayer 6 - 4 HighScoreWordPlayer
+
+Draws: 0
+
+Wins when started playing: 
+BonusSquarePlayer 1 - 1 HighScoreWordPlayer
+
+BonusSquarePlayer	354	249	HighScoreWordPlayer
+BonusSquarePlayer	318	248	HighScoreWordPlayer
+BonusSquarePlayer	459	239	HighScoreWordPlayer
+BonusSquarePlayer	310	212	HighScoreWordPlayer
+HighScoreWordPlayer	344	301	BonusSquarePlayer
+BonusSquarePlayer	338	290	HighScoreWordPlayer
+HighScoreWordPlayer	224	199	BonusSquarePlayer
+BonusSquarePlayer	382	307	HighScoreWordPlayer
+HighScoreWordPlayer	458	294	BonusSquarePlayer
+HighScoreWordPlayer	569	304	BonusSquarePlayer
+
+
+BonusSquarePlayer
+13, 30, 79, 181, 194, 211, 227, 245, 265, 283, 300, 354, 
+HighScoreWordPlayer
+13, 30, 66, 104, 118, 154, 169, 182, 207, 221, 244, 255, 
+
+BonusSquarePlayer
+10, 38, 48, 84, 121, 138, 162, 170, 180, 191, 221, 251, 260, 318, 
+HighScoreWordPlayer
+7, 23, 42, 78, 92, 109, 126, 156, 169, 179, 195, 207, 218, 251, 
+
+BonusSquarePlayer
+113, 289, 306, 322, 348, 365, 375, 393, 411, 442, 448, 461, 461, 461, 461, 461, 
+HighScoreWordPlayer
+18, 31, 53, 77, 98, 118, 128, 156, 175, 184, 196, 202, 212, 237, 241, 241, 241, 
+
+BonusSquarePlayer
+15, 31, 57, 72, 84, 122, 146, 176, 195, 228, 246, 285, 307, 314, 314, 314, 
+HighScoreWordPlayer
+11, 28, 44, 78, 96, 111, 125, 141, 153, 164, 176, 188, 199, 210, 218, 218, 218, 
+
+BonusSquarePlayer
+15, 29, 52, 68, 112, 145, 157, 174, 204, 222, 241, 246, 294, 297, 303, 303, 303, 
+HighScoreWordPlayer
+11, 35, 75, 109, 120, 236, 254, 268, 283, 300, 316, 330, 338, 341, 347, 347, 347, 
+
+BonusSquarePlayer
+15, 33, 59, 180, 189, 219, 241, 255, 267, 276, 283, 338, 
+HighScoreWordPlayer
+14, 33, 50, 65, 99, 123, 151, 185, 223, 261, 286, 295, 
+
+BonusSquarePlayer
+10, 20, 34, 55, 85, 98, 126, 156, 165, 172, 186, 194, 202, 206, 206, 206, 
+HighScoreWordPlayer
+11, 21, 35, 59, 77, 113, 127, 144, 196, 205, 226, 236, 236, 236, 236, 
+
+BonusSquarePlayer
+12, 84, 110, 121, 148, 223, 232, 259, 273, 308, 325, 382, 
+HighScoreWordPlayer
+16, 148, 178, 188, 204, 222, 250, 264, 278, 292, 308, 
+
+BonusSquarePlayer
+10, 22, 62, 90, 106, 120, 138, 153, 170, 186, 225, 241, 294, 
+HighScoreWordPlayer
+16, 40, 60, 83, 107, 326, 342, 362, 392, 424, 453, 464, 
+
+BonusSquarePlayer
+12, 21, 41, 50, 61, 77, 110, 125, 147, 173, 210, 234, 246, 250, 304, 
+HighScoreWordPlayer
+20, 35, 57, 69, 79, 109, 163, 467, 489, 508, 543, 556, 565, 570, 
