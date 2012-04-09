@@ -17,7 +17,7 @@ import dictionary.Trie;
 
 public class GameTests extends Game {
 
-	private static int NR_OF_GAMES = 1000;
+	private static int NR_OF_GAMES = 10;
 
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
@@ -90,25 +90,24 @@ public class GameTests extends Game {
 				resetPasses();
 			player.resetParameters();
 			setTurn(-getTurn());
+			player.addScoreToHistory(player.getScore());
 		}
-		int score1, score2;
-		score1 = player1.getScore();
-		score2 = player2.getScore();
+
+		player1.removeLastScoreFromHistory();
+		player2.removeLastScoreFromHistory();
+		
 		for (Character letter : player1.getTilesOnHand()) {
-			score1 = score1 - Alphabet.getLetterPoint(letter);
+			player1.removePointsFromScore(Alphabet.getLetterPoint(letter));
 		}
 		for (Character letter : player2.getTilesOnHand()) {
-			score2 = score2 - Alphabet.getLetterPoint(letter);
+			player2.removePointsFromScore(Alphabet.getLetterPoint(letter));
 		}
 
-		String player1String = player1.getClass().getSimpleName();
-		String player2String = player2.getClass().getSimpleName();
-
-		GameResult result = new GameResult(player1String, score1,
-				player2String, score2, isPlayer1StartsPlaying());
+		player1.addScoreToHistory(player1.getScore());
+		player2.addScoreToHistory(player2.getScore());
+		GameResult result = new GameResult(player1, player2, isPlayer1StartsPlaying());
 
 		return result;
-
 	}
 
 
@@ -122,19 +121,19 @@ public class GameTests extends Game {
 		int player2wins = 0;
 		int player1winsStartedPlaying = 0;
 		int player2winsStartedPlaying = 0;
-		String player1Name = results.get(0).getPlayer1();
-		String player2Name = results.get(0).getPlayer2();
+		String player1Name = results.get(0).getPlayer1Name();
+		String player2Name = results.get(0).getPlayer2Name();
 
 		int draws = 0;
 
 		for (GameResult gameResult : results) {
 			String winner = gameResult.getWinner();
 			boolean player1StartedPlaying = gameResult.isPlayer1Started();
-			if (winner.equals(gameResult.getPlayer1())) {
+			if (winner.equals(gameResult.getPlayer1Name())) {
 				player1wins = player1wins + 1;
 				if (player1StartedPlaying)
 					player1winsStartedPlaying = player1winsStartedPlaying + 1;
-			} else if (winner.equals(gameResult.getPlayer2())) {
+			} else if (winner.equals(gameResult.getPlayer2Name())) {
 				player2wins = player2wins + 1;
 				if (!player1StartedPlaying)
 					player2winsStartedPlaying = player2winsStartedPlaying + 1;
@@ -170,6 +169,22 @@ public class GameTests extends Game {
 			for (GameResult gameResult : results) {
 				pw.write(gameResult.toString() + "\n");
 			}
+			
+			
+			for (GameResult gr : results) {
+				pw.write("\n\n" + player1Name + "\n");
+				List<Integer> scoreHistory = gr.getPlayer1().getScoreHistory();
+				for (int i = 0; i < scoreHistory.size(); i++) {
+					pw.write(scoreHistory.get(i) + ", ");
+				}
+				pw.write("\n" + player2Name + "\n");
+				scoreHistory = gr.getPlayer2().getScoreHistory();
+				for (int i = 0; i < scoreHistory.size(); i++) {
+					pw.write(scoreHistory.get(i) + ", ");
+				}
+				
+			}
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

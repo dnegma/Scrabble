@@ -1,60 +1,50 @@
 package game;
 
+import player.Player;
+
 
 public class GameResult {
-	private String player1;
-	private String player2;
-	private int player1score;
-	private int player2score;
+	private Player player1;
+	private Player player2;
+
 	private boolean player1Started;
 
-	public GameResult(String player1, int player1score, String player2,
-			int player2score, boolean player1started) {
+	public GameResult(Player player1, Player player2, boolean player1started) {
 		this.setPlayer1(player1);
 		this.setPlayer2(player2);
-		this.setplayer1Score(player1score);
-		this.setplayer2Score(player2score);
 		this.setPlayer1Started(player1started);
 	}
 
-	public void setplayer2Score(int score) {
-		this.player2score = score;
-	}
-
 	public int getLoserScore() {
-		return Math.min(player1score, player2score);
-	}
-
-	public void setplayer1Score(int score) {
-		this.player1score = score;
+		return Math.min(player1.getScore(), player2.getScore());
 	}
 
 	public int getWinnerScore() {
-		return Math.max(player1score, player2score);
+		return Math.max(player1.getScore(), player2.getScore());
 	}
 
-	public void setPlayer1(String player) {
+	public void setPlayer1(Player player) {
 		this.player1 = player;
 	}
 
 	public String getWinner() {
-		if (player1score > player2score)
-			return player1;
-		else if (player2score > player1score)
-			return player2;
+		if (player1.getScore() > player2.getScore())
+			return player1.getName();
+		else if (player2.getScore() > player1.getScore())
+			return player2.getName();
 		else
 			return "DRAW";
 	}
 
-	public void setPlayer2(String player) {
+	public void setPlayer2(Player player) {
 		this.player2 = player;
 	}
 
 	public String getLoser() {
-		if (player1score < player2score)
-			return player1;
-		else if (player2score < player1score)
-			return player2;
+		if (player1.getScore() < player2.getScore())
+			return player1.getName();
+		else if (player2.getScore() < player1.getScore())
+			return player2.getName();
 		else
 			return "DRAW";
 	}
@@ -76,11 +66,19 @@ public class GameResult {
 				+ "\t" + getLoser();
 	}
 
-	public String getPlayer2() {
+	public String getPlayer2Name() {
+		return player2.getName();
+	}
+
+	public String getPlayer1Name() {
+		return player1.getName();
+	}
+
+	public Player getPlayer2() {
 		return player2;
 	}
 
-	public String getPlayer1() {
+	public Player getPlayer1() {
 		return player1;
 	}
 	
