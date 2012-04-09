@@ -10,6 +10,9 @@ import java.util.Date;
 import java.util.List;
 
 import player.BalanceOnRackPlayer;
+import player.BalancePlayer;
+import player.BonusSquareOnlyPlayer;
+import player.BonusSquarePlayer;
 import player.HighScoreWordPlayer;
 import player.Player;
 import board.Board;
@@ -18,7 +21,7 @@ import dictionary.Trie;
 
 public class GameTests extends Game {
 
-	private static int NR_OF_GAMES = 10;
+	private static int NR_OF_GAMES = 1000;
 
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
@@ -32,9 +35,10 @@ public class GameTests extends Game {
 		
 		for (int i = 0; i < NR_OF_GAMES; i++) {
 			
+			System.out.println("Playing game nr " + i);
 			boardType = new Board();
 			
-			player1Type = new BalanceOnRackPlayer(boardType);
+			player1Type = new BalancePlayer(boardType);
 			player2Type = new HighScoreWordPlayer(boardType);
 			
 			boolean player1StartsPlaying;

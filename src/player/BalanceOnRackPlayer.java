@@ -10,8 +10,8 @@ import board.Board;
 import board.Square;
 
 public class BalanceOnRackPlayer extends Player {
-	public static final int VOWELS = 3;
-	public static final int PENALTY_FACTOR = 1;
+	public static final int VOWELS = 2;
+	public static final int PENALTY_FACTOR = 2;
 
 	private HashSet<Character> vowels = new HashSet<Character>();
 	private Move nextMove;
