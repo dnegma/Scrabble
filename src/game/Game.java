@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import player.BalanceOnRackPlayer;
+import player.BalancePenaltyAndHighScoreRoundPlayer;
 import player.HighScoreWordPlayer;
 import player.Player;
 import board.Board;
@@ -221,7 +221,7 @@ public class Game {
 		Trie.initTrie("dictionary/dsso-1.52_utf8.txt");
 		
 		Board boardType = new Board();
-		Player player1Type = new BalanceOnRackPlayer(boardType);
+		Player player1Type = new BalancePenaltyAndHighScoreRoundPlayer(boardType);
 		Player player2Type = new HighScoreWordPlayer(boardType);
 		boolean player1StartsPlaying = true;
 
