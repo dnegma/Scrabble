@@ -4,6 +4,7 @@
 \pagestyle{fancy}
 \begin{document}
 
+\graphicspath{{./images/}}
 \title{Smarter and simple Scrabble strategy}
 \date{Course: DD143X \\ Supervisor: Johan Boye \\ Kungliga Tekniska Högskolan \\ CSC \\ March 7, 2012}
 \author{Frej Connolly \\ Götgatan 78 13TR LÄG1302 \\ 118 30 Stockholm \\ SWEDEN \\ +46(0)73-963 41 90 \\ connolly@kth.se \\
@@ -93,8 +94,8 @@ To limit the work load to fit into the time span, some limitations were made to 
 The bag is also minimized, and do not contain any blank letters or other special tiles that are not letters. The result is that a Q or a W never can be used. In addition, the game is played in Swedish by the agents.
 
 \section{Agents}
-
-To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. The would play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game.
+\label{sec:agents}
+To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. The would play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game. In order to evaluate which strategies are the more rewarding, the agents are implemented with only \emph{one} strategy. An agent who calculates the total score of a move and chooses the highest one will easily win over the tested agents in this study.
 
 \subsection{High score words}
 One strategy one can use when playing Scrabble is the fact that some letters are more worth than others. These letter are less commonly used in the language and is therefore more difficult to use. Naturally, one would want to use them as soon as there is an opportunity, to not risk getting stuck later in the game. One od the agents tested in this study follows the strategy of placing higher score generating letters first. By all legal moves generated, the agent will chose the one were the word itself has the highest score.
@@ -106,7 +107,17 @@ Sometimes, it can be more rewarding to place a relatively short word than a long
 An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. The third agent tested tries to always keep a good balance between vowels and consonants on the rack, to avoid deadlocks later in the game. The agent knows the \emph{ideal ratio} and tries to lay out words so that the words left on the rack returns a ratio as close to the ideal ratio as possible. Tests with different ideal ratios are made.
 
 \section{Test results}
+Each of the agents has been tested against the other to, to let us evaluate the impact of each strategy. Explanations of the agents can be read about in section \ref{sec:agents}.
+
+\graphicspath{{../results/Plots/}}
 \subsection{High score words vs Balance on rack}
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{High_Balance2pen2vow_1000games}
+\caption {Scores. Scores of the two players in 1000 games.}
+\label{fig:anchors}
+\end{figure}
+
 Testing parameters:
 \begin{itemize}
 \item Balance 1: 5 vowels of 8
