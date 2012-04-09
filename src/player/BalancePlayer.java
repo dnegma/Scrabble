@@ -10,13 +10,12 @@ import board.Square;
 
 public class BalancePlayer extends Player{
 
-		public static final int VOWELS = 2;
+		public static final int VOWELS = 0;
 		public static final int PENALTY_FACTOR = 2;
 		public static final float RATIO = VOWELS / (float) Player.MAX_TILES_ON_HAND;
 
 		private HashSet<Character> vowels = new HashSet<Character>();
 		private Move nextMove;
-		private int highestScore;
 		private float ratioDifference;
 		
 		public BalancePlayer(Board board) {
@@ -71,14 +70,13 @@ public class BalancePlayer extends Player{
 
 		@Override
 		public void resetParameters() {
-			this.highestScore = 0;
 			this.ratioDifference = Integer.MAX_VALUE;
 		}
 
 		@Override
 		public String getName() {
 			String className = this.getClass().getSimpleName();
-			String ratio = BalanceOnRackPlayer.VOWELS + "of"
+			String ratio = VOWELS + "of"
 					+ Player.MAX_TILES_ON_HAND;
 			return className + "_" + ratio + "ratio_" + PENALTY_FACTOR + "penalty";
 		}

@@ -9,14 +9,14 @@ import java.util.HashSet;
 import board.Board;
 import board.Square;
 
-public class BalanceOnRackPlayer extends Player {
+public class BalancePenaltyAndHighScoreRoundPlayer extends Player {
 	public static final int VOWELS = 2;
 	public static final int PENALTY_FACTOR = 2;
 
 	private HashSet<Character> vowels = new HashSet<Character>();
 	private Move nextMove;
 	private int highestScore;
-	public BalanceOnRackPlayer(Board board) {
+	public BalancePenaltyAndHighScoreRoundPlayer(Board board) {
 		super(board);
 		initVowels();
 		resetParameters();
@@ -54,6 +54,7 @@ public class BalanceOnRackPlayer extends Player {
 				nrConsonants = nrConsonants + 1;
 		}
 
+		// Add penalty points if word leaves bad vowels ratio on hand
 		int penalty = Math.abs(nrVowels - VOWELS) * PENALTY_FACTOR;
 
 		Move move = new Move(partWord.toCharArray(), lc, endSquare, transposed);
@@ -74,7 +75,7 @@ public class BalanceOnRackPlayer extends Player {
 	@Override
 	public String getName() {
 		String className = this.getClass().getSimpleName();
-		String ratio = BalanceOnRackPlayer.VOWELS + "of"
+		String ratio = BalancePenaltyAndHighScoreRoundPlayer.VOWELS + "of"
 				+ Player.MAX_TILES_ON_HAND;
 		return className + "_" + ratio + "ratio_" + PENALTY_FACTOR + "penalty";
 	}

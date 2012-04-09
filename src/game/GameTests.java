@@ -9,10 +9,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import player.BalanceOnRackPlayer;
+import player.BalancePenaltyAndHighScoreRoundPlayer;
 import player.BalancePlayer;
 import player.BonusSquareOnlyPlayer;
-import player.BonusSquarePlayer;
+import player.HighestBonusRoundPlayer;
 import player.HighScoreWordPlayer;
 import player.Player;
 import board.Board;
