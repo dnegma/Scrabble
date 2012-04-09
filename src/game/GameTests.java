@@ -217,9 +217,21 @@ public class GameTests extends Game {
 				pw.write(gameResult.toString() + "\n");
 			}
 			
-			
+			pw.close();
+			pw = new PrintWriter(fullPathTofile + ".results");
+			pw.write(player1Name + "\n");
 			for (GameResult gr : results) {
-				pw.write("\n\n" + player1Name + "\n");
+				pw.write(gr.getPlayer1().getScore() + ", ");
+			}
+			pw.write("\n\n" + player2Name + "\n");
+			for (GameResult gr : results) {
+				pw.write(gr.getPlayer2().getScore() + ", ");
+			}
+			
+			pw.close();
+			pw = new PrintWriter(fullPathTofile + ".details");
+			for (GameResult gr : results) {
+				pw.write(player1Name + "\n");
 				List<Integer> scoreHistory = gr.getPlayer1().getScoreHistory();
 				for (int i = 0; i < scoreHistory.size(); i++) {
 					pw.write(scoreHistory.get(i) + ", ");
@@ -229,7 +241,7 @@ public class GameTests extends Game {
 				for (int i = 0; i < scoreHistory.size(); i++) {
 					pw.write(scoreHistory.get(i) + ", ");
 				}
-				
+				pw.write("\n\n");
 			}
 
 		} catch (FileNotFoundException e) {

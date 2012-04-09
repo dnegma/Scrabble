@@ -29,9 +29,9 @@ public class GameResult {
 
 	public String getWinner() {
 		if (player1.getScore() > player2.getScore())
-			return player1.getName();
+			return getPlayer1Name();
 		else if (player2.getScore() > player1.getScore())
-			return player2.getName();
+			return getPlayer2Name();
 		else
 			return "DRAW";
 	}
@@ -42,9 +42,9 @@ public class GameResult {
 
 	public String getLoser() {
 		if (player1.getScore() < player2.getScore())
-			return player1.getName();
+			return getPlayer1Name();
 		else if (player2.getScore() < player1.getScore())
-			return player2.getName();
+			return getPlayer2Name();
 		else
 			return "DRAW";
 	}
@@ -67,11 +67,11 @@ public class GameResult {
 	}
 
 	public String getPlayer2Name() {
-		return player2.getName();
+		return player2.getClass().getSimpleName();
 	}
 
 	public String getPlayer1Name() {
-		return player1.getName();
+		return player1.getClass().getSimpleName();
 	}
 
 	public Player getPlayer2() {
