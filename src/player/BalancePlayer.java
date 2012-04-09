@@ -16,7 +16,6 @@ public class BalancePlayer extends Player{
 
 		private HashSet<Character> vowels = new HashSet<Character>();
 		private Move nextMove;
-		private int highestScore;
 		private float ratioDifference;
 		
 		public BalancePlayer(Board board) {
@@ -71,7 +70,6 @@ public class BalancePlayer extends Player{
 
 		@Override
 		public void resetParameters() {
-			this.highestScore = 0;
 			this.ratioDifference = Integer.MAX_VALUE;
 		}
 
