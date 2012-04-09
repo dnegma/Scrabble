@@ -5,10 +5,11 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import player.BonusSquarePlayer;
+import player.BalanceOnRackPlayer;
 import player.HighScoreWordPlayer;
 import player.Player;
 import board.Board;
@@ -17,7 +18,7 @@ import dictionary.Trie;
 
 public class GameTests extends Game {
 
-	private static int NR_OF_GAMES = 1000;
+	private static int NR_OF_GAMES = 100;
 
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
@@ -33,7 +34,7 @@ public class GameTests extends Game {
 			
 			boardType = new Board();
 			
-			player1Type = new BonusSquarePlayer(boardType);
+			player1Type = new BalanceOnRackPlayer(boardType);
 			player2Type = new HighScoreWordPlayer(boardType);
 			
 			boolean player1StartsPlaying;
@@ -62,6 +63,7 @@ public class GameTests extends Game {
 		int runTimeSeconds = (int) ((endTime - startTime) / 1000);
 		GameTests.printResultsToFile(results, fileName, filePath,
 				runTimeSeconds);
+		System.out.println("KLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR!");
 	}
 	/**
 	 * Start a new game. Parameter deciding which player should start.
@@ -127,21 +129,44 @@ public class GameTests extends Game {
 
 		int draws = 0;
 
+		List<Integer> player1results = new ArrayList<Integer>();
+		List<Integer> player2results = new ArrayList<Integer>();
+
 		for (GameResult gameResult : results) {
 			String winner = gameResult.getWinner();
 			boolean player1StartedPlaying = gameResult.isPlayer1Started();
 			if (winner.equals(gameResult.getPlayer1())) {
+				player1results.add(gameResult.getWinnerScore());
+				player2results.add(gameResult.getLoserScore());
 				player1wins = player1wins + 1;
 				if (player1StartedPlaying)
 					player1winsStartedPlaying = player1winsStartedPlaying + 1;
 			} else if (winner.equals(gameResult.getPlayer2())) {
+				player2results.add(gameResult.getWinnerScore());
+				player1results.add(gameResult.getLoserScore());
 				player2wins = player2wins + 1;
 				if (!player1StartedPlaying)
 					player2winsStartedPlaying = player2winsStartedPlaying + 1;
 			} else
 				draws = draws + 1;
 		}
-		
+
+		Collections.sort(player1results);
+		Collections.sort(player2results);
+
+		int medianResultPlayer1 = player1results.get(player1results.size() / 2);
+		int medianResultPlayer2 = player2results.get(player2results.size() / 2);
+
+		int totalPlayer1Result = 0;
+		for (int result : player1results)
+			totalPlayer1Result = totalPlayer1Result + result;
+		int meanResultPlayer1 = totalPlayer1Result / player1results.size();
+
+		int totalPlayer2Result = 0;
+		for (int result : player2results)
+			totalPlayer2Result = totalPlayer2Result + result;
+		int meanResultPlayer2 = totalPlayer2Result / player2results.size();
+
 		PrintWriter pw = null;
 		
 		try {
@@ -167,6 +192,28 @@ public class GameTests extends Game {
 				pw.write(player2Name + " " + player2winsStartedPlaying + " - "
 						+ player1winsStartedPlaying + " " + player1Name);
 			pw.write("\n\n");
+
+			pw.write("Mean values:\n");
+			pw.write(meanResultPlayer1 + " " + player1Name + "\n");
+			pw.write(meanResultPlayer2 + " " + player2Name);
+			pw.write("\n\n");
+
+			pw.write("Median values:\n");
+			pw.write(medianResultPlayer1 + " " + player1Name + "\n");
+			pw.write(medianResultPlayer2 + " " + player2Name);
+			pw.write("\n\n");
+			
+			pw.write("Highest value:\n");
+			pw.write(Collections.max(player1results) + " " + player1Name + "\n");
+			pw.write(Collections.max(player2results) + " " + player2Name);
+			pw.write("\n\n");
+			
+			pw.write("Lowest value:\n");
+			pw.write(Collections.min(player1results) + " " + player1Name + "\n");
+			pw.write(Collections.min(player2results) + " " + player2Name);
+			pw.write("\n\n");
+			
+			pw.write("Games:\n");
 			for (GameResult gameResult : results) {
 				pw.write(gameResult.toString() + "\n");
 			}
