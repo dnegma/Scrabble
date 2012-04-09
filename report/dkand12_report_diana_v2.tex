@@ -29,7 +29,13 @@ The game require the players to have a good vocabulary and keeping an extra eye 
 This gives the player many factors to take in consideration every time a move is to be made. Such factors are; words that generate higher scores, bonus tiles etc.
 
 If there were to be a strategy where only one of these factors would be considered, which one would be the most rewarding? This study aims to investigate which of these factors has the bigger impact when one is reaching for a win. Three different programmed agents with three different objectives will play against each other in order to show results and let us determine the most preferable strategy.
-
+\section {Acronyms}
+\begin{description}
+\item{DAWG} Directed acyclic word graph.
+\item{HSW} High score word player.
+\item{BS} Bonus square player.
+\item{BOR} Balance on rack player.
+\end{description}
 
 \chapter{Background}
 
@@ -95,25 +101,34 @@ The bag is also minimized, and do not contain any blank letters or other special
 
 \section{Agents}
 \label{sec:agents}
-To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. The would play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game. In order to evaluate which strategies are the more rewarding, the agents are implemented with only \emph{one} strategy. An agent who calculates the total score of a move and chooses the highest one will easily win over the tested agents in this study.
+To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. The would play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game. In order to evaluate which strategies are the more rewarding, the agents are implemented with only \emph{one} strategy. An agent who calculates the total score of a move and chooses the highest one will easily win over the tested agents in this study. The agents will be referred to as follows:
+\begin{description}
+\item{HSW} High score word player.
+\item{BS} Bonus square player.
+\item{BOR} Balance on rack player.
+\end{description}
 
 \subsection{High score words}
-One strategy one can use when playing Scrabble is the fact that some letters are more worth than others. These letter are less commonly used in the language and is therefore more difficult to use. Naturally, one would want to use them as soon as there is an opportunity, to not risk getting stuck later in the game. One od the agents tested in this study follows the strategy of placing higher score generating letters first. By all legal moves generated, the agent will chose the one were the word itself has the highest score.
+One strategy one can use when playing Scrabble is the fact that some letters are more worth than others. These letter are less commonly used in the language and is therefore more difficult to use. Naturally, one would want to use them as soon as there is an opportunity, to not risk getting stuck later in the game. One od the agents tested in this study follows the strategy of placing higher score generating letters first. By all legal moves generated, the agent will chose the one were the word itself has the highest score. 
 
-\subsection{Bonus tiles}
+\subsection{Bonus squares}
 Sometimes, it can be more rewarding to place a relatively short word than a longer one. This is because of the bonus squares spread out on the board. The can multiply the value of either one letter, or the entire word placed, and can therefore generate quite high scores. The second agent strives to place words over bonus squares, to hopefully generate a high score. If there are several opportunities to reach a bonus tile, the most rewarding one is chosen by the agent, i.e. the word reaching the bonus square with the highest bonus.
 
 \subsection{Balance on rack}
 An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. The third agent tested tries to always keep a good balance between vowels and consonants on the rack, to avoid deadlocks later in the game. The agent knows the \emph{ideal ratio} and tries to lay out words so that the words left on the rack returns a ratio as close to the ideal ratio as possible. Tests with different ideal ratios are made.
 
 \section{Test results}
-Each of the agents has been tested against the other to, to let us evaluate the impact of each strategy. Explanations of the agents can be read about in section \ref{sec:agents}.
+Each of the agents has been tested against the other to, to let us evaluate the impact of each strategy. Explanations of the agents can be read about in section \ref{sec:agents}. The agents were set to play 1000 games against each other and to minimize the impact of opening the game in the results, both agents started the game 500 times.
+
+Two dicionaries were used in the tests; one consisting of only the normal form of each word and the other consisting of all possible forms of each words, where the latter is a set of 480391 words. The former consists of 83247 words. The rules of Swedish Scrabble do not allow words of all forms, but the english does. Therefore, it seemed interesting to compare how the agents would perform with different conditions.
 
 \graphicspath{{../results/Plots/}}
 \subsection{High score words vs Balance on rack}
+
+The results from the games played by HSW and BOR show that the ability to lay words with high score letters is more rewarding than keeping the balance on the rack.
 \begin{figure}
 \centering
-\includegraphics[scale=0.5]{High_Balance2pen2vow_1000games}
+\includegraphics[scale=0.5]{High_BalanceOnly2pen2vow_1000games}
 \caption {Scores. Scores of the two players in 1000 games.}
 \label{fig:anchors}
 \end{figure}
