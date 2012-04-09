@@ -15,6 +15,7 @@ public abstract class Player {
 	public static final int MAX_TILES_ON_HAND = 8;
 	public static final int CENTER_INDEX = 7;
 	List<Character> tilesOnHand;
+	private List<Integer> scoreHistory;
 
 	private Board board;
 	private int score;
@@ -22,6 +23,7 @@ public abstract class Player {
 	public Player(Board board) {		
 		this.board = board;
 		this.tilesOnHand = new ArrayList<Character>(MAX_TILES_ON_HAND);
+		scoreHistory = new ArrayList<Integer>();
 		resetParameters();
 	}
 
@@ -267,6 +269,13 @@ public abstract class Player {
 		this.score = this.score + points;
 	}
 
+	public void removePointsFromScore(int points) {
+		this.score = this.score - points;
+	}
+	public List<Integer> getScoreHistory() {
+		return scoreHistory;
+	}
+
 	/**
 	 * Get total score points.
 	 * 
@@ -302,5 +311,12 @@ public abstract class Player {
 		System.out.println();
 	}
 
+	public void addScoreToHistory( int score) {
+		scoreHistory.add(score);
+	}
 	public abstract String getName();
+
+	public void removeLastScoreFromHistory() {
+		scoreHistory.remove(scoreHistory.size()-1);
+	}
 }

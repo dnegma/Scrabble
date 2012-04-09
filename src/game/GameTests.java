@@ -5,10 +5,11 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import player.BonusSquarePlayer;
+import player.BalanceOnRackPlayer;
 import player.HighScoreWordPlayer;
 import player.Player;
 import board.Board;
@@ -17,7 +18,7 @@ import dictionary.Trie;
 
 public class GameTests extends Game {
 
-	private static int NR_OF_GAMES = 1000;
+	private static int NR_OF_GAMES = 10;
 
 	public static void main(String[] args) {
 		long startTime = System.currentTimeMillis();
@@ -33,7 +34,7 @@ public class GameTests extends Game {
 			
 			boardType = new Board();
 			
-			player1Type = new BonusSquarePlayer(boardType);
+			player1Type = new BalanceOnRackPlayer(boardType);
 			player2Type = new HighScoreWordPlayer(boardType);
 			
 			boolean player1StartsPlaying;
@@ -62,6 +63,7 @@ public class GameTests extends Game {
 		int runTimeSeconds = (int) ((endTime - startTime) / 1000);
 		GameTests.printResultsToFile(results, fileName, filePath,
 				runTimeSeconds);
+		System.out.println("KLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAR!");
 	}
 	/**
 	 * Start a new game. Parameter deciding which player should start.
@@ -90,25 +92,24 @@ public class GameTests extends Game {
 				resetPasses();
 			player.resetParameters();
 			setTurn(-getTurn());
+			player.addScoreToHistory(player.getScore());
 		}
-		int score1, score2;
-		score1 = player1.getScore();
-		score2 = player2.getScore();
+
+		player1.removeLastScoreFromHistory();
+		player2.removeLastScoreFromHistory();
+		
 		for (Character letter : player1.getTilesOnHand()) {
-			score1 = score1 - Alphabet.getLetterPoint(letter);
+			player1.removePointsFromScore(Alphabet.getLetterPoint(letter));
 		}
 		for (Character letter : player2.getTilesOnHand()) {
-			score2 = score2 - Alphabet.getLetterPoint(letter);
+			player2.removePointsFromScore(Alphabet.getLetterPoint(letter));
 		}
 
-		String player1String = player1.getClass().getSimpleName();
-		String player2String = player2.getClass().getSimpleName();
-
-		GameResult result = new GameResult(player1String, score1,
-				player2String, score2, isPlayer1StartsPlaying());
+		player1.addScoreToHistory(player1.getScore());
+		player2.addScoreToHistory(player2.getScore());
+		GameResult result = new GameResult(player1, player2, isPlayer1StartsPlaying());
 
 		return result;
-
 	}
 
 
@@ -122,31 +123,54 @@ public class GameTests extends Game {
 		int player2wins = 0;
 		int player1winsStartedPlaying = 0;
 		int player2winsStartedPlaying = 0;
-		String player1Name = results.get(0).getPlayer1();
-		String player2Name = results.get(0).getPlayer2();
+		String player1Name = results.get(0).getPlayer1Name();
+		String player2Name = results.get(0).getPlayer2Name();
 
 		int draws = 0;
+
+		List<Integer> player1results = new ArrayList<Integer>();
+		List<Integer> player2results = new ArrayList<Integer>();
 
 		for (GameResult gameResult : results) {
 			String winner = gameResult.getWinner();
 			boolean player1StartedPlaying = gameResult.isPlayer1Started();
-			if (winner.equals(gameResult.getPlayer1())) {
+			if (winner.equals(gameResult.getPlayer1Name())) {
+				player1results.add(gameResult.getWinnerScore());
+				player2results.add(gameResult.getLoserScore());
 				player1wins = player1wins + 1;
 				if (player1StartedPlaying)
 					player1winsStartedPlaying = player1winsStartedPlaying + 1;
-			} else if (winner.equals(gameResult.getPlayer2())) {
+			} else if (winner.equals(gameResult.getPlayer2Name())) {
+				player2results.add(gameResult.getWinnerScore());
+				player1results.add(gameResult.getLoserScore());
 				player2wins = player2wins + 1;
 				if (!player1StartedPlaying)
 					player2winsStartedPlaying = player2winsStartedPlaying + 1;
 			} else
 				draws = draws + 1;
 		}
-		
+
+		Collections.sort(player1results);
+		Collections.sort(player2results);
+
+		int medianResultPlayer1 = player1results.get(player1results.size() / 2);
+		int medianResultPlayer2 = player2results.get(player2results.size() / 2);
+
+		int totalPlayer1Result = 0;
+		for (int result : player1results)
+			totalPlayer1Result = totalPlayer1Result + result;
+		int meanResultPlayer1 = totalPlayer1Result / player1results.size();
+
+		int totalPlayer2Result = 0;
+		for (int result : player2results)
+			totalPlayer2Result = totalPlayer2Result + result;
+		int meanResultPlayer2 = totalPlayer2Result / player2results.size();
+
 		PrintWriter pw = null;
 		
 		try {
 			pw = new PrintWriter(fullPathTofile);
-			pw.write("Runtime: " + runTime + " seconds");
+			pw.write("Runtime: " + runTime + " seconds\n");
 			pw.write("Dictionary size: " + Trie.getDictionarySize() + " words.");
 			pw.write("\n\n");
 			pw.write("Total wins: \n");
@@ -167,9 +191,59 @@ public class GameTests extends Game {
 				pw.write(player2Name + " " + player2winsStartedPlaying + " - "
 						+ player1winsStartedPlaying + " " + player1Name);
 			pw.write("\n\n");
+
+			pw.write("Mean values:\n");
+			pw.write(meanResultPlayer1 + " " + player1Name + "\n");
+			pw.write(meanResultPlayer2 + " " + player2Name);
+			pw.write("\n\n");
+
+			pw.write("Median values:\n");
+			pw.write(medianResultPlayer1 + " " + player1Name + "\n");
+			pw.write(medianResultPlayer2 + " " + player2Name);
+			pw.write("\n\n");
+			
+			pw.write("Highest value:\n");
+			pw.write(Collections.max(player1results) + " " + player1Name + "\n");
+			pw.write(Collections.max(player2results) + " " + player2Name);
+			pw.write("\n\n");
+			
+			pw.write("Lowest value:\n");
+			pw.write(Collections.min(player1results) + " " + player1Name + "\n");
+			pw.write(Collections.min(player2results) + " " + player2Name);
+			pw.write("\n\n");
+			
+			pw.write("Games:\n");
 			for (GameResult gameResult : results) {
 				pw.write(gameResult.toString() + "\n");
 			}
+			
+			pw.close();
+			pw = new PrintWriter(fullPathTofile + ".results");
+			pw.write(player1Name + "\n");
+			for (GameResult gr : results) {
+				pw.write(gr.getPlayer1().getScore() + ", ");
+			}
+			pw.write("\n\n" + player2Name + "\n");
+			for (GameResult gr : results) {
+				pw.write(gr.getPlayer2().getScore() + ", ");
+			}
+			
+			pw.close();
+			pw = new PrintWriter(fullPathTofile + ".details");
+			for (GameResult gr : results) {
+				pw.write(player1Name + "\n");
+				List<Integer> scoreHistory = gr.getPlayer1().getScoreHistory();
+				for (int i = 0; i < scoreHistory.size(); i++) {
+					pw.write(scoreHistory.get(i) + ", ");
+				}
+				pw.write("\n" + player2Name + "\n");
+				scoreHistory = gr.getPlayer2().getScoreHistory();
+				for (int i = 0; i < scoreHistory.size(); i++) {
+					pw.write(scoreHistory.get(i) + ", ");
+				}
+				pw.write("\n\n");
+			}
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

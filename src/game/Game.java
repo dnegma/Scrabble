@@ -93,20 +93,15 @@ public class Game {
 			System.out.println("----------------------------------");
 			System.out.println();
 		}
-		int score1, score2;
-		score1 = player1.getScore();
-		score2 = player2.getScore();
+
 		for (Character letter : player1.getTilesOnHand()) {
-			score1 = score1 - Alphabet.getLetterPoint(letter);
+			player1.removePointsFromScore(Alphabet.getLetterPoint(letter));
 		}
 		for (Character letter : player2.getTilesOnHand()) {
-			score2 = score2 - Alphabet.getLetterPoint(letter);
+			player2.removePointsFromScore(Alphabet.getLetterPoint(letter));
 		}
 
-		String player1String = player1.getClass().getSimpleName();
-		String player2String = player2.getClass().getSimpleName();
-		GameResult result = new GameResult(player1String, score1,
-				player2String, score2, player1StartsPlaying);
+		GameResult result = new GameResult(player1, player2, player1StartsPlaying);
 		
 
 		//		
