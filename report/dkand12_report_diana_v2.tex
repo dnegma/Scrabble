@@ -106,6 +106,15 @@ Sometimes, it can be more rewarding to place a relatively short word than a long
 An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. The third agent tested tries to always keep a good balance between vowels and consonants on the rack, to avoid deadlocks later in the game. The agent knows the \emph{ideal ratio} and tries to lay out words so that the words left on the rack returns a ratio as close to the ideal ratio as possible. Tests with different ideal ratios are made.
 
 \section{Test results}
+\subsection{High score words vs Balance on rack}
+Testing parameters:
+\begin{itemize}
+\item Balance 1: 5 vowels of 8
+\item Balance 2: 3 vowels of 8
+\end{itemize}
+\subsection{Balance on rack vs Bonus squares}
+\subsection{Bonus squares vs High score words}
+
 \chapter{Conclusions}
 \chapter{Discussion}
 Naturally, the agent that only consideres a balance between tiles on the rack is not very successful. An improvement could be done to let it try to place a word with as high score as possible \emph{and} keep the balance. 
