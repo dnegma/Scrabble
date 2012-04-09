@@ -196,22 +196,22 @@ public class GameTests extends Game {
 						+ player1winsStartedPlaying + " " + player1Name);
 			pw.write("\n\n");
 
-			pw.write("Mean values:\n");
+			pw.write("Mean score:\n");
 			pw.write(meanResultPlayer1 + " " + player1Name + "\n");
 			pw.write(meanResultPlayer2 + " " + player2Name);
 			pw.write("\n\n");
 
-			pw.write("Median values:\n");
+			pw.write("Median score:\n");
 			pw.write(medianResultPlayer1 + " " + player1Name + "\n");
 			pw.write(medianResultPlayer2 + " " + player2Name);
 			pw.write("\n\n");
 			
-			pw.write("Highest value:\n");
+			pw.write("Highest score:\n");
 			pw.write(Collections.max(player1results) + " " + player1Name + "\n");
 			pw.write(Collections.max(player2results) + " " + player2Name);
 			pw.write("\n\n");
 			
-			pw.write("Lowest value:\n");
+			pw.write("Lowest score:\n");
 			pw.write(Collections.min(player1results) + " " + player1Name + "\n");
 			pw.write(Collections.min(player2results) + " " + player2Name);
 			pw.write("\n\n");
