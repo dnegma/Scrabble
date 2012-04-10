@@ -10,7 +10,7 @@ import board.Square;
 
 public class BalancePlayer extends Player{
 
-		public static final int VOWELS = 0;
+		public static final int VOWELS = 8;
 		public static final int PENALTY_FACTOR = 2;
 		public static final float RATIO = VOWELS / (float) Player.MAX_TILES_ON_HAND;
 
