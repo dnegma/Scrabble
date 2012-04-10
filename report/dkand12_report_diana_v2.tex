@@ -143,18 +143,23 @@ Sometimes, it can be more rewarding to place a relatively short word than a long
 \subsection{Balance on rack}
 An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. The third agent tested tries to always keep a good balance between vowels and consonants on the rack, to avoid deadlocks later in the game. The agent knows the \emph{ideal ratio} and tries to lay out words so that the words left on the rack returns a ratio as close to the ideal ratio as possible. Tests with different ideal ratios are made.
 
-\section{Analysis}
+\chapter{Results}
 \label{sec:analysis}
-Each of the agents has been tested against the others, to let us evaluate the impact of each strategy. Explanations of the agents can be read about in section \ref{sec:agents}.
+Each of the agents has been tested against the others, to let us evaluate the impact of each strategy. Explanations of the agents can be read about in section \ref{sec:agents}. Section \ref{sec:conditions} describes under which conditions the tests were made.
+
+Sections \ref{sec:highBalance}, \ref{sec:balanceBonus} and \ref{sec:bonusHigh} show the results from each run.
  
-\subsubsection{Games}
+\section{Test conditions}
+\label{sec:conditions}
+\subsection{Games}
 In one run the agents were set to play 1000 games against each other and to minimize the impact of opening the game in the results, both agents started the game 500 times. Each run were made 10 times, so the total result is based on 10 000 games. It was established that there were no significant changes in the results between running 1000 games, and 10 000 games, and would therefore probably be reduntant to make more tests. 
 
-\subsubsection{Dictionaries}
+\subsection{Dictionaries}
 Two dictionaries were used in the tests; one consisting of only the normal form of each word and the other consisting of all possible forms of each words, where the latter is a set of 480391 words. The former consists of 83247 words. The rules of Swedish Scrabble do not allow words of all forms, but the english does. Therefore, it seemed interesting to compare how the agents would perform with different conditions. There could be situations where for instance the bonus player has an advantage if conjunctions are allowed, since it strives always after covering the bonus squares. The large dictionary could allow the player to place short extensions to already placed words.
 
 \graphicspath{{../results/Plots/}}
-\subsection{High score words vs Balance on rack}
+\section{High score words vs Balance on rack}
+\label{sec:highBalance}
 
 The results from runs over the large dictionary and the small dictionary do not differ that much, as can be seen in figure \ref{fig:largeDict} and figure \ref{fig:smallDict}.
 The BOR player uses a ratio between vowels and consonants on the rack, and strives to keep the ratio after each move. The wanted number of vowels on hand will be referred to as \emph{vowel ratio}. Several tests were made with the BOR player to see if there is any difference when altering the ratio parameter. The ratio is calculated as the number of vowels left on hand divided into the number of consonants left on hand. Table \ref{tab:bor+hsw} shows the results of the runs made with different ideal number of vowels on hand.
@@ -182,7 +187,7 @@ The results show that the HSW player is generally more successful playing the ga
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.5]{High_BalanceOnly2pen2vow_1000games}
+\includegraphics[scale=0.5]{HighBalance8vow}
 \caption {Scores with vowel ratio 2/8. Scores of the two players in 1000 games with 480 391 words available.}
 \label{fig:smallDict}
 \end {figure}
@@ -194,10 +199,11 @@ The results show that the HSW player is generally more successful playing the ga
 \label{fig:largeDict}
 \end{figure}
 
-\subsection{Balance on rack vs Bonus squares}
+\section{Balance on rack vs Bonus squares}
+\label{sec:balanceBonus}
 The BOR player continues to perform doubtly against the BS player. Also here the BS player consideres what bonus it will be given in a certain move, and chooses the highest one. Naturally the BOR player that only cares about its ratio on the rack will perform worse. The results from runs with different vowel ratio in the BOR player can be seen in table \ref{tab:bor+bs}.
 
-Note that the BOR player is stable with its game results. In figure \ref{fig:bonusBalanceLargeDict} one can see that the BS player in some games made an extremely poor performance, receiving zero points or less, while the BOR player keeps the graph quite thin, i.e. the results differs less from game to game.
+Note that the BOR player is stable with its game results. In figure \ref{fig:bonusBalanceLargeDict} one can see that the BS player in some games made an extremely poor performance, receiving zero points or less, while the BOR player keeps the graph quite thin, i.e. the results differ less from game to game.
 
 \begin{table}
 \centering
@@ -209,7 +215,7 @@ Note that the BOR player is stable with its game results. In figure \ref{fig:bon
     	2/8 & 0 & 0 \\ \hline
     	3/8 & 0 & 0 \\ \hline
 	4/8 & 0 & 0 \\ \hline
-	5/8 & 0 & 0 \\ \hline
+	5/8 & 9731 & 261 \\ \hline
 	6/8 & 9370 & 620 \\ \hline
 	7/8 & 9859 & 141 \\ \hline
 	8/8 & 9074 & 915 \\ \hline
@@ -226,23 +232,16 @@ Note that the BOR player is stable with its game results. In figure \ref{fig:bon
 \end{figure}
 
 
-\subsection{Bonus squares vs High score words}
+\section{Bonus squares vs High score words}
+\label{sec:bonusHigh}
 The results from games go here.
 
 
 
 
 \chapter{Conclusions}
-This is what we get out of our results.
-
-
-
-
-
-
-
-\chapter{Discussion}
-We have something to say about the results.
+\subsubsection{BOR player}
+The BOR player is significantly better with a vowel ratio of 8/8. It can probably be explained from the fact that when choosing a move, and the vowel ratio is 8/8 (1) it is easier for the agent to place longer words. Imagine the agent placing a word using all tiles but one, and the remaining tile on hand is a vowel. This would be a preferable move if the ratio is 1, but not if the ratio is less. If the ratio would be 4/8 for example, the agent would choose a move that leaves two tiles, where one is a vowel, over the move with a longer word. 
 
 
 
