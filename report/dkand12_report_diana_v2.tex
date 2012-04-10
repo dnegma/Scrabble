@@ -67,7 +67,7 @@ All players that have some remaining tiles on the rack will get a penalty, which
 
 \section{Research}
 As mentioned above, this is a well studied problem, and many papers and articles are to be found where different problems in the game of Scrabble have been studied. This paper will mostly refer to Appel and Jacobsen \cite{fastest} who discovered a way to represent the dictionary wo that it takes up minimum space in memory.
-\begin{figure}
+\begin{figure}[h]
 \centering
 \includegraphics[scale=0.5]{trie}
 \caption{Trie. Small dictionary consisting of 11 words represented as a trie.}
@@ -82,7 +82,7 @@ The problem of generating legal moves can be reduces to one dimension. Instead o
 \subsubsection{Anchor squares}
 A key in the algorithm implemented are the \emph{anchor squares}, which are the empy squares next to a non-empty square as can be seen in figure \ref{fig:anchors}. These are important since words can only be built from already existing tiles. In the very forst move there is only one anchor; the center square, since the player making the first move always has to start in the center square.
 
-\begin{figure}
+\begin{figure}[h]
 \centering
 \includegraphics[scale=0.3]{anchors}
 \caption{Anchor squares. The adjacent tiles are the anchor tiles from which the word generation begins.}
@@ -162,18 +162,18 @@ The results show that the HSW player is generally more successful playing the ga
 
 \begin{table}[h]
 \centering
-    \begin{tabular}{ | c | c | c | c | c | p{5cm} |}
+    \begin{tabular}{ | c | c | c | p{5cm} |}
     \hline
-   	Vowel ratio & HSW wins & BOR wins & Highest score & Lowest score  \\ \hline
-	0/8 & 9922 & 73 & & \\ \hline
-    	1/8 & 9999  & 1 & & \\ \hline
-    	2/8 & 9484 & 507 & & \\ \hline
-    	3/8 & 9777 & 212 & & \\ \hline
-	4/8 & 9735 & 262 & & \\ \hline
-	5/8 & 9627 & 368 & & \\ \hline
-	6/8 & 9146 & 838 & & \\ \hline
-	7/8 & 9863 & 134 & & \\ \hline
-	8/8 & 8762 & 1206 & & \\ \hline
+   	Vowel ratio & HSW wins & BOR wins \\ \hline
+	0/8 & 9922 & 73 \\ \hline
+    	1/8 & 9999  & 1 \\ \hline
+    	2/8 & 9484 & 507 \\ \hline
+    	3/8 & 9777 & 212 \\ \hline
+	4/8 & 9735 & 262 \\ \hline
+	5/8 & 9627 & 368 \\ \hline
+	6/8 & 9146 & 838 \\ \hline
+	7/8 & 9863 & 134 \\ \hline
+	8/8 & 8762 & 1206 \\ \hline
     \end{tabular}
 \caption{Winnings depending on vowel ratio. Amount of winning games of a total of 10 000 games.}
 \label{tab:bor+hsw}
@@ -188,18 +188,18 @@ Note that the BOR player is stable with its game results. In figure \ref{fig:bon
 
 \begin{table}[h]
 \centering
-    \begin{tabular}{ | c | c | c | c | c |  p{5cm} |}
+    \begin{tabular}{ | c | c | c |  p{5cm} |}
     \hline
-   	Vowel ratio & BS wins & BOR wins & Highest score & Lowest score \\ \hline
-	0/8 & 9925 & 72 & 0 & 0 \\ \hline
-    	1/8 & 9987 & 12 & 0 & 0 \\ \hline
-    	2/8 & 9670 & 325 & 0 & 0 \\ \hline
-    	3/8 & 9829 & 165 & 0 & 0 \\ \hline
-	4/8 & 9818 & 172 & 0 & 0 \\ \hline
-	5/8 & 9731 & 261 & 0 & 0 \\ \hline
-	6/8 & 9370 & 620 & 0 & 0 \\ \hline
-	7/8 & 9859 & 141 & 0 & 0 \\ \hline
-	8/8 & 9074 & 915 & 0 & 0 \\ \hline
+   	Vowel ratio & BS wins & BOR wins \\ \hline
+	0/8 & 9925 & 72 \\ \hline
+    	1/8 & 9987 & 12 \\ \hline
+    	2/8 & 9670 & 325 \\ \hline
+    	3/8 & 9829 & 165 \\ \hline
+	4/8 & 9818 & 172 \\ \hline
+	5/8 & 9731 & 261 \\ \hline
+	6/8 & 9370 & 620 \\ \hline
+	7/8 & 9859 & 141 \\ \hline
+	8/8 & 9074 & 915 \\ \hline
     \end{tabular}
 \caption{Winnings depending on vowel ratio. Amount of winning games of a total of 10 000 games.}
 \label{tab:bor+bs}
@@ -241,17 +241,11 @@ Bonus square player conclusions go here.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.5]{BonusBalance8vow}
+\includegraphics[scale=0.5]{BonusBalance8vow_bothDict}
 \caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 480 391 words available.}
 \label{fig:bonusBalanceLargeDict}
 \end{figure}
 
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.5]{BonusBalance8vow_smallDict}
-\caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 480 391 words available.}
-\label{fig:bonusBalanceLargeDict}
-\end{figure}
 
 \begin{thebibliography}{100}  
   \bibitem{perfectgame} Sheppard, B., 2002, Towards Perfect Play of Scrabble, Maastricht.
