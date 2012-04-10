@@ -7,11 +7,13 @@ y = [299, 309, 348, 282, 301, 252, 416, 312, 301, 342, 310, 333, 215, 242, 340, 
 z = [1:1000];
 
 subplot(2, 1, 1);
+
 plot(z,y);
 hold on
 plot(z,x, 'g');
 hold off
 legend('HighScoreWordPLayer', 'BalanceOnRackPlayer');
+title('480391 words');
 xlabel('Game');
 ylabel('Score');
 axis ([1 1000 0 750]);
@@ -25,11 +27,13 @@ y = [261, 236, 199, 282, 237, 280, 254, 279, 333, 320, 279, 208, 225, 310, 416, 
 
 
 subplot(2, 1, 2);
+
 plot(z,y);
 hold on
 plot(z,x, 'g');
 hold off
 legend('HighScoreWordPLayer', 'BalanceOnRackPlayer');
+title('83247 words');
 xlabel('Game');
 ylabel('Score');
 axis ([1 1000 0 750]);
