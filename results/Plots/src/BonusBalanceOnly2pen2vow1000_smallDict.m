@@ -10,6 +10,6 @@ plot(z,x, 'g');
 hold on
 plot(z,y);
 hold off
-legend('BalancePlayer', 'HighScoreWordPlayer');
+legend('BalanceOnRackPlayer', 'HighScoreWordPlayer');
 xlabel('Game');
 ylabel('Score');
