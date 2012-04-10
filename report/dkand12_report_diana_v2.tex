@@ -1,6 +1,7 @@
 \documentclass[a4paper, 12pt]{report}
 \usepackage{graphicx}
 \usepackage{fancyhdr}
+\usepackage{wrapfig}
 \pagestyle{fancy}
 \begin{document}
 
@@ -11,7 +12,14 @@
         \and Diana Gren \\ Sköldgatan 8 2TR \\ 118 63 Stockholm \\ SWEDEN \\ +46(0)70-467 47 20 \\ dianagr@kth.se}
 
 \maketitle
+\begin{abstract}
+The abstract goes here.
+\end{abstract}
 \tableofcontents
+
+
+
+
 
 \chapter{Introduction}
 Scrabble is an old classic game, fairly easy to learn, but really difficult to be great in. How to play the game of Scrabble is a well studied problem. In comparison to other classical games such as \emph{Chess} or \emph{Checkers}, it is much more difficult to be a successful player of Scrabble due to a number of factors where the random component is considered to be the most affecting. The classic games can usually be placed in two categories; either \emph{deterministic} games och \emph{non-deterministic} games.
@@ -29,6 +37,18 @@ The game require the players to have a good vocabulary and keeping an extra eye 
 This gives the player many factors to take in consideration every time a move is to be made. Such factors are; words that generate higher scores, bonus tiles etc.
 
 If there were to be a strategy where only one of these factors would be considered, which one would be the most rewarding? This study aims to investigate which of these factors has the bigger impact when one is reaching for a win. Three different programmed agents with three different objectives will play against each other in order to show results and let us determine the most preferable strategy.
+\section {Acronyms}
+\begin{description}
+\item{DAWG} Directed acyclic word graph.
+\item{HSW} High score word player.
+\item{BS} Bonus square player.
+\item{BOR} Balance on rack player.
+\end{description}
+
+
+
+
+
 
 
 \chapter{Background}
@@ -85,6 +105,11 @@ If one is a beginner at Scrabble, there are meny small tricks to learn to advanc
 \item Vocabulary. There are many short words in the language, and it is instantly rewarding if a player can learn many short word letters.
 \end{itemize}
 
+
+
+
+
+
 \chapter{Implementation}
 The study is based on an implementation that follows the example of Appel and Jacobsen \cite{fastest}, with some small modifications. Since implementing a DAWG seemed like a time consuming project, a chioce was made to stay with the trie. The advantage with a DAWG is that it saves a lot of memory, but there were no problems with memory space, and therefore an unnecessary thing to focus on.
 
@@ -95,27 +120,67 @@ The bag is also minimized, and do not contain any blank letters or other special
 
 \section{Agents}
 \label{sec:agents}
-To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. The would play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game. In order to evaluate which strategies are the more rewarding, the agents are implemented with only \emph{one} strategy. An agent who calculates the total score of a move and chooses the highest one will easily win over the tested agents in this study.
+To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. The would play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game. In order to evaluate which strategies are the more rewarding, the agents are implemented with only \emph{one} strategy. An agent who calculates the total score of a move and chooses the highest one will easily win over the tested agents in this study. The agents will be referred to as follows:
+\begin{description}
+\item{HSW} High score word player.
+\item{BS} Bonus square player.
+\item{BOR} Balance on rack player.
+\end{description}
 
 \subsection{High score words}
-One strategy one can use when playing Scrabble is the fact that some letters are more worth than others. These letter are less commonly used in the language and is therefore more difficult to use. Naturally, one would want to use them as soon as there is an opportunity, to not risk getting stuck later in the game. One od the agents tested in this study follows the strategy of placing higher score generating letters first. By all legal moves generated, the agent will chose the one were the word itself has the highest score.
+One strategy one can use when playing Scrabble is the fact that some letters are more worth than others. These letter are less commonly used in the language and is therefore more difficult to use. Naturally, one would want to use them as soon as there is an opportunity, to not risk getting stuck later in the game. One od the agents tested in this study follows the strategy of placing higher score generating letters first. By all legal moves generated, the agent will chose the one were the word itself has the highest score. 
 
-\subsection{Bonus tiles}
+\subsection{Bonus squares}
 Sometimes, it can be more rewarding to place a relatively short word than a longer one. This is because of the bonus squares spread out on the board. The can multiply the value of either one letter, or the entire word placed, and can therefore generate quite high scores. The second agent strives to place words over bonus squares, to hopefully generate a high score. If there are several opportunities to reach a bonus tile, the most rewarding one is chosen by the agent, i.e. the word reaching the bonus square with the highest bonus.
 
 \subsection{Balance on rack}
 An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. The third agent tested tries to always keep a good balance between vowels and consonants on the rack, to avoid deadlocks later in the game. The agent knows the \emph{ideal ratio} and tries to lay out words so that the words left on the rack returns a ratio as close to the ideal ratio as possible. Tests with different ideal ratios are made.
 
 \section{Test results}
-Each of the agents has been tested against the other to, to let us evaluate the impact of each strategy. Explanations of the agents can be read about in section \ref{sec:agents}.
+Each of the agents has been tested against the others, to let us evaluate the impact of each strategy. Explanations of the agents can be read about in section \ref{sec:agents}.
+ 
+The agents were set to play 1000 games against each other and to minimize the impact of opening the game in the results, both agents started the game 500 times.
+
+Two dicionaries were used in the tests; one consisting of only the normal form of each word and the other consisting of all possible forms of each words, where the latter is a set of 480391 words. The former consists of 83247 words. The rules of Swedish Scrabble do not allow words of all forms, but the english does. Therefore, it seemed interesting to compare how the agents would perform with different conditions.
 
 \graphicspath{{../results/Plots/}}
 \subsection{High score words vs Balance on rack}
+
+The BOR player uses a ratio between vowels and consonants on the rack, and strives to keep the ratio after each move. Several tests were made with the BOR player to see if there is any difference when altering the ratio parameter. The ratio is calculated as the number of vowels left on hand divided into the number of consonants left on hand. Table \ref{tab:bor+hsw} shows the results of the runs made with different ideal number of vowels on hand.
+
+An interesting result is the one when the ideal ratio of vowels are 1, i.e. when all tiles should be vowels.
+
+\begin{table}
+\centering
+    \begin{tabular}{ | l | l | l | p{5cm} |}
+    \hline
+   	Vowels & HSW & BOR \\ \hline
+	0 & 995 & 4 \\ \hline
+    	1 & 1000 & 0  \\ \hline
+    	2 & 954 + 958 + 949 & 46 + 42 + 51 \\ \hline
+    	3 & 979 & 20 \\ \hline
+	4 & 975 & 25 \\ \hline
+	5 & 960 & 38 \\ \hline
+	6 & 915 & 83 \\ \hline
+	7 & 988 & 12 \\ \hline
+	8 & 866 & 132 \\ \hline
+    \end{tabular}
+\caption{Winnings. Amount of winning games of a total of 1000 games over 10 runs.} 
+\label{tab:bor+hsw}
+\end{table}
+
 \begin{figure}
 \centering
-\includegraphics[scale=0.5]{High_Balance2pen2vow_1000games}
-\caption {Scores. Scores of the two players in 1000 games.}
-\label{fig:anchors}
+\includegraphics[scale=0.5]{High_BalanceOnly2pen2vow_1000games}
+\caption {Scores. Scores of the two players in 1000 games with 480 391 words available.}
+\label{fig:highbalance}
+\end {figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{High_Balance2pen2vow_1000games_smallDict}
+\caption {Scores. Scores of the two players in 1000 games with 83 247 words available.}
+\label{fig:highbalance}
 \end{figure}
 
 Testing parameters:
@@ -126,9 +191,17 @@ Testing parameters:
 \subsection{Balance on rack vs Bonus squares}
 \subsection{Bonus squares vs High score words}
 
+
+
+
 \chapter{Conclusions}
 \chapter{Discussion}
 Naturally, the agent that only consideres a balance between tiles on the rack is not very successful. An improvement could be done to let it try to place a word with as high score as possible \emph{and} keep the balance. 
+
+
+
+
+
 
 \begin{thebibliography}{100}  
   \bibitem{perfectgame} Sheppard, B., 2002, Towards Perfect Play of Scrabble, Maastricht.
