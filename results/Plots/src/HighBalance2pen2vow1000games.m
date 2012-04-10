@@ -6,9 +6,9 @@ y = [191, 277, 258, 199, 227, 225, 257, 182, 216, 260, 232, 168, 318, 262, 249, 
 
 z = [1:1000];
 
-plot(z,x, 'g');
+plot(z,x);
 hold on
-plot(z,y);
+plot(z,y, 'g');
 hold off
 legend('BalanceOnRackPlayer', 'HighScoreWordPlayer');
 xlabel('Game');
