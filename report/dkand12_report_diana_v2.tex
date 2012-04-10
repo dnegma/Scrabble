@@ -85,7 +85,7 @@ A key in the algorithm implemented are the \emph{anchor squares}, which are the 
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.5]{anchors}
+\includegraphics[scale=0.3]{anchors}
 \caption{Anchor squares. The adjacent tiles are the anchor tiles from which the word generation begins.}
 \label{fig:anchors}
 \end{figure}
@@ -113,7 +113,14 @@ If one is a beginner at Scrabble, there are meny small tricks to learn to advanc
 \chapter{Implementation}
 The study is based on an implementation that follows the example of Appel and Jacobsen \cite{fastest}, with some small modifications. Since implementing a DAWG seemed like a time consuming project, a chioce was made to stay with the trie. The advantage with a DAWG is that it saves a lot of memory, but there were no problems with memory space, and therefore an unnecessary thing to focus on.
 
+In the implementation there were some game limitations made to make the study fit into the given time span. The game limitations are described in section \ref{sec:limitations}.
+
+Three different agents were implemented with different strategies to follow and they are all described in section \ref{sec:agents}.
+
+The analysis and the final results are shown in section \ref{sec:analysis}.
+
 \section{Game limitations}
+\label{sec:limitations}
 To limit the work load to fit into the time span, some limitations were made to the game. This study focuses on games played by only two players, and the implementation is therefore customized to handle only two player games. The players have two options during a turn; either lay a word, or pass the turn and receieve zero points. In other words; the possibility to change tiles if no word can be found is removed. 
 
 The bag is also minimized, and do not contain any blank letters or other special tiles that are not letters. The result is that a Q or a W never can be used. In addition, the game is played in Swedish by the agents.
@@ -136,67 +143,77 @@ Sometimes, it can be more rewarding to place a relatively short word than a long
 \subsection{Balance on rack}
 An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. The third agent tested tries to always keep a good balance between vowels and consonants on the rack, to avoid deadlocks later in the game. The agent knows the \emph{ideal ratio} and tries to lay out words so that the words left on the rack returns a ratio as close to the ideal ratio as possible. Tests with different ideal ratios are made.
 
-\section{Test results}
+\section{Analysis}
+\label{sec:analysis}
 Each of the agents has been tested against the others, to let us evaluate the impact of each strategy. Explanations of the agents can be read about in section \ref{sec:agents}.
  
-The agents were set to play 1000 games against each other and to minimize the impact of opening the game in the results, both agents started the game 500 times.
+\subsubsection{Games}
+In one run the agents were set to play 1000 games against each other and to minimize the impact of opening the game in the results, both agents started the game 500 times. Each run were made 10 times, so the total result is based on 10 000 games. It was established that there were no significant changes in the results between running 1000 games, and 10 000 games, and would therefore probably be reduntant to make more tests. 
 
-Two dicionaries were used in the tests; one consisting of only the normal form of each word and the other consisting of all possible forms of each words, where the latter is a set of 480391 words. The former consists of 83247 words. The rules of Swedish Scrabble do not allow words of all forms, but the english does. Therefore, it seemed interesting to compare how the agents would perform with different conditions.
+\subsubsection{Dictionaries}
+Two dictionaries were used in the tests; one consisting of only the normal form of each word and the other consisting of all possible forms of each words, where the latter is a set of 480391 words. The former consists of 83247 words. The rules of Swedish Scrabble do not allow words of all forms, but the english does. Therefore, it seemed interesting to compare how the agents would perform with different conditions. There could be situations where for instance the bonus player has an advantage if conjunctions are allowed, since it strives always after covering the bonus squares. The large dictionary could allow the player to place short extensions to already placed words.
 
 \graphicspath{{../results/Plots/}}
 \subsection{High score words vs Balance on rack}
 
-The BOR player uses a ratio between vowels and consonants on the rack, and strives to keep the ratio after each move. Several tests were made with the BOR player to see if there is any difference when altering the ratio parameter. The ratio is calculated as the number of vowels left on hand divided into the number of consonants left on hand. Table \ref{tab:bor+hsw} shows the results of the runs made with different ideal number of vowels on hand.
+The results from runs over the large dictionary and the small dictionary do not differ that much, as can be seen in figure \ref{fig:largeDict} and figure \ref{fig:smallDict}.
+The BOR player uses a ratio between vowels and consonants on the rack, and strives to keep the ratio after each move. The wanted number of vowels on hand will be referred to as \emph{vowel ratio}. Several tests were made with the BOR player to see if there is any difference when altering the ratio parameter. The ratio is calculated as the number of vowels left on hand divided into the number of consonants left on hand. Table \ref{tab:bor+hsw} shows the results of the runs made with different ideal number of vowels on hand.
 
-An interesting result is the one when the ideal ratio of vowels are 1, i.e. when all tiles should be vowels.
+The results show that the HSW player is generally more successful playing the game. The BOR player doeas not take the word score in consideration when playing, but only the ratio, and it it obviously not the most rewarding strategy to follow. An interesting observation is that if the BOR agent tries to keep a ratio of vowels close to 1, i.e all tiles being vowels, there is a significant peak in the number of winning games for the agent. On the other hand, trying to keep one vowel on hand after each round seems to not be as smart, since the agent lost almost 100\% of all games.
 
 \begin{table}
 \centering
     \begin{tabular}{ | l | l | l | p{5cm} |}
     \hline
-   	Vowels & HSW & BOR \\ \hline
-	0 & 995 & 4 \\ \hline
-    	1 & 1000 & 0  \\ \hline
-    	2 & 954 + 958 + 949 & 46 + 42 + 51 \\ \hline
-    	3 & 979 & 20 \\ \hline
-	4 & 975 & 25 \\ \hline
-	5 & 960 & 38 \\ \hline
-	6 & 915 & 83 \\ \hline
-	7 & 988 & 12 \\ \hline
-	8 & 866 & 132 \\ \hline
+   	Vowel ratio & HSW & BOR \\ \hline
+	0/8 & 9922 & 73 \\ \hline
+    	1/8 & 9999  & 1\\ \hline
+    	2/8 & 9484 & 507 \\ \hline
+    	3/8 & 9777 & 212\\ \hline
+	4/8 & 9735 & 262 \\ \hline
+	5/8 & 9627 & 368 \\ \hline
+	6/8 & 9146 & 838 \\ \hline
+	7/8 & 9863 & 134 \\ \hline
+	8/8 & 866 + 868 + 879 + 876 & 132 + 127 + 120 + 120 \\ \hline
     \end{tabular}
-\caption{Winnings. Amount of winning games of a total of 1000 games over 10 runs.} 
+\caption{Winnings depending on vowel ratio. Amount of winning games of a total of 10 000 games.}
 \label{tab:bor+hsw}
 \end{table}
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.5]{High_BalanceOnly2pen2vow_1000games}
-\caption {Scores. Scores of the two players in 1000 games with 480 391 words available.}
-\label{fig:highbalance}
+\caption {Scores with vowel ratio 2/8. Scores of the two players in 1000 games with 480 391 words available.}
+\label{fig:smallDict}
 \end {figure}
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.5]{High_Balance2pen2vow_1000games_smallDict}
-\caption {Scores. Scores of the two players in 1000 games with 83 247 words available.}
-\label{fig:highbalance}
+\caption {Scores with vowel ratio 2/8. Scores of the two players in 1000 games with 83 247 words available.}
+\label{fig:largeDict}
 \end{figure}
 
-Testing parameters:
-\begin{itemize}
-\item Balance 1: 5 vowels of 8
-\item Balance 2: 3 vowels of 8
-\end{itemize}
 \subsection{Balance on rack vs Bonus squares}
+The results from games go here
+
 \subsection{Bonus squares vs High score words}
+The results from games go here.
 
 
 
 
 \chapter{Conclusions}
+This is what we get out of our results.
+
+
+
+
+
+
+
 \chapter{Discussion}
-Naturally, the agent that only consideres a balance between tiles on the rack is not very successful. An improvement could be done to let it try to place a word with as high score as possible \emph{and} keep the balance. 
+We have something to say about the results.
 
 
 

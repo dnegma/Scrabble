@@ -35,11 +35,11 @@ public class GameTests extends Game {
 		
 		for (int i = 0; i < NR_OF_GAMES; i++) {
 			
-			System.out.println("Playing game nr " + i);
+//			System.out.println("Playing game nr " + i);
 			boardType = new Board();
 			
 			player1Type = new BalancePlayer(boardType);
-			player2Type = new HighScoreWordPlayer(boardType);
+			player2Type = new HighestBonusRoundPlayer(boardType);
 			
 			boolean player1StartsPlaying;
 			
