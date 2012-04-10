@@ -13,3 +13,4 @@ hold off
 legend('HighScoreWordPLayer', 'BalanceOnRackPlayer');
 xlabel('Game');
 ylabel('Score');
+axis ([1 1000 0 750]);
