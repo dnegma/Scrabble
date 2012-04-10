@@ -38,6 +38,7 @@ This gives the player many factors to take in consideration every time a move is
 
 If there were to be a strategy where only one of these factors would be considered, which one would be the most rewarding? This study aims to investigate which of these factors has the bigger impact when one is reaching for a win. Three different programmed agents with three different objectives will play against each other in order to show results and let us determine the most preferable strategy.
 \section {Acronyms}
+\label{sec:acronyms}
 \begin{description}
 \item{DAWG} Directed acyclic word graph.
 \item{HSW} High score word player.
@@ -64,11 +65,9 @@ The last bonus opportunity is to lay out all tiles fom the rack in one move. Thi
 
 All players that have some remaining tiles on the rack will get a penalty, which counts up to the values of the tiles left. The penalty will be drawn of the total score, and the winner of the game is naturally the player with the highest score in the end.
 
-\subsection{Computer agents}
-The portion of randomness that exists in the game makes it difficult to create agents that can win easaily against a human player. Where a great player in ches
 \section{Research}
 As mentioned above, this is a well studied problem, and many papers and articles are to be found where different problems in the game of Scrabble have been studied. This paper will mostly refer to Appel and Jacobsen \cite{fastest} who discovered a way to represent the dictionary wo that it takes up minimum space in memory.
-\begin{figure}
+\begin{figure}[h]
 \centering
 \includegraphics[scale=0.5]{trie}
 \caption{Trie. Small dictionary consisting of 11 words represented as a trie.}
@@ -83,7 +82,7 @@ The problem of generating legal moves can be reduces to one dimension. Instead o
 \subsubsection{Anchor squares}
 A key in the algorithm implemented are the \emph{anchor squares}, which are the empy squares next to a non-empty square as can be seen in figure \ref{fig:anchors}. These are important since words can only be built from already existing tiles. In the very forst move there is only one anchor; the center square, since the player making the first move always has to start in the center square.
 
-\begin{figure}
+\begin{figure}[h]
 \centering
 \includegraphics[scale=0.3]{anchors}
 \caption{Anchor squares. The adjacent tiles are the anchor tiles from which the word generation begins.}
@@ -127,20 +126,15 @@ The bag is also minimized, and do not contain any blank letters or other special
 
 \section{Agents}
 \label{sec:agents}
-To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. The would play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game. In order to evaluate which strategies are the more rewarding, the agents are implemented with only \emph{one} strategy. An agent who calculates the total score of a move and chooses the highest one will easily win over the tested agents in this study. The agents will be referred to as follows:
-\begin{description}
-\item{HSW} High score word player.
-\item{BS} Bonus square player.
-\item{BOR} Balance on rack player.
-\end{description}
+To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. The would play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game. In order to evaluate which strategies are the more rewarding, the agents are implemented with only \emph{one} strategy. An agent who calculates the total score of a move and chooses the highest one will easily win over the tested agents in this study. The agents will be referred to as the HSW player, the BS player and the BOR player (see section \ref{sec:acronyms}).
 
-\subsection{High score words}
+\subsection{High Score Word player}
 One strategy one can use when playing Scrabble is the fact that some letters are more worth than others. These letter are less commonly used in the language and is therefore more difficult to use. Naturally, one would want to use them as soon as there is an opportunity, to not risk getting stuck later in the game. One od the agents tested in this study follows the strategy of placing higher score generating letters first. By all legal moves generated, the agent will chose the one were the word itself has the highest score. 
 
-\subsection{Bonus squares}
+\subsection{Bonus Square player}
 Sometimes, it can be more rewarding to place a relatively short word than a longer one. This is because of the bonus squares spread out on the board. The can multiply the value of either one letter, or the entire word placed, and can therefore generate quite high scores. The second agent strives to place words over bonus squares, to hopefully generate a high score. If there are several opportunities to reach a bonus tile, the most rewarding one is chosen by the agent, i.e. the word reaching the bonus square with the highest bonus.
 
-\subsection{Balance on rack}
+\subsection{Balance On Rack player}
 An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. The third agent tested tries to always keep a good balance between vowels and consonants on the rack, to avoid deadlocks later in the game. The agent knows the \emph{ideal ratio} and tries to lay out words so that the words left on the rack returns a ratio as close to the ideal ratio as possible. Tests with different ideal ratios are made.
 
 \chapter{Results}
@@ -158,7 +152,7 @@ In one run the agents were set to play 1000 games against each other and to mini
 Two dictionaries were used in the tests; one consisting of only the normal form of each word and the other consisting of all possible forms of each words, where the latter is a set of 480391 words. The former consists of 83247 words. The rules of Swedish Scrabble do not allow words of all forms, but the english does. Therefore, it seemed interesting to compare how the agents would perform with different conditions. There could be situations where for instance the bonus player has an advantage if conjunctions are allowed, since it strives always after covering the bonus squares. The large dictionary could allow the player to place short extensions to already placed words.
 
 \graphicspath{{../results/Plots/}}
-\section{High score words vs Balance on rack}
+\section{High score words vs Balance}
 \label{sec:highBalance}
 
 The results from runs over the large dictionary and the small dictionary do not differ that much, as can be seen in figure \ref{fig:largeDict} and figure \ref{fig:smallDict}.
@@ -166,15 +160,15 @@ The BOR player uses a ratio between vowels and consonants on the rack, and striv
 
 The results show that the HSW player is generally more successful playing the game. The BOR player doeas not take the word score in consideration when playing, but only the ratio, and it it obviously not the most rewarding strategy to follow. An interesting observation is that if the BOR agent tries to keep a ratio of vowels close to 1, i.e all tiles being vowels, there is a significant peak in the number of winning games for the agent. On the other hand, trying to keep one vowel on hand after each round seems to not be as smart, since the agent lost almost 100\% of all games.
 
-\begin{table}
+\begin{table}[h]
 \centering
-    \begin{tabular}{ | l | l | l | p{5cm} |}
+    \begin{tabular}{ | c | c | c | p{5cm} |}
     \hline
-   	Vowel ratio & HSW & BOR \\ \hline
+   	Vowel ratio & HSW wins & BOR wins \\ \hline
 	0/8 & 9922 & 73 \\ \hline
-    	1/8 & 9999  & 1\\ \hline
+    	1/8 & 9999  & 1 \\ \hline
     	2/8 & 9484 & 507 \\ \hline
-    	3/8 & 9777 & 212\\ \hline
+    	3/8 & 9777 & 212 \\ \hline
 	4/8 & 9735 & 262 \\ \hline
 	5/8 & 9627 & 368 \\ \hline
 	6/8 & 9146 & 838 \\ \hline
@@ -185,36 +179,23 @@ The results show that the HSW player is generally more successful playing the ga
 \label{tab:bor+hsw}
 \end{table}
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.5]{HighBalance8vow}
-\caption {Scores with vowel ratio 2/8. Scores of the two players in 1000 games with 480 391 words available.}
-\label{fig:smallDict}
-\end {figure}
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.5]{High_Balance2pen2vow_1000games_smallDict}
-\caption {Scores with vowel ratio 2/8. Scores of the two players in 1000 games with 83 247 words available.}
-\label{fig:largeDict}
-\end{figure}
-
-\section{Balance on rack vs Bonus squares}
+\section{Balance vs Bonus}
 \label{sec:balanceBonus}
 The BOR player continues to perform doubtly against the BS player. Also here the BS player consideres what bonus it will be given in a certain move, and chooses the highest one. Naturally the BOR player that only cares about its ratio on the rack will perform worse. The results from runs with different vowel ratio in the BOR player can be seen in table \ref{tab:bor+bs}.
 
 Note that the BOR player is stable with its game results. In figure \ref{fig:bonusBalanceLargeDict} one can see that the BS player in some games made an extremely poor performance, receiving zero points or less, while the BOR player keeps the graph quite thin, i.e. the results differ less from game to game.
 
-\begin{table}
+\begin{table}[h]
 \centering
-    \begin{tabular}{ | l | l | l | p{5cm} |}
+    \begin{tabular}{ | c | c | c |  p{5cm} |}
     \hline
-   	Vowel ratio & HSW & BOR \\ \hline
-	0/8 & 0 & 0 \\ \hline
-    	1/8 & 0 & 0 \\ \hline
-    	2/8 & 0 & 0 \\ \hline
-    	3/8 & 0 & 0 \\ \hline
-	4/8 & 0 & 0 \\ \hline
+   	Vowel ratio & BS wins & BOR wins \\ \hline
+	0/8 & 9925 & 72 \\ \hline
+    	1/8 & 9987 & 12 \\ \hline
+    	2/8 & 9670 & 325 \\ \hline
+    	3/8 & 9829 & 165 \\ \hline
+	4/8 & 9818 & 172 \\ \hline
 	5/8 & 9731 & 261 \\ \hline
 	6/8 & 9370 & 620 \\ \hline
 	7/8 & 9859 & 141 \\ \hline
@@ -224,15 +205,10 @@ Note that the BOR player is stable with its game results. In figure \ref{fig:bon
 \label{tab:bor+bs}
 \end{table}
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.5]{BonusBalance8vow}
-\caption {Scores with vowel ratio 2/8. Scores of the two players in 1000 games with 83 247 words available.}
-\label{fig:bonusBalanceLargeDict}
-\end{figure}
 
 
-\section{Bonus squares vs High score words}
+
+\section{Bonus vs High score words}
 \label{sec:bonusHigh}
 The results from games go here.
 
@@ -240,12 +216,35 @@ The results from games go here.
 
 
 \chapter{Conclusions}
+\section{Discussions}
 \subsubsection{BOR player}
 The BOR player is significantly better with a vowel ratio of 8/8. It can probably be explained from the fact that when choosing a move, and the vowel ratio is 8/8 (1) it is easier for the agent to place longer words. Imagine the agent placing a word using all tiles but one, and the remaining tile on hand is a vowel. This would be a preferable move if the ratio is 1, but not if the ratio is less. If the ratio would be 4/8 for example, the agent would choose a move that leaves two tiles, where one is a vowel, over the move with a longer word. 
 
+\subsubsection{HSW player}
+High score word player conclusions go here.
+
+\subsubsection{BS player}
+Bonus square player conclusions go here.
+
+\section{Conclusions}
 
 
+\appendix
+\chapter{Diagrams}
 
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{HighBalance8vow_bothDict}
+\caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 83 247 words available.}
+\label{fig:largeDict}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{BonusBalance8vow_bothDict}
+\caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 480 391 words available.}
+\label{fig:bonusBalanceLargeDict}
+\end{figure}
 
 
 \begin{thebibliography}{100}  
