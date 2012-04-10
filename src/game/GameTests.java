@@ -39,7 +39,7 @@ public class GameTests extends Game {
 			boardType = new Board();
 			
 			player1Type = new BalancePlayer(boardType);
-			player2Type = new HighestBonusRoundPlayer(boardType);
+			player2Type = new HighScoreWordPlayer(boardType);
 			
 			boolean player1StartsPlaying;
 			
