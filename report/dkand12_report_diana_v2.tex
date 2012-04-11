@@ -199,6 +199,22 @@ In one run the agents were set to play 1000 games against each other and to mini
 \subsection{Dictionaries}
 Two dictionaries were used in the tests; one consisting of only the normal form of each word and the other consisting of all possible forms of each words, where the latter is a set of 480391 words. The former consists of 83247 words. The rules of Swedish Scrabble do not allow words of all forms, but the english does. Therefore, it seemed interesting to compare how the agents would perform with different conditions. There could be situations where for instance the bonus player has an advantage if conjunctions are allowed, since it strives always after covering the bonus squares. The large dictionary could allow the player to place short extensions to already placed words.
 
+The longest word in the used dictionary is ammoniumdiamintetrakistiocyanatokromat. The shortest possible word to place on board is all two letter words Section \ref{regler}. The number of two letter words is 121. Table \ref{table:dictionary+length}.
+\begin{table}[h]
+\centering
+	\begin{tabular}{l | c | c}
+	& Base words & All words \\
+	\hline
+	Mean & 9.5 & 11.2 \\
+	\hline
+	Longest & \multicolumn{2}{c}{ammoniumdiamintetrakistiocyanatokromat} \\
+	\hline
+	Shortest & \multicolumn{2}{c}{121 two letter words} \\ 
+	\end{tabular}
+\caption{Mean, largest and smallest lengths of legal words in the dictionary.}
+\label{table:dictionary+length}
+\end{table}
+
 \section{High score words vs Balance}
 \label{sec:highBalance}
 
@@ -257,6 +273,9 @@ Note that the BOR player is stable with its game results. In figure \ref{fig:bon
 
 \section{Bonus vs High score words}
 \label{sec:bonusHigh}
+\emph{BS} wins just over 6 of 10 times against \emph{HSW} when using all inflection forms from the Swedish dictionary table \ref{table:bs+hsw+allwords} and well over 5 of 10 times when only the base forms of words is used table \ref{table:bs+hsw+baseforms}. When \emph{BS} started playing it won 52\% of its wins when using all inflection forms. For \emph{HSW} 53\% of its wins. When using only the base form both of them were winning 51\% its wins when started laying out words.
+
+The resulting mean, median, highest and lowest scores is significant higher when using all inflection forms. Lowest score is negative for both players when using only base forms. \emph{BS} mean score is 24\% higher in table \ref{table:bs+hsw+allwords} compared to table \ref{table:bs+hsw+baseforms}. The same applies for the end score which is higher when using all words Appendix Figure \ref{fig:bs+hsw+totalscores}.
 
 \begin{table}[h]
 \centering
@@ -273,8 +292,8 @@ Note that the BOR player is stable with its game results. In figure \ref{fig:bon
    	Draws & 39 & 39 \\
     \end{tabular}
 \caption{Result from 10 000 games with words in all inflection forms from the Swedish dictionary (480 391 words).}
+\label{table:bs+hsw+allwords}
 \end{table}
-
 
 \begin{table}[h]
 \centering
@@ -288,13 +307,11 @@ Note that the BOR player is stable with its game results. In figure \ref{fig:bon
 	Highest score & 488 & 506 \\
 	Lowest score & -15 & -11 \\		
 	\hline 
-   	Draws & 52 &  \\
+   	Draws & 52 & 52 \\
     \end{tabular}
 \caption{Result from 10 000 games with only words in base form from the Swedish dictionary (83 247 words).}
+\label{table:bs+hsw+baseforms}
 \end{table}
-
-
-
 
 \chapter{Conclusions}
 \section{Discussions}
@@ -305,7 +322,9 @@ The BOR player is significantly better with a vowel ratio of 8/8. It can probabl
 High score word player conclusions go here.
 
 \subsubsection{BS player}
-Bonus square player conclusions go here.
+Choosing to place words that will occupy a bonus square is rewarding. It will not only give a high score but will also destroy the possiblity for the opponent to reach a bonus square.
+
+It has active playing style with the mission to conquer the bonus squares at all cost. With the power of a big dictionary it will have a higher probability to reach a bonus. It is easy to extend words already on board when having the possibility to use all inflection forms of words. The end score will also be higher Figure \ref{fig:bs+hsw+totalscores}. When using only base words it will struggle to find bonus squares. This is due to 
 
 \section{Conclusions}
 
@@ -356,8 +375,8 @@ Bonus square player conclusions go here.
 \begin{figure}
 \centering
 \includegraphics[scale=0.3]{Highest_Bonus_Round_vs_High_Score_Word_10000}
-\caption {Scores of the two players in 10000 games. Upper graph with base words only and lower graph with all words.}
-\label{fig:bs+hsw}
+\caption {End scores of the two players in 10000 games. Upper graph with base words only and lower graph with all inflection forms.}
+\label{fig:bs+hsw+totalscores}
 \end{figure}
 
 
@@ -373,5 +392,6 @@ Bonus square player conclusions go here.
 \bibitem{ai} Russell S., Norvig P. Artificial Intelligence: A Modern Approach 3rd ed. Prentice Hall. 2009
 \bibitem{inforetrieve} Manning C. D., Raghavan P., Schütze H., Introduction to Information Retrieval, Cambridge University Press, 2008, p. 49-65.
 \bibitem{forbund} Svenska Scrabbleförbundet, www.scrabbleforbundet.se.
+\bibitem{dictionary}Den stora svenska ordlistan, http://code.google.com/p/dsso/downloads/detail?name=dsso-1.52.txt\&can=1\&q=
 \end{thebibliography}
 \end{document}
