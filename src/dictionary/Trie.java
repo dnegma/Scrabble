@@ -25,6 +25,39 @@ public class Trie {
 		long endTime = System.currentTimeMillis();
 		System.out.println("Regex run time: " + (endTime - startTime)
 				+ " milliseconds.");
+		
+		// Find out the mean length of words
+		int totalWordLength = 0;
+		int maxWordLength = 0;
+		String maxWord = "";
+		int minWordLength = 100;
+		String minWord = "";
+		int nrTwoWords = 0;
+		for (String word : dictionary) {
+			totalWordLength = totalWordLength + word.length();
+			if (word.length() > maxWordLength) {
+				maxWordLength = word.length();
+				maxWord = word;
+			}
+			if (word.length() < minWordLength && word.length() >= 2) {
+				minWordLength = word.length();
+				minWord = word;
+			}
+			if (word.length() == 2)
+				nrTwoWords = nrTwoWords + 1;
+
+		}
+		System.out.println(totalWordLength + " total length");
+		int dicSize = dictionary.size();
+		System.out.println(dictionary.size() + " words");
+		float meanLength = (float) totalWordLength / (float) dicSize;
+		System.out.println(meanLength + "  mean length value of word");
+		System.out.println(maxWordLength + " max word length.");
+		System.out.println(maxWord + " max word.");
+		System.out.println(minWordLength + " min word length.");
+		System.out.println(minWord + " min word");
+		System.out.println(nrTwoWords + " nr two letter words");
+
 		addWordsToTrie(dictionary);
 	}
 
