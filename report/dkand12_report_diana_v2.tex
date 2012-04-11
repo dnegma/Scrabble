@@ -68,13 +68,26 @@ There are several alternatives for a player to use a turn.
 \item The player can exchange a number of tiles from the rack for the same number of tiles from the bag.
 \end{enumerate}
 
-
-A move can be either the player laying out a word on the board, passing his turn or changing some of the tiles on the rack for new ones from the bag. Only one of the alternatives can be made in one round. Each move generates a score, which is zero if no tiles are layed out. Otherwise, the score depends on which tiles are included in the word and also which squares of the board. The letter tiles are posessing a score number, which is higher if the letter is considered difficult to use. In addition to that, som squares on the board generates a higher score. These will be called \emph{bonus squares}. 
+Only one of the alternatives can be executed in one round.
 
 \subsubsection{Bonus opportunities}
-The last bonus opportunity is to lay out all tiles fom the rack in one move. This will give the player 50  additional points. If ont player has placed all tiles from rack, and there are no tiles left from the bag, the game ends. This will also happen if the players pass their turn four times in a row, where a pass is a move that generates zero points. 
+A small twist in the game is the possibility to generate high scores through the use of bonuses. Dispersed on the board squares, there are four different types of \emph{bonus squares}:
 
-All players that have some remaining tiles on the rack will get a penalty, which counts up to the values of the tiles left. The penalty will be drawn of the total score, and the winner of the game is naturally the player with the highest score in the end.
+\begin{description}
+\item{2L:} Count the score of the letter placed onto this square as double.
+\item{3L:} Count the score of the letter placed onto this square as triple.
+\item{2W:} Multiply the score of the word by two.
+\item{3W:} Multiply the score of the word by three.
+\end{description}
+
+The existance of the bonus square makes it possible for the players to receive ver high scores regardless of the length of the word. Strategic placements of letter tiles on these squares can be vital to a player's total score.
+
+In addition to the bonus squares, there is also the possibility to lay out all the tiles from the rack in one move, which will reward the player with 50 points in addition to the word score.
+
+\subsubsection{End of game}
+The game ends when a player has emptied the rack, and there are no tiles left in the bag. Also, when there has been a total number of four zero points moves in a row, i.e. the players passed or exchanged tiles.
+
+After the game, all the players still having tils on the rack get a penalty. The sum of the letter scores on the rack is removed from the total score and the winner of the game is the player with the highest score in the end.
 
 \section{Research}
 As mentioned above, this is a well studied problem, and many papers and articles are to be found where different problems in the game of Scrabble have been studied. This paper will mostly refer to Appel and Jacobsen \cite{fastest} who discovered a way to represent the dictionary wo that it takes up minimum space in memory.
