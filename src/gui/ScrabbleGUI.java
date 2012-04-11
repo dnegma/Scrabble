@@ -95,8 +95,10 @@ public class ScrabbleGUI extends JFrame {
 			return Color.CYAN;
 		case Square.TWO_LETTER_BONUS:
 			return new Color(100, 149, 237);
+		case Square.CENTER_SQUARE:
+			return new Color(0, 0, 0);
 		}
-		return new Color(211, 211, 211);
+		return new Color(250, 250, 250);
 	}
 
 	private String getContent(Square square) {
