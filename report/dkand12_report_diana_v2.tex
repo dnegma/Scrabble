@@ -1,7 +1,10 @@
 \documentclass[a4paper, 12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[swedish,british]{babel}
 \usepackage{graphicx}
 \usepackage{fancyhdr}
-\usepackage{wrapfig}
+
+\usepackage{glossaries}
 \pagestyle{fancy}
 \begin{document}
 
@@ -15,6 +18,12 @@
 \begin{abstract}
 The abstract goes here.
 \end{abstract}
+
+\selectlanguage{swedish}
+\begin{abstract}
+Sammanfattning på svenska hamnar här.
+\end{abstract}
+\selectlanguage{british}
 \tableofcontents
 
 
@@ -22,28 +31,43 @@ The abstract goes here.
 
 
 \chapter{Introduction}
-Scrabble is an old classic game, fairly easy to learn, but really difficult to be great in. How to play the game of Scrabble is a well studied problem. In comparison to other classical games such as \emph{Chess} or \emph{Checkers}, it is much more difficult to be a successful player of Scrabble due to a number of factors where the random component is considered to be the most affecting. The classic games can usually be placed in two categories; either \emph{deterministic} games och \emph{non-deterministic} games.
+Scrabble is an old classic game that is fairly easy to learn. However, it is extremely difficult to be a great player. Compared to other classic board games, such as chess, there are more factors to take into consideration when making a move in Scrabble. 
 
-\begin{description}
-\item[Deterministic] A game is deterministic if the players have all possible information about the state of the game, and possible future states.
-\item[Non-deterministic] In contrast to a deterministic game, a non-deterministic game does not let the players now all information about the game's current or future states.
-\end{description}
+Apart from anagramming and generating words, there are other crucial decisions to make. A player would probably find several legal moves in one round, and then would have to decide which one to place. Choosing the move that generates the highest score is not always the ideal way to go. It could be that making such a move would create a situation in the next round where nothing could be done, or let the opponent score high.
 
-The main factor contributing to the difficulty of Scrabble is the randomness. Players do not have control over what tiles will be handed to them, which leads to each game being unique. Naturally, it is not obvious in which category Scrabble belongs. The first instinct would be to categorize it as non-deterministic, since the players do not have all information about the tiles of the opponent, nor the tiles in the bag. Though after furhter reflections it can be established that when all the tiles in the bag are picked up, there is a situation where the player could figure out the complete information scope of the current state of the game. This, of course, requires the players to possess all knowledge about how many tiles of each letter exist in the game.
+Making the choice of which move to use include many factors, and there are several different techniques and strategies one can follow to make the decision easier. Picking up the bonus squares can generate an extremely high score, hence one strategy is to try to always pick up the bonus squares and prevent the opponent from doing the same. Another way of being successful is to prioritize using letters with high score, since they would not only generate a high total score to the player, but could also create difficult situations in the future if not used as soon as possible.
+
+There are several more possible strategies one can follow, and this study aims to investigate a three of them trying to establish which one is the more rewarding.
 
 \section{Problem statement}
-The game require the players to have a good vocabulary and keeping an extra eye on which letter tiles that have already been placed and those who award the most points. Keeping a good balance between consonant and vocals on hand is a key to able to master the next move. It’s important to score bonus and prevent to opponent doing the same, by avoiding placing tiles that opens up a bonus square.
+Scrabble requires the players to have a good vocabulary and to become a successful player, some knowledge about how many tiles of each letter is available is preferable. 
 
-This gives the player many factors to take in consideration every time a move is to be made. Such factors are; words that generate higher scores, bonus tiles etc.
+When playing, the ability to keep a good balance between consonants and vowels on the rack can profit future moves. Destroying bonus possibilities for the opponent, and at the same time score them oneself is a crucial skill, and experts are probably aware of which tiles have been placed, and those that remain, allowing them to anticipate the future sequence of events. 
 
-If there were to be a strategy where only one of these factors would be considered, which one would be the most rewarding? This study aims to investigate which of these factors has the bigger impact when one is reaching for a win. Three different programmed agents with three different objectives will play against each other in order to show results and let us determine the most preferable strategy.
-\section {Acronyms}
-\label{sec:acronyms}
+\subsection{Question}
+Which of the strategies has the most impact on a game? How do the strategies perform against each other, and which one is the most successful one? 
+
+
+\section {Terminology}
+\label{sec:terminology}
+
 \begin{description}
-\item{DAWG} Directed acyclic word graph.
-\item{HSW} High score word player.
-\item{BS} Bonus square player.
-\item{BOR} Balance on rack player.
+\item{\emph{Anchor square}}: Vacant board square adjacent to a placed tile.
+
+\item{\emph{Bag}} Tiles that have not been drawn by players.
+
+\item{\emph{BOR}}: Balance on rack player.
+
+\item{\emph{BS}}: Bonus square player.
+
+\item{\emph{Cross check set}}: Set of possible letters on an anchor square with regard to adjacent word going vertical from named square.
+
+\item{\emph{DAWG}}: Directed acyclic word graph.
+
+\item{\emph{HSW}}: High score word player.
+
+\item{\emph{Rack}} Tiles on a player's hand. 
+
 \end{description}
 
 
@@ -57,13 +81,37 @@ If there were to be a strategy where only one of these factors would be consider
 \section{Scrabble}
 Scrabble was originally created by an american in the 1930s, and arrived in Sweden in 1954 according to Svenska Scrabbleförbundet \cite{forbund}. 
 
-The game rules are not too complicated; there can be from two up to four player playing. There is a set of tiles with letters in \emph{tha bag}, from which each player is given from 5 to 8 tiles. For consistency in the report, we say that these tiles are from the player's \emph{rack}. The objective is to form words and lay out on the board, either horizontal or vertical. The words layed out can consist of tiles from the rack, or tiles already placed on the board. The player picks up new tiles from the bag after every move.
+\subsubsection{Components}
+Scrabble consists of a 15x15 square board (see appendix section \ref{sec:board}), and a set of letter tiles. Each letter tile has a score associated with it, which depends on which letter is on the tile (see appendix section \ref{sec:letterpoints}). The more difficult letter to use have a higher score, and the more common letters have lower score. The players are given 5 to 8 tiles each, to keep on their \emph{rack}. The game objective is to form words, consisting of at least two letters, using the tiles on the rack and lay out onto the board, horizontally or vertically, and get as high score as possible. 
 
-A move can be either the player laying out a word on the board, passing his turn or changing some of the tiles on the rack for new ones from the bag. Only one of the alternatives can be made in one round. Each move generates a score, which is zero if no tiles are layed out. Otherwise, the score depends on which tiles are included in the word and also which squares of the board. The letter tiles are posessing a score number, which is higher if the letter is considered difficult to use. In addition to that, som squares on the board generates a higher score. These will be called \emph{bonus squares}. 
+\subsubsection{Legal move}
+There are several alternatives for a player to use a turn. 
+\begin{itemize}
+\item The player can lay out a legal word onto the board, receiving the corresponding score. After having played a number of tiles, the player draws the same number of new tiles from the bag.
+\item The player can pass his turn, receiving zero points.
+\item The player can exchange a number of tiles from the rack for the same number of tiles from the bag.
+\end{itemize}
 
-The last bonus opportunity is to lay out all tiles fom the rack in one move. This will give the player 50  additional points. If ont player has placed all tiles from rack, and there are no tiles left from the bag, the game ends. This will also happen if the players pass their turn four times in a row, where a pass is a move that generates zero points. 
+Only one of the alternatives can be executed in one round.
 
-All players that have some remaining tiles on the rack will get a penalty, which counts up to the values of the tiles left. The penalty will be drawn of the total score, and the winner of the game is naturally the player with the highest score in the end.
+\subsubsection{Bonus opportunities}
+A small twist in the game is the possibility to generate high scores through the use of bonuses. Dispersed on the board squares, there are four different types of \emph{bonus squares}:
+
+\begin{description}
+\item{2L:} Count the score of the letter placed onto this square as double.
+\item{3L:} Count the score of the letter placed onto this square as triple.
+\item{2W:} Multiply the score of the word by two.
+\item{3W:} Multiply the score of the word by three.
+\end{description}
+
+The existance of the bonus square makes it possible for the players to receive ver high scores regardless of the length of the word. Strategic placements of letter tiles on these squares can be vital to a player's total score.
+
+In addition to the bonus squares, there is also the possibility to lay out all the tiles from the rack in one move, which will reward the player with 50 points in addition to the word score.
+
+\subsubsection{End of game}
+The game ends when a player has emptied the rack, and there are no tiles left in the bag. Also, when there has been a total number of four zero points moves in a row, i.e. the players passed or exchanged tiles.
+
+After the game, all the players still having tils on the rack get a penalty. The sum of the letter scores on the rack is removed from the total score and the winner of the game is the player with the highest score in the end.
 
 \section{Research}
 As mentioned above, this is a well studied problem, and many papers and articles are to be found where different problems in the game of Scrabble have been studied. This paper will mostly refer to Appel and Jacobsen \cite{fastest} who discovered a way to represent the dictionary wo that it takes up minimum space in memory.
@@ -84,7 +132,7 @@ A key in the algorithm implemented are the \emph{anchor squares}, which are the 
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.3]{anchors}
+\includegraphics[scale=0.5]{anchors}
 \caption{Anchor squares. The adjacent tiles are the anchor tiles from which the word generation begins.}
 \label{fig:anchors}
 \end{figure}
@@ -126,7 +174,7 @@ The bag is also minimized, and do not contain any blank letters or other special
 
 \section{Agents}
 \label{sec:agents}
-To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. The would play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game. In order to evaluate which strategies are the more rewarding, the agents are implemented with only \emph{one} strategy. An agent who calculates the total score of a move and chooses the highest one will easily win over the tested agents in this study. The agents will be referred to as the HSW player, the BS player and the BOR player (see section \ref{sec:acronyms}).
+To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. The would play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game. In order to evaluate which strategies are the more rewarding, the agents are implemented with only \emph{one} strategy. An agent who calculates the total score of a move and chooses the highest one will easily win over the tested agents in this study. The agents will be referred to as the HSW player, the BS player and the BOR player (see section \ref{sec:terminology}).
 
 \subsection{High Score Word player}
 One strategy one can use when playing Scrabble is the fact that some letters are more worth than others. These letter are less commonly used in the language and is therefore more difficult to use. Naturally, one would want to use them as soon as there is an opportunity, to not risk getting stuck later in the game. One od the agents tested in this study follows the strategy of placing higher score generating letters first. By all legal moves generated, the agent will chose the one were the word itself has the highest score. 
@@ -151,7 +199,6 @@ In one run the agents were set to play 1000 games against each other and to mini
 \subsection{Dictionaries}
 Two dictionaries were used in the tests; one consisting of only the normal form of each word and the other consisting of all possible forms of each words, where the latter is a set of 480391 words. The former consists of 83247 words. The rules of Swedish Scrabble do not allow words of all forms, but the english does. Therefore, it seemed interesting to compare how the agents would perform with different conditions. There could be situations where for instance the bonus player has an advantage if conjunctions are allowed, since it strives always after covering the bonus squares. The large dictionary could allow the player to place short extensions to already placed words.
 
-\graphicspath{{../results/Plots/}}
 \section{High score words vs Balance}
 \label{sec:highBalance}
 
@@ -210,7 +257,41 @@ Note that the BOR player is stable with its game results. In figure \ref{fig:bon
 
 \section{Bonus vs High score words}
 \label{sec:bonusHigh}
-The results from games go here.
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{ l | l | l }
+   	& Bonus Squares & High score words \\
+   	\hline
+   	Wins & 6104 & 3857 \\
+	Wins when started playing & 3148 & 2040 \\   	
+	Mean score & 308 & 278 \\
+	Median score & 301 & 273 \\	 	 
+	Highest score & 724 & 606 \\
+	Lowest score & 85 & 61 \\		
+	\hline 
+   	Draws & 39 & 39 \\
+    \end{tabular}
+\caption{Result from 10 000 games with words in all inflection forms from the Swedish dictionary (480 391 words).}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{ l | l | l }
+   	& Bonus Squares & High score words \\
+   	\hline
+   	Wins & 5427 & 4521 \\
+	Wins when started playing & 2758 & 2314 \\   	
+	Mean score & 248 & 240 \\
+	Median score & 246 & 234 \\	 	 
+	Highest score & 488 & 506 \\
+	Lowest score & -15 & -11 \\		
+	\hline 
+   	Draws & 52 &  \\
+    \end{tabular}
+\caption{Result from 10 000 games with only words in base form from the Swedish dictionary (83 247 words).}
+\end{table}
 
 
 
@@ -230,7 +311,33 @@ Bonus square player conclusions go here.
 
 
 \appendix
+\chapter{Game conditions}
+\graphicspath{{images/}}
+
+\section{Board}
+\label{sec:board}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{board}
+\caption {Game board. 15x15 square board with bonus squares.}
+\label{fig:largeDict}
+\end{figure}
+
+\section{Letter points}
+\label{sec:letterpoints}
+\begin{itemize}
+	\item{\emph{1 point}} \textbf{A}x8, \textbf{D}x5, \textbf{E}x7, \textbf{I}x5, \textbf{L}x5, \textbf{N}x6, \textbf{R}x8, \textbf{S}x8, \textbf{T}x8
+	\item{\emph{2 points}} \textbf{G}x3, \textbf{H}x2, \textbf{K}x3, \textbf{M}x3, \textbf{O}x5
+	\item{\emph{3 points}} \textbf{F}x2, \textbf{V}x2, \textbf{Å}x2
+	\item{\emph{4 points}} \textbf{B}x2, \textbf{P}x2, \textbf{U}x3, \textbf{Ä}x2, \textbf{Ö}x2
+	\item{\emph{7 points}} \textbf{J}x1, \textbf{Y}x1
+	\item{\emph{8 points}} \textbf{C}x1, \textbf{X}x1
+	\item{\emph{10 points}} \textbf{Z}x1
+\end{itemize}
+
+
 \chapter{Diagrams}
+\graphicspath{{../results/Plots/}}
 
 \begin{figure}[h]
 \centering
@@ -245,6 +352,14 @@ Bonus square player conclusions go here.
 \caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 480 391 words available.}
 \label{fig:bonusBalanceLargeDict}
 \end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.3]{Highest_Bonus_Round_vs_High_Score_Word_10000}
+\caption {Scores of the two players in 10000 games. Upper graph with base words only and lower graph with all words.}
+\label{fig:bs+hsw}
+\end{figure}
+
 
 
 \begin{thebibliography}{100}  
