@@ -57,10 +57,21 @@ If there were to be a strategy where only one of these factors would be consider
 \section{Scrabble}
 Scrabble was originally created by an american in the 1930s, and arrived in Sweden in 1954 according to Svenska Scrabbleförbundet \cite{forbund}. 
 
-The game rules are not too complicated; there can be from two up to four player playing. There is a set of tiles with letters in \emph{tha bag}, from which each player is given from 5 to 8 tiles. For consistency in the report, we say that these tiles are from the player's \emph{rack}. The objective is to form words and lay out on the board, either horizontal or vertical. The words layed out can consist of tiles from the rack, or tiles already placed on the board. The player picks up new tiles from the bag after every move.
+\subsubsection{The game}
+The game consists of a 15x15 square board, and a set of letter tiles. Each letter tile has a score associated with it, which depends on which letter is on the tile. The more difficult letter to use have a higher score, and the more common letters have lower score. The players are given 5 to 8 tiles each, to keep on their \emph{rack}. The game objective is to form words using the tiles on the rack and lay out onto the board, horizontally or vertically, and get as high score as possible. 
+
+\subsubsection{Legal move}
+There are several alternatives for a player to use a turn. 
+\begin{enumerate}
+\item The player can lay out a legal word onto the board, receiving the corresponding score.
+\item The player can pass his turn, receiving zero points.
+\item The player can exchange a number of tiles from the rack for the same number of tiles from the bag.
+\end{enumerate}
+
 
 A move can be either the player laying out a word on the board, passing his turn or changing some of the tiles on the rack for new ones from the bag. Only one of the alternatives can be made in one round. Each move generates a score, which is zero if no tiles are layed out. Otherwise, the score depends on which tiles are included in the word and also which squares of the board. The letter tiles are posessing a score number, which is higher if the letter is considered difficult to use. In addition to that, som squares on the board generates a higher score. These will be called \emph{bonus squares}. 
 
+\subsubsection{Bonus opportunities}
 The last bonus opportunity is to lay out all tiles fom the rack in one move. This will give the player 50  additional points. If ont player has placed all tiles from rack, and there are no tiles left from the bag, the game ends. This will also happen if the players pass their turn four times in a row, where a pass is a move that generates zero points. 
 
 All players that have some remaining tiles on the rack will get a penalty, which counts up to the values of the tiles left. The penalty will be drawn of the total score, and the winner of the game is naturally the player with the highest score in the end.
@@ -210,7 +221,41 @@ Note that the BOR player is stable with its game results. In figure \ref{fig:bon
 
 \section{Bonus vs High score words}
 \label{sec:bonusHigh}
-The results from games go here.
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{ l | l | l }
+   	& Bonus Squares & High score words \\
+   	\hline
+   	Wins & 6104 & 3857 \\
+	Wins when started playing & 3148 & 2040 \\   	
+	Mean score & 308 & 278 \\
+	Median score & 301 & 273 \\	 	 
+	Highest score & 724 & 606 \\
+	Lowest score & 85 & 61 \\		
+	\hline 
+   	Draws & 39 & 39 \\
+    \end{tabular}
+\caption{Result from 10 000 games with words in all inflection forms from the Swedish dictionary (480 391 words).}
+\end{table}
+
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{ l | l | l }
+   	& Bonus Squares & High score words \\
+   	\hline
+   	Wins & 5427 & 4521 \\
+	Wins when started playing & 2758 & 2314 \\   	
+	Mean score & 248 & 240 \\
+	Median score & 246 & 234 \\	 	 
+	Highest score & 488 & 506 \\
+	Lowest score & -15 & -11 \\		
+	\hline 
+   	Draws & 52 &  \\
+    \end{tabular}
+\caption{Result from 10 000 games with only words in base form from the Swedish dictionary (83 247 words).}
+\end{table}
 
 
 
@@ -244,6 +289,13 @@ Bonus square player conclusions go here.
 \includegraphics[scale=0.5]{BonusBalance8vow_bothDict}
 \caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 480 391 words available.}
 \label{fig:bonusBalanceLargeDict}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.3]{Highest_Bonus_Round_vs_High_Score_Word_10000}
+\caption {Scores of the two players in 10000 games. Upper graph with base words only and lower graph with all words.}
+\label{fig:bs+hsw}
 \end{figure}
 
 
