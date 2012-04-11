@@ -78,35 +78,58 @@ Which of the strategies has the most impact on a game? How do the strategies per
 
 \chapter{Background}
 
-\section{Scrabble}
-Scrabble was originally created by an american in the 1930s, and arrived in Sweden in 1954 according to Svenska Scrabbleförbundet \cite{forbund}. 
+\section{Scrabble game rules}
+Scrabble is word game were two to four players are given a set of letter tiles to form words to be placed out on a four-cornered board of squares. Almost all tournament play involve only two players. The tests throughout the report is therefore run with with two agents. There exists a large variation of the game rules. The following rules is a slightly simplified version of the most common rules used by clubs and tournament play worldwide.
 
-\subsubsection{Components}
-Scrabble consists of a 15x15 square board (see appendix section \ref{sec:board}), and a set of letter tiles. Each letter tile has a score associated with it, which depends on which letter is on the tile (see appendix section \ref{sec:letterpoints}). The more difficult letter to use have a higher score, and the more common letters have lower score. The players are given 5 to 8 tiles each, to keep on their \emph{rack}. The game objective is to form words, consisting of at least two letters, using the tiles on the rack and lay out onto the board, horizontally or vertically, and get as high score as possible. 
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{board}
+\caption {Game board. 15x15 square board with bonus squares.}
+\label{fig:game-board}
+\end{figure}
 
-\subsubsection{Legal move}
-There are several alternatives for a player to use a turn. 
+\subsubsection{Game components}
+Scrabble consists of 
+
 \begin{itemize}
-\item The player can lay out a legal word onto the board, receiving the corresponding score. After having played a number of tiles, the player draws the same number of new tiles from the bag.
-\item The player can pass his turn, receiving zero points.
-\item The player can exchange a number of tiles from the rack for the same number of tiles from the bag.
+\item a 15x15 board with bonus squares and the center marked out. fig. \ref{fig:game-board}.
+\item letter tiles
 \end{itemize}
 
-Only one of the alternatives can be executed in one round.
+The players are give 8 tiles each to keep on their \emph{rack}. Each letter reward points. Common letters gives lower points. The following list shows letter points and the number of occurances of each tile in the bag.
 
-\subsubsection{Bonus opportunities}
-A small twist in the game is the possibility to generate high scores through the use of bonuses. Dispersed on the board squares, there are four different types of \emph{bonus squares}:
+\begin{itemize}
+	\item{\emph{1 point}} \textbf{A}x8, \textbf{D}x5, \textbf{E}x7, \textbf{I}x5, \textbf{L}x5, \textbf{N}x6, \textbf{R}x8, \textbf{S}x8, \textbf{T}x8
+	\item{\emph{2 points}} \textbf{G}x3, \textbf{H}x2, \textbf{K}x3, \textbf{M}x3, \textbf{O}x5
+	\item{\emph{3 points}} \textbf{F}x2, \textbf{V}x2, \textbf{Å}x2
+	\item{\emph{4 points}} \textbf{B}x2, \textbf{P}x2, \textbf{U}x3, \textbf{Ä}x2, \textbf{Ö}x2
+	\item{\emph{7 points}} \textbf{J}x1, \textbf{Y}x1
+	\item{\emph{8 points}} \textbf{C}x1, \textbf{X}x1
+	\item{\emph{10 points}} \textbf{Z}x1
+\end{itemize}
+
+\subsubsection{Objectives}
+Each round the player has to construct a word consisting of at least two letters by using the tiles on the \emph{rack} and the board. Words can be placed horizontally or vertically. Each word has to be placed adjacent to at least one tile already on the board. The player starting has to position the first word so one letter is on top of the center square.
+
+\subsubsection{Turn}
+Each turn a player can choose from one of the following.
+\begin{itemize}
+\item Lay out a word onto the board. Then pick up new tiles from the bag, the same number as used from the rack so the player have a total of 8 tiles again.
+\item Pass, receiving 0 points.
+\item Exchange a number of tiles from the rack with the bag.
+\end{itemize}
+
+\subsubsection{Bonus squares}
+There are four different types of \emph{bonus squares} dispersed througout the board. When a tile is placed on top of one of them the player is rewarded a bonus score for either that particular tile or the whole word. Letter bonus is calculated by multiplying the point for the corresponding letter on top of the bonus square by either two or three. Word bonus is multiplied by two or three to the total score of the word. If a tile on a word bonus square is part of both a horizontal and vertical word, the bonus applied to both each of them respectively. If a word is positioned over both letter and bonus tiles, the score of the letter bonuses is calculated first before multiplying the word. Bonuses can only be used once when a tile is placed on the square.
 
 \begin{description}
-\item{2L:} Count the score of the letter placed onto this square as double.
-\item{3L:} Count the score of the letter placed onto this square as triple.
-\item{2W:} Multiply the score of the word by two.
-\item{3W:} Multiply the score of the word by three.
+\item{2L:} Double letter
+\item{3L:} Triple letter
+\item{2W:} Double word
+\item{3W:} Triple word
 \end{description}
 
-The existance of the bonus square makes it possible for the players to receive ver high scores regardless of the length of the word. Strategic placements of letter tiles on these squares can be vital to a player's total score.
-
-In addition to the bonus squares, there is also the possibility to lay out all the tiles from the rack in one move, which will reward the player with 50 points in addition to the word score.
+If a player uses all the tiles on the rack an additional 50 points is rewarded the player, after an eventual bonus score.
 
 \subsubsection{End of game}
 The game ends when a player has emptied the rack, and there are no tiles left in the bag. Also, when there has been a total number of four zero points moves in a row, i.e. the players passed or exchanged tiles.
@@ -333,26 +356,9 @@ It has active playing style with the mission to conquer the bonus squares at all
 \chapter{Game conditions}
 \graphicspath{{images/}}
 
-\section{Board}
-\label{sec:board}
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.5]{board}
-\caption {Game board. 15x15 square board with bonus squares.}
-\label{fig:largeDict}
-\end{figure}
 
-\section{Letter points}
-\label{sec:letterpoints}
-\begin{itemize}
-	\item{\emph{1 point}} \textbf{A}x8, \textbf{D}x5, \textbf{E}x7, \textbf{I}x5, \textbf{L}x5, \textbf{N}x6, \textbf{R}x8, \textbf{S}x8, \textbf{T}x8
-	\item{\emph{2 points}} \textbf{G}x3, \textbf{H}x2, \textbf{K}x3, \textbf{M}x3, \textbf{O}x5
-	\item{\emph{3 points}} \textbf{F}x2, \textbf{V}x2, \textbf{Å}x2
-	\item{\emph{4 points}} \textbf{B}x2, \textbf{P}x2, \textbf{U}x3, \textbf{Ä}x2, \textbf{Ö}x2
-	\item{\emph{7 points}} \textbf{J}x1, \textbf{Y}x1
-	\item{\emph{8 points}} \textbf{C}x1, \textbf{X}x1
-	\item{\emph{10 points}} \textbf{Z}x1
-\end{itemize}
+
+
 
 
 \chapter{Diagrams}
