@@ -177,7 +177,7 @@ A key in the algorithm implemented are the \emph{anchor squares}, which are the 
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.5]{anchors}
+\includegraphics[scale=0.3]{anchors}
 \caption{Anchor squares. The adjacent tiles are the anchor tiles from which the word generation begins.}
 \label{fig:anchors}
 \end{figure}
@@ -228,7 +228,9 @@ An important thing to think about when playing Scrabble is to plan for the next 
 
 \chapter{Results}
 \label{sec:analysis}
-Each of the agents has been tested against the others, to let us evaluate the impact of each strategy. Explanations of the agents can be read about in section \ref{sec:agents}. Section \ref{sec:conditions} describes under which conditions the tests were made.
+Each of the agents has been tested against the others, to let us evaluate the impact of each strategy. Explanations of the agents can be read about in section \ref{sec:agents}. 
+
+Section \ref{sec:conditions} describes under which conditions the tests were made.
 
 Sections \ref{sec:highBalance}, \ref{sec:balanceBonus} and \ref{sec:bonusHigh} show the results from each run.
  
@@ -298,6 +300,15 @@ The BOR player uses a ratio between vowels and consonants on the rack, and striv
 
 The results show that the HSW player is generally more successful playing the game. The BOR player does not take the word score in consideration when playing, but only the ratio, and it it obviously not the most rewarding strategy to follow. An interesting observation is that if the BOR agent tries to keep a ratio of vowels close to 1, i.e all tiles being vowels, there is a significant peak in the number of winning games for the agent. On the other hand, trying to keep one vowel on hand after each round seems to not be as smart, since the agent lost almost 100\% of all games.
 
+\graphicspath{{../results/Plots/}}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.52]{HighBalance8vow_bothDict_cropped}
+\caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 83 247 words available.}
+\label{fig:bonusBalanceSmallDict}
+\end{figure}
+
 \begin{table}[h]
 \centering
     \begin{tabular}{ c | c | c p{5cm}}
@@ -341,14 +352,18 @@ Note that the BOR player is stable with its game results. In figure \ref{fig:bon
 \label{tab:bor+bs}
 \end{table}
 
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.52]{BonusBalance8vow_bothDict_cropped}
+\caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 480 391 words available.}
+\label{fig:bonusBalanceLargeDict}
+\end{figure}
 
 
 
 \section{Bonus vs High score words}
 \label{sec:bonusHigh}
 \emph{BS} wins just over 6 of 10 times against \emph{HSW} when using all inflection forms from the Swedish dictionary table \ref{table:bs+hsw+allwords} and well over 5 of 10 times when only the base forms of words is used table \ref{table:bs+hsw+baseforms}. When \emph{BS} started playing it won 52\% of its wins when using all inflection forms. For \emph{HSW} 53\% of its wins. When using only the base form both of them were winning 51\% its wins when started laying out words.
-
-The resulting mean, median, highest and lowest scores is significant higher when using all inflection forms. Lowest score is negative for both players when using only base forms. \emph{BS} mean score is 24\% higher in table \ref{table:bs+hsw+allwords} compared to table \ref{table:bs+hsw+baseforms}. The same applies for the end score which is higher when using all words Appendix Figure \ref{fig:bs+hsw+totalscores}.
 
 \begin{table}[h]
 \centering
@@ -384,6 +399,17 @@ The resulting mean, median, highest and lowest scores is significant higher when
 \label{table:bs+hsw+baseforms}
 \end{table}
 
+The resulting mean, median, highest and lowest scores is significant higher when using all inflection forms. Lowest score is negative for both players when using only base forms. \emph{BS} mean score is 24\% higher in table \ref{table:bs+hsw+allwords} compared to table \ref{table:bs+hsw+baseforms}. The same applies for the end score which is higher when using all words Appendix Figure \ref{fig:bs+hsw+totalscores}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.52]{Highest_Bonus_Round_vs_High_Score_Word_10000_cropped}
+\caption {End scores of the two players in 10000 games. Upper graph with base words only and lower graph with all inflection forms.}
+\label{fig:bs+hsw+totalscores}
+\end{figure}
+
+
+
 \chapter{Conclusions}
 \section{Discussions}
 \subsubsection{BOR player}
@@ -399,40 +425,6 @@ It has active playing style with the mission to conquer the bonus squares at all
 
 \section{Conclusions}
 TODO kanske använda denna An agent who calculates the total score of a move and chooses the highest one will easily win over the tested agents in this study. 
-
-\appendix
-\chapter{Game conditions}
-\graphicspath{{images/}}
-
-
-
-
-
-
-\chapter{Diagrams}
-\graphicspath{{../results/Plots/}}
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.5]{HighBalance8vow_bothDict}
-\caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 83 247 words available.}
-\label{fig:bonusBalanceSmallDict}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.5]{BonusBalance8vow_bothDict}
-\caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 480 391 words available.}
-\label{fig:bonusBalanceLargeDict}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.3]{Highest_Bonus_Round_vs_High_Score_Word_10000}
-\caption {End scores of the two players in 10000 games. Upper graph with base words only and lower graph with all inflection forms.}
-\label{fig:bs+hsw+totalscores}
-\end{figure}
-
 
 
 \begin{thebibliography}{100}  
