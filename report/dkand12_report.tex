@@ -87,7 +87,7 @@ When playing, the ability to keep a good balance between consonants and vowels o
 \section{Scrabble game rules}
 Scrabble is word game for two to four players. They are given a set of letter tiles and the game objective is to form words to place onto a board of squares \cite{ABSP} \cite{NASPA} \cite{forbund}.
 
-\begin{figure}[h]
+\begin{figure}
 \centering
 \includegraphics[scale=0.5]{board}
 \caption {Game board. 15x15 square board with bonus squares.}
@@ -353,12 +353,7 @@ Another observation is that the BOR player is not as affected by the size of the
 
 \graphicspath{{../results/Plots/}}
 
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.4]{HighBalance8vow_bothDict_cropped}
-\caption {Scores with a BOR vowel ratio 8/8. The game scores from the HSW player and BOR player in 10000 games}
-\label{fig:highBalanceBothDict}
-\end{figure}
+
 
 
 
@@ -391,12 +386,7 @@ As in the previous section, the BOR player is not as affected by the size of the
 
 
 
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.4]{BonusBalance8vow_bothDict_cropped}
-\caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 480 391 words available.}
-\label{fig:bonusBalanceLargeDict}
-\end{figure}
+
 
 
 
@@ -440,12 +430,6 @@ The BS player wins just over 6 of 10 times against the HSW player when using all
 
 The resulting mean, median, highest and lowest scores are significantly higher when using all inflection forms. Lowest score is negative for both players when using only base forms. The BS player's mean score is 24\% higher in table \ref{table:bs+hsw+allwords} compared to table \ref{table:bs+hsw+baseforms}. The same applies for the end score which is higher when using all words, which can be seen in figure \ref{fig:bs+hsw+totalscores}.
 
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.4]{Highest_Bonus_Round_vs_High_Score_Word_10000_cropped}
-\caption {End scores of the two players in 10000 games. Upper graph with base words only and lower graph with all inflection forms.}
-\label{fig:bs+hsw+totalscores}
-\end{figure}
 
 
 
@@ -482,6 +466,29 @@ To keep the balance on the rack is useless, if no scores are taken into consider
 This work can be extended in many ways. One can for instance try and implement other types of agents. For this study there were reflections about implementing agents that calculates the total score from a move and add penalty points for moves less preferable according to the strategy. 
 
 \appendix
+\chapter{Graphs}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.52]{HighBalance8vow_bothDict_cropped}
+\caption {Scores with a BOR vowel ratio 8/8. The game scores from the HSW player and BOR player in 10000 games}
+\label{fig:highBalanceBothDict}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.52]{BonusBalance8vow_bothDict_cropped}
+\caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 480 391 words available.}
+\label{fig:bonusBalanceLargeDict}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.52]{Highest_Bonus_Round_vs_High_Score_Word_10000_cropped}
+\caption {End scores of the two players in 10000 games. Upper graph with base words only and lower graph with all inflection forms.}
+\label{fig:bs+hsw+totalscores}
+\end{figure}
+
+
 \chapter{Tables}
 
 \section{High Score Words vs Balance On Rack}
@@ -833,16 +840,22 @@ This work can be extended in many ways. One can for instance try and implement o
 \label{tab:borbsstats0}
 \end{table}
 
+
+Författare/organisation, årtal, Boktitel, Förlag, upplaga m.m.
+Författare/organisation, årtal, Artikelrubrik, Tidskriftstitel, nr/volym
+Författare/organisation, årtal, titel, webbadress, publiceringsdatum, hämtningsdatum
+
+
 \begin{thebibliography}{100}  
   \bibitem{perfectgame} Sheppard, B., 2002, Towards Perfect Play of Scrabble, Maastricht.
   \bibitem{fastest} Appel A. W., Jacobson, G. J., 1985, The World’s Fastest Scrabble Program, Commun. ACM, 31(5), 572-585, May 1988.
 \bibitem{faster} Gordon, S. A., 1993, A Faster Scrabble Move Generation Algorithm, Software - Practice and experience, Vol. 24(2), 219-232, February 1994.
 \bibitem{ai} Russell S., Norvig P. Artificial Intelligence: A Modern Approach 3rd ed. Prentice Hall. 2009
 \bibitem{inforetrieve} Manning C. D., Raghavan P., Schütze H., Introduction to Information Retrieval, Cambridge University Press, 2008, p. 49-65.
-\bibitem{dictionary} Den stora svenska ordlistan (Swedish dictionary), http://code.google.com/p/dsso/downloads/detail?name=dsso-1.52.txt\&can=1\&q=
-\bibitem{forbund} Swedish tournament rules by Svenska Scrabbleförbundets, http://www.scrabbleforbundet.se/index.php?option=content\&task=view\&id=16\&Itemid=39
-\bibitem{ABSP} World English-Language Scrabble Players’ Association (WESPA) rules, http://www.wespa.org/rules/RulesV2nov11.pdf
-\bibitem{NASPA} North American SCRABBLE Players Association official tournament rules, http://www.scrabbleplayers.org/wiki/images/a/af/Rules-20110605.pdf
-\bibitem{letterpoints} http://en.wikipedia.org/wiki/Scrabble\_letter\_distributions
+\bibitem{dictionary} Den stora svenska ordlistan (Swedish dictionary), http://code.google.com/p/dsso/downloads/detail?name=dsso-1.52.txt\&can=1\&q=, April 2012
+\bibitem{forbund} Svenska Scrabbleförbundet, Swedish tournament rules, http://www.scrabbleforbundet.se/index.php?option=content\&task= view\&id=16\&Itemid=39, April 2012
+\bibitem{ABSP} World English-Language Scrabble Players’ Association (WESPA) rules, http://www.wespa.org/rules/RulesV2nov11.pdf, April 2012
+\bibitem{NASPA} North American SCRABBLE Players Association official tournament rules, http://www.scrabbleplayers.org/wiki/images/a/af/Rules-20110605.pdf, April 2012
+\bibitem{letterpoints} Scrabble letter points, http://en.wikipedia.org/wiki/Scrabble\_letter\_ distributions, April 2012
 \end{thebibliography}
 \end{document}
