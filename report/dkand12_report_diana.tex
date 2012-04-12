@@ -56,21 +56,21 @@ When playing, the ability to keep a good balance between consonants and vowels o
 \label{sec:terminology}
 
 \begin{description}
-\item{\emph{Anchor square}}: Vacant board square adjacent to a placed tile. See section \ref{sec:anchors}
+\item{\bf{Anchor square}}: Vacant board square adjacent to a placed tile.
 
-\item{\emph{Bag}}: Tiles that have not been drawn by players.
+\item{\bf{Bag}} Tiles that have not been drawn by players.
 
-\item{\emph{BOR}}: Balance on rack player.
+\item{\bf{BOR}}: Balance on rack player.
 
-\item{\emph{BS}}: Bonus square player.
+\item{\bf{BS}}: Bonus square player.
 
-\item{\emph{Cross check set}}: Set of possible letters one can place on an anchor square. See section \ref{sec:crosscheck}.
+\item{\bf{Cross check set}}: Set of possible letters on an anchor square with regard to adjacent word going vertical from named square.
 
-\item{\emph{DAWG}}: Directed acyclic word graph.
+\item{\bf{DAWG}}: Directed acyclic word graph.
 
-\item{\emph{HSW}}: High score word player.
+\item{\bf{HSW}}: High score word player.
 
-\item{\emph{Rack}}: Tiles on a player's hand. 
+\item{\bf{Rack}} Tiles on a player's hand. 
 
 \end{description}
 
@@ -130,10 +130,10 @@ A player can choose to do one of the following each turn.
 There are four different types of \emph{bonus squares} dispersed throughout the board. The following bonus types can be used.
 
 \begin{description}
-\item{2L:} Double letter
-\item{3L:} Triple letter
-\item{2W:} Double word
-\item{3W:} Triple word
+\item{\bf 2L:} Double letter
+\item{\bf 3L:} Triple letter
+\item{\bf 2W:} Double word
+\item{\bf 3W:} Triple word
 \end{description}
 
 When a tile is placed on top of one of them the player is rewarded a bonus score for either that particular tile or the whole word. Letter bonus is calculated by multiplying the point for the corresponding letter on top of the bonus square by either two or three. Word bonus is multiplied by two or three to the total score of the word. If a tile on a word bonus square is part of both a horizontal and vertical word, the bonus is applied to both of them respectively. If a word is positioned on top of both letter- and a bonus tiles, the scores of the letter bonuses are calculated before multiplying the word. Bonuses can only be used once; when the tile is placed on the square.
@@ -267,7 +267,7 @@ end function
 \end{lstlisting}
 
 \subsection{Balance On Rack player}
-An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. The third agent tries to always keep a good balance between vowels and consonants on the rack, to help out form words in the next turn. The agent knows the \emph{ideal ratio} and tries to lay out words so that the words left on the rack returns a ratio as close to the ideal ratio as possible. Tests with different ideal ratios are made and the algorithm is shown below.
+An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. The third agent tries to always keep a good balance between vowels and consonants on the rack, to help out form words in the next turn. The agent knows the \emph{ideal ratio} and tries to lay out words so that the tiles left on rack after a move returns a ratio as close to the ideal ratio as possible. Tests with different ideal ratios are made and the algorithm is shown below.
 
 \begin{lstlisting}
 
@@ -297,7 +297,7 @@ The BOR player has an ideal ratio between the tiles on the rack which it tries t
 
 \label{sec:conditions}
 \subsection{Games}
-In one run the agents were set to play 1000 games against each other and to minimize the impact of opening the game in the results, both agents started the game 500 times. Each run were made 10 times, so the total result is based on 10 000 games. It was established that there were no significant changes in the results between running 1000 games, and 10 000 games, and would therefore probably be reduntant to make more tests. 
+In one run the agents were set to play 1000 games against each other and to minimize the impact of opening the game in the results, both agents started the game 500 times. Each run were made 10 times, so the total result is based on 10 000 games. It was established that there were no significant changes in the results between running 1000 games, and 10 000 games, and would therefore probably be reduntant to make more tests. The decision to run 1000 games at a time were due to an unknown bug causing the word generation algorithm to run very slow after approximately 1800 games.
 
 \subsection{Dictionaries}
 
