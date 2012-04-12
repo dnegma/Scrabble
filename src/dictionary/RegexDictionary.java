@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 public class RegexDictionary {
 	private static final String WORDLINEREGEX = "\\d+r\\d+<\\w+>[\\wåäöéèêçñ]+:(\\w*\\W*)*";
 	
-	private static final boolean ALL_WORDS = true;
+	private static final boolean ALL_WORDS = false;
 
 	private static List<String> dictionary;
 

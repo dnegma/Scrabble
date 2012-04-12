@@ -10,14 +10,15 @@ length(z)
 
 
 subplot(2,1,1);
-plot(z, x, 'g');
+plot(z, x);
 hold on
-plot(z, y);
+plot(z, y, 'g');
 hold off
-legend('HighestBonusRoundPlayer', 'HighScoreWordPlayer');
-title('83247 words');
-xlabel('Game');
-ylabel('Score');
+h_legend = legend('HighestBonusRoundPlayer', 'HighScoreWordPlayer');
+set(h_legend,'FontSize',14);
+title('83247 words','FontSize', 16);
+xlabel('Game','FontSize', 14);
+ylabel('Score','FontSize', 14);
 axis([1 10000 1 750]);
 
 
@@ -35,12 +36,13 @@ length(y)
 
 z = (1:10000);
 length(z)
-plot(z, x, 'g');
+plot(z, x);
 hold on
-plot(z, y);
+plot(z, y, 'g');
 hold off
-legend('HighestBonusRoundPlayer', 'HighScoreWordPlayer');
-title('480391 words');
-xlabel('Game');
-ylabel('Score');
+h_legend = legend('HighestBonusRoundPlayer', 'HighScoreWordPlayer');
+set(h_legend,'FontSize',14);
+title('480391 words','FontSize', 16);
+xlabel('Game','FontSize', 14);
+ylabel('Score','FontSize', 14);
 axis([1 10000 1 750]);
