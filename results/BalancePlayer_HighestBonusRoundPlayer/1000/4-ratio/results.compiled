@@ -1,0 +1,19 @@
+
+Player: BalancePlayer
+Total wins: 172
+Wins when started: 97
+Mean score: 184
+Median score: 183
+Highest score: 343
+Lowest score: -17
+
+
+Player: HighestBonusRoundPlayer
+Total wins: 9818
+Wins when started: 4930
+Mean score: 350
+Median score: 347
+Highest score: 742
+Lowest score: -20
+
+Draws: 10

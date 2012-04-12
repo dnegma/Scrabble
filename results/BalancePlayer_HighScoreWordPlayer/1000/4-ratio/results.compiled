@@ -1,0 +1,19 @@
+
+Player: BalancePlayer
+Total wins: 262
+Wins when started: 142
+Mean score: 189
+Median score: 188
+Highest score: 329
+Lowest score: -24
+
+
+Player: HighScoreWordPlayer
+Total wins: 9735
+Wins when started: 4890
+Mean score: 336
+Median score: 333
+Highest score: 657
+Lowest score: -21
+
+Draws: 3
