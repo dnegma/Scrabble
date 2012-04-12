@@ -16,12 +16,12 @@
 
 \maketitle
 \begin{abstract}
-The abstract goes here.
+The abstract goes here. TODO
 \end{abstract}
 
 \selectlanguage{swedish}
 \begin{abstract}
-Sammanfattning på svenska hamnar här.
+Sammanfattning på svenska hamnar här. TODO
 \end{abstract}
 \selectlanguage{british}
 \tableofcontents
@@ -96,9 +96,10 @@ Scrabble consists of
 \item a set of letter tiles
 \end{itemize}
 
-The players are given 5-8 tiles each to keep on their \emph{rack}. Each letter reward points. Common letters gives lower points. The following list shows letter points and the number of occurances of each tile in the bag.
+The players are given 5-8 tiles each to keep on their \emph{rack}. Each letter reward points. Common letters gives lower points. The following list shows letter points and the number of occurances of each tile in the bag. TODO lägg in referens till poänglistan.
 
 \begin{itemize}
+\label{letter+table}
 	\item{\emph{1 point}} \textbf{A}x8, \textbf{D}x5, \textbf{E}x7, \textbf{I}x5, \textbf{L}x5, \textbf{N}x6, \textbf{R}x8, \textbf{S}x8, \textbf{T}x8
 	\item{\emph{2 points}} \textbf{G}x3, \textbf{H}x2, \textbf{K}x3, \textbf{M}x3, \textbf{O}x5
 	\item{\emph{3 points}} \textbf{F}x2, \textbf{V}x2, \textbf{Å}x2
@@ -109,18 +110,18 @@ The players are given 5-8 tiles each to keep on their \emph{rack}. Each letter r
 \end{itemize}
 
 \subsubsection{Objectives}
-Each round the player has to construct a word consisting of at least two letters by using the tiles on the \emph{rack} and the board. Words can be placed horizontally or vertically. Each word has to be placed adjacent to at least one tile already on the board. The player starting has to position the first word so one letter is on top of the center square.
+Each round the player has to construct a word consisting of at least two letters by using the tiles on the rack and the board. Words can be placed horizontally or vertically. Each word layed down has to contain at least one tile from the board. The player starting has to position the first word so one of the letters is on top of the center square.
 
 \subsubsection{Turn}
-Each turn a player can choose from one of the following.
+A player can choose to do one of the following each turn.
 \begin{itemize}
-\item Lay out a word onto the board. Then pick up new tiles from the bag, the same number as used from the rack so the player have a total of 8 tiles again.
+\item Lay out a word onto the board. Then pick up new tiles from the bag, so that the player will have a total of 5-8 tiles again (depending on which rule used for tiles on rack).
 \item Pass, receiving 0 points.
 \item Exchange a number of tiles from the rack with the bag.
 \end{itemize}
 
 \subsubsection{Bonus squares}
-There are four different types of \emph{bonus squares} dispersed througout the board. When a tile is placed on top of one of them the player is rewarded a bonus score for either that particular tile or the whole word. Letter bonus is calculated by multiplying the point for the corresponding letter on top of the bonus square by either two or three. Word bonus is multiplied by two or three to the total score of the word. If a tile on a word bonus square is part of both a horizontal and vertical word, the bonus applied to both each of them respectively. If a word is positioned over both letter and bonus tiles, the score of the letter bonuses is calculated first before multiplying the word. Bonuses can only be used once when a tile is placed on the square.
+There are four different types of \emph{bonus squares} dispersed throughout the board. The following bonus types can be used.
 
 \begin{description}
 \item{2L:} Double letter
@@ -129,27 +130,36 @@ There are four different types of \emph{bonus squares} dispersed througout the b
 \item{3W:} Triple word
 \end{description}
 
-If a player uses all the tiles on the rack an additional 50 points is rewarded the player, after an eventual bonus score.
+When a tile is placed on top of one of them the player is rewarded a bonus score for either that particular tile or the whole word. Letter bonus is calculated by multiplying the point for the corresponding letter on top of the bonus square by either two or three. Word bonus is multiplied by two or three to the total score of the word. If a tile on a word bonus square is part of both a horizontal and vertical word, the bonus is then applied to both of them respectively. If a word is positioned on top of both letter- and a bonus tiles, the score of the letter bonuses is calculated first before multiplying the word. Bonuses can only be used once when a tile is placed on the square.
 
-\subsubsection{End of game}
-The game ends when a player has emptied the rack, and there are no tiles left in the bag. Also, when there has been a total number of four zero points moves in a row, i.e. the players passed or exchanged tiles.
+If a player has used all the tiles from the rack an additional 50 points is rewarded the player, added after any eventual bonus score.
 
-After the game, all the players still having tils on the rack get a penalty. The sum of the letter scores on the rack is removed from the total score and the winner of the game is the player with the highest score in the end.
+\subsubsection{Game over}
+The game can end in two ways. Either when a player has emptied the rack, and there are no tiles left in the bag. Or when there has been a total number of four moves with zero points in a row, i.e. the players passed or exchanged tiles.
+
+After the game, all the players still having tiles left on the rack will get a score penalty. The sum of the letter points on the rack is removed from the total score. The winner of the game is the player with the highest score after penalty subtractions. 
 
 \section{Research}
-As mentioned above, this is a well studied problem, and many papers and articles are to be found where different problems in the game of Scrabble have been studied. This paper will mostly refer to Appel and Jacobsen \cite{fastest} who discovered a way to represent the dictionary wo that it takes up minimum space in memory.
+This paper will mostly refer to Appel and Jacobsen \cite{fastest} who discovered a way to represent the dictionary wo that it takes up minimum space in memory and an efficient algorithm to find all legal word to place down depending on the tiles on rack and on the board. 
+
+TODO skriv om följande och förklara varför vi inte valde dem 
+Sheppard, B., 2002, Towards Perfect Play of Scrabble, Maastricht. \cite{perfectgame}
+Gordon, S. A., 1993, A Faster Scrabble Move Generation Algorithm, Software - Practice and experience, Vol. 24(2), 219-232, February 1994. \cite{faster}
+Russell S., Norvig P. Artificial Intelligence: A Modern Approach 3rd ed. Prentice Hall. 2009 \cite{ai}
+Manning C. D., Raghavan P., Schütze H., Introduction to Information Retrieval, Cambridge University Press, 2008, p. 49-65. \cite{inforetrieve}
 
 \subsection{Dictionary representation}
-Words from a dictionary can be stored by representing the letters in trie. Each path can represent several words by letting the nodes mark the end of a word Figure \ref{fig:trie}. 
+\label{dic-rep}
+Words from a dictionary can be stored by representing the letters as edges in a trie. A path represent a word. Each path can have sub paths that represent shorter word variations by letting the nodes mark the end of a word. Figure \ref{fig:trie}. 
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=1]{trie}
-\caption{Example of a small dictionary consisting of 11 words represented with a trie data structure. End of words marked with grey nodes.}
+\caption{Example of a trie data structure representing a small dictionary consisting of 11 words represented with a trie data structure. End of words is marked with grey nodes.}
 \label{fig:trie}
 \end{figure}
 
-Appel and Jacobsen showed that the dictionary representation size can be reduced with a \emph{Directed Acyclic Word Graph}, referred to as a \emph{DAWG} \cite{fastest}. The DAWG can be constructed by first creating a trie and minimizing it by finding cases where two or more words can share a letter (node), creating a new edge from the previous node in one of the words to the other words node. Then remove the unnecessary edge and node which is no longer in use \ref{fig:dawg}. A trie has a lot of redundancy, becuase of edges and nodes being identical, no such thing occurres in a DAWG. All the identical are removed, and reduced to only one occurancy. In the dawg example fig. \ref{fig:trie} there is 10 nodes and 12 edges. That is significant less than the 17 nodes and 16 edges it consumes in a trie fig. \ref{fig:trie}. Another example is illustrated in the mentioned paper. A dictionary consisting of more than 100 000 words taking up a memory space of 0.5 MB with a trie, could be reduced to occupy only 175 kB with a DAWG.
+Appel and Jacobsen showed that the size of the dictionary representation can be reduced with a \emph{Directed Acyclic Word Graph}, referred to as a \emph{DAWG} \cite{fastest}. The DAWG can be constructed by first creating a trie and minimizing it by finding cases where two or more words can share a common letter (node). A new edge is then created from the previous node in one of the words to the other words node. Then the unnecessary edge and node is removed node \ref{fig:dawg}. A trie has a lot of redundancy, because identical edges and nodes is stored, while the DAWG will eliminate duplications. All the identicals is removed, and reduced to only one occurance. In the dawg example fig. \ref{fig:trie} there is 10 nodes and 12 edges. That is significant less than the 17 nodes and 16 edges it consumes in a trie fig. \ref{fig:trie}. Another example is illustrated in \cite{fastest}. A dictionary consisting of more than 100 000 words occupies 0.5 MB with a trie, but is reduced to only 175 kB with a DAWG.
 
 \begin{figure}[h]
 \centering
@@ -159,11 +169,11 @@ Appel and Jacobsen showed that the dictionary representation size can be reduced
 \end{figure}
 
 \subsection{Word generation algorithm}
-Finding and forming words to lay out on the board is difficult. Appel and Jacobsen presented a solution to the problem by reducing it to one dimension. Instead of searching both up and right it is possible to generate words only horizontally. The argument is that generating a word vertically is basically the same thing as generating a word horizontally. The only difference is that the board is transposed. Therefore, the algorithm to generate words is limited to only generate horizontally, and for each move we do two searches, where one is over the transposed board. \cite{fastest}
+Finding and forming words to lay out on the board is difficult. Appel and Jacobsen presented a solution to the problem by reducing the board to one dimension. Instead of searching both up and right at the same time it is possible to generate words only horizontally. The argument is that generating a word vertically is basically the same thing as generating a word horizontally. The only difference is that the board is transposed. Therefore, the word generation algorithm is limited to only find words horizontally. So two searches is done for each move, where one of them with a transposed board. \cite{fastest}
 
 
 \subsubsection{Anchor squares}
-A key in the algorithm implemented are the \emph{anchor squares}, which are the empy squares next to a non-empty square as can be seen in figure \ref{fig:anchors}. These are important since words can only be built from already existing tiles. In the very forst move there is only one anchor; the center square, since the player making the first move always has to start in the center square.
+A key in the algorithm implemented are the \emph{anchor squares}, which are the empty squares next to squares occupied by letters as can be seen in the figure \ref{fig:anchors}. These are important since words can only be built from already existing tiles. In the first move of the game there is only one anchor; the center square, since the word in the first turn always has to be placed on top of the center square.
 
 \begin{figure}[h]
 \centering
@@ -172,55 +182,49 @@ A key in the algorithm implemented are the \emph{anchor squares}, which are the 
 \label{fig:anchors}
 \end{figure}
 
-\subsubsection{Cross-check sets}
-When placing a word horizontally, the vertically placed letters also have to create a legal word. It is quite easy to establish that if we place a word horizontally, the vertical word can increas with only one letter at a time. This makes it possible to calculate, for each anchor square, which set of letters that are possible to place at that square. The calculations can be made before each move, and allows the player to place a word by row, without considering the rest of the board. The set of available letter for one square is in Appel and Jacobsen's paper \cite{fastest} referred to as a \emph{cross-check set}
+\subsubsection{Cross-checks}
+The set of available legal letters for one square is in Appel and Jacobsen's paper \cite{fastest} referred to as a \emph{cross-check set}. When placing a word horizontally, the vertically placed letters also have to form a legal word. It is quite easy to establish that if a word is placed horizontally, the vertical word can increase with only one letter at a time. This makes it possible to calculate, for each anchor square, which set of letters that are possible to place at that square. The calculations can be made and saved after each move, and allows the algorithm to place a word by row, without considering the rest of the board. 
 
 \subsection{Game strategies}
 \label{sec:strategies}
-If one is a beginner at Scrabble, there are meny small tricks to learn to advance quickly. Some of the tricks can be listed as:
+Some of the different Scrabble game strategies is:
 
 \begin{itemize}
-\item Difficult letters. Letters with high score are usually more difficult to place and should be used as soon as possible.
-\item Balance on the rack. It is easy to get stuck with only consonants or only vowels on the rack, keeping a good balance can therefore be a good idea to avoid deadlocks in the future.
-\item Bonus squares. Hitting the bonus squares can generate a high score. Although it is preferable to avoid opening opportunities for the opponent to do the same.
-\item Word extensions. According to Sheppard \cite{perfectgame}, the ability to find extensions (i.e. prefixes and suffixes) to already placed words, is a key to being a successful player since such moves can generate very high scores.
-\item Vocabulary. There are many short words in the language, and it is instantly rewarding if a player can learn many short word letters.
+\item {\bf Difficult letters}: letters with high score are usually more difficult to place and should be used as soon as possible i.e. z.
+\item {\bf Balance on the rack}: it is easy to get stuck with only consonants or only vowels on the rack, keeping a good balance can therefore be a good idea to help construct words in the next turn.
+\item {\bf Bonus squares}: hitting the bonus squares will generate a higher score. It is also important to occupty them first to destroy the bonus opportunities for the opponent.
+\item {\bf Word extensions}: the ability to identify extensions (i.e. prefixes and suffixes) to words, is a key to being a successful player since such moves can generate very high scores, as the word will use many existing tiles \cite{perfectgame}.
+\item {\bf Vocabulary}: there are many short words in the language, and it is rewarding if a player can learn many short word letters because they are easy to lay out.
 \end{itemize}
 
-
-
-
-
-
 \chapter{Implementation}
-The study is based on an implementation that follows the example of Appel and Jacobsen \cite{fastest}, with some small modifications. Since implementing a DAWG seemed like a time consuming project, a chioce was made to stay with the trie. The advantage with a DAWG is that it saves a lot of memory, but there were no problems with memory space, and therefore an unnecessary thing to focus on.
+The study is based on an implementation of the word generator algorithm that follows the example of Appel and Jacobsen \cite{fastest}, with some small modifications. The words generated by the algorithm is the same with a trie as with a DAWG. Since the aim of the study is to only test game strategies and not optimize disk space (as shown in \ref{dic-rep}), a DAWG seemed like a time consuming project and the choice was made to stay with the trie.
 
-In the implementation there were some game limitations made to make the study fit into the given time span. The game limitations are described in section \ref{sec:limitations}.
+A slight limitation of the game rules and play is made in the implementation to make the study fit into the given time span. The game limitations are described in section \ref{sec:limitations}.
 
 Three different agents were implemented with different strategies to follow and they are all described in section \ref{sec:agents}.
 
-The analysis and the final results are shown in section \ref{sec:analysis}.
-
-\section{Game limitations}
+\section{Limitations}
 \label{sec:limitations}
-Almost all tournament play involve only two players. The tests is therefore run with two agents. There exists a large variation of the game rules. The rules used is a slightly simplified version of the most common rules used by clubs and tournament play worldwide. TODO lägg in källa till regler.
+Almost all tournament play involve only two players. The tests is therefore run with two agents. There exists a large variation of the game rules. The rules used is a slightly simplified version of the most common rules used by clubs and tournament play worldwide \cite{forbund} \cite{ABSP} \cite{NASPA}.
 
-To limit the work load to fit into the time span, some limitations were made to the game. This study focuses on games played by only two players, and the implementation is therefore customized to handle only two player games. The players have two options during a turn; either lay a word, or pass the turn and receieve zero points. In other words; the possibility to change tiles if no word can be found is removed. 
+To limit the work load to fit into the time span, some limitations were made to the game. The players have two options during a turn; either lay a word, or pass the turn and receieve zero points. In other words; the possibility to change tiles if no word can be found is removed. 
 
-The bag is also minimized, and do not contain any blank letters or other special tiles that are not letters. The result is that a Q or a W never can be used. In addition, the game is played in Swedish by the agents.
+The bag is minimized, and do not contain any blank tiles or other special letter tiles. The result is that Q and W can never be used. The allowed tiles can be seen in the list in section \ref{letter+table}. In addition, the game is played with by the agents with a Swedish dictionary, 
+Den Stora Svenska Ordlistan\cite{dictionary}.
 
 \section{Agents}
 \label{sec:agents}
-To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. The would play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game. In order to evaluate which strategies are the more rewarding, the agents are implemented with only \emph{one} strategy. An agent who calculates the total score of a move and chooses the highest one will easily win over the tested agents in this study. The agents will be referred to as the HSW player, the BS player and the BOR player (see section \ref{sec:terminology}).
+To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. They will play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game. In order to evaluate which strategies are the more rewarding, the agents are each implemented with only \emph{one} strategy. The agents will be referred to as the HSW player, the BS player and the BOR player (see section \ref{sec:terminology}).
 
 \subsection{High Score Word player}
-One strategy one can use when playing Scrabble is the fact that some letters are more worth than others. These letter are less commonly used in the language and is therefore more difficult to use. Naturally, one would want to use them as soon as there is an opportunity, to not risk getting stuck later in the game. One od the agents tested in this study follows the strategy of placing higher score generating letters first. By all legal moves generated, the agent will chose the one were the word itself has the highest score. 
+One strategy one can use when playing Scrabble is the fact that some letters are more worth than others. These letter are less frequent in the Swedish language and is therefore more difficult to use. Naturally, one would want to use them as soon as there is an opportunity, to not risk getting stuck later in the game. By all legal moves generated, this agent will choose the word with the highest score.
 
 \subsection{Bonus Square player}
-Sometimes, it can be more rewarding to place a relatively short word than a longer one. This is because of the bonus squares spread out on the board. The can multiply the value of either one letter, or the entire word placed, and can therefore generate quite high scores. The second agent strives to place words over bonus squares, to hopefully generate a high score. If there are several opportunities to reach a bonus tile, the most rewarding one is chosen by the agent, i.e. the word reaching the bonus square with the highest bonus.
+Sometimes, it can be more rewarding to place a relatively short word than a longer one. This is because of the bonus squares is spread out on the board. They can multiply the value of either one letter, or the entire word placed, and can therefore generate high scores. The second agent strives to place words over bonus squares, to hopefully generate a high score. If there is an opportunity to reach several bonus squares, the most rewarding bonus square is chosen from the following graded list. 3W (three word bonus) being most rewarded and then 2W, 3L (two letter bonus) and last 2L.
 
 \subsection{Balance On Rack player}
-An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. The third agent tested tries to always keep a good balance between vowels and consonants on the rack, to avoid deadlocks later in the game. The agent knows the \emph{ideal ratio} and tries to lay out words so that the words left on the rack returns a ratio as close to the ideal ratio as possible. Tests with different ideal ratios are made.
+An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. The third agent tries to always keep a good balance between vowels and consonants on the rack, to help out form words in the next turn. The agent knows the \emph{ideal ratio} and tries to lay out words so that the words left on the rack returns a ratio as close to the ideal ratio as possible. Tests with different ideal ratios are made.
 
 \chapter{Results}
 \label{sec:analysis}
@@ -394,7 +398,7 @@ Choosing to place words that will occupy a bonus square is rewarding. It will no
 It has active playing style with the mission to conquer the bonus squares at all cost. With the power of a big dictionary it will have a higher probability to reach a bonus. It is easy to extend words already on board when having the possibility to use all inflection forms of words. The end score will also be higher Figure \ref{fig:bs+hsw+totalscores}. When using only base words it will struggle to find bonus squares. This is due to 
 
 \section{Conclusions}
-
+TODO kanske använda denna An agent who calculates the total score of a move and chooses the highest one will easily win over the tested agents in this study. 
 
 \appendix
 \chapter{Game conditions}
@@ -435,11 +439,9 @@ It has active playing style with the mission to conquer the bonus squares at all
   \bibitem{perfectgame} Sheppard, B., 2002, Towards Perfect Play of Scrabble, Maastricht.
   \bibitem{fastest} Appel A. W., Jacobson, G. J., 1985, The World’s Fastest Scrabble Program, Commun. ACM, 31(5), 572-585, May 1988.
 \bibitem{faster} Gordon, S. A., 1993, A Faster Scrabble Move Generation Algorithm, Software - Practice and experience, Vol. 24(2), 219-232, February 1994.
-\bibitem{quakle} Katz-Brown, J., O’Laughlin, J., Fultz, J., Liberty, M., Buddhdev, A., 2006, Quakle - open source crossword game software, http://people.csail.mit.edu/jasonkb/quackle/, 2 January 2012,  12 February 2012.
-\bibitem{scrabblewiki} Wikipedia, Scrabble, http://en.wikipedia.org/wiki/Scrabble, 12 February 2012.
 \bibitem{ai} Russell S., Norvig P. Artificial Intelligence: A Modern Approach 3rd ed. Prentice Hall. 2009
 \bibitem{inforetrieve} Manning C. D., Raghavan P., Schütze H., Introduction to Information Retrieval, Cambridge University Press, 2008, p. 49-65.
-\bibitem{dictionary} Swedish dictionary Den stora svenska ordlistan, http://code.google.com/p/dsso/downloads/detail?name=dsso-1.52.txt\&can=1\&q=
+\bibitem{dictionary} Den stora svenska ordlistan (Swedish dictionary), http://code.google.com/p/dsso/downloads/detail?name=dsso-1.52.txt\&can=1\&q=
 \bibitem{forbund} Swedish tournament rules by Svenska Scrabbleförbundets, http://www.scrabbleforbundet.se/index.php?option=content\&task=view\&id=16\&Itemid=39
 \bibitem{ABSP} World English-Language Scrabble Players’ Association (WESPA) rules, http://www.wespa.org/rules/RulesV2nov11.pdf
 \bibitem{NASPA} North American SCRABBLE Players Association official tournament rules, http://www.scrabbleplayers.org/wiki/images/a/af/Rules-20110605.pdf
