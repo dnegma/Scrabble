@@ -79,7 +79,7 @@ Which of the strategies has the most impact on a game? How do the strategies per
 \chapter{Background}
 
 \section{Scrabble game rules}
-Scrabble is word game were two to four players are given a set of letter tiles to form words to be placed out on a four-cornered board of squares. Almost all tournament play involve only two players. The tests throughout the report is therefore run with with two agents. There exists a large variation of the game rules. The following rules is a slightly simplified version of the most common rules used by clubs and tournament play worldwide.
+Scrabble is word game were two to four players are given a set of letter tiles to form words to be placed out on a four-cornered board of squares \cite{ABSP} \cite{NASPA} \cite{forbund}.
 
 \begin{figure}[h]
 \centering
@@ -93,10 +93,10 @@ Scrabble consists of
 
 \begin{itemize}
 \item a 15x15 board with bonus squares and the center marked out. fig. \ref{fig:game-board}.
-\item letter tiles
+\item a set of letter tiles
 \end{itemize}
 
-The players are give 8 tiles each to keep on their \emph{rack}. Each letter reward points. Common letters gives lower points. The following list shows letter points and the number of occurances of each tile in the bag.
+The players are given 5-8 tiles each to keep on their \emph{rack}. Each letter reward points. Common letters gives lower points. The following list shows letter points and the number of occurances of each tile in the bag.
 
 \begin{itemize}
 	\item{\emph{1 point}} \textbf{A}x8, \textbf{D}x5, \textbf{E}x7, \textbf{I}x5, \textbf{L}x5, \textbf{N}x6, \textbf{R}x8, \textbf{S}x8, \textbf{T}x8
@@ -138,17 +138,29 @@ After the game, all the players still having tils on the rack get a penalty. The
 
 \section{Research}
 As mentioned above, this is a well studied problem, and many papers and articles are to be found where different problems in the game of Scrabble have been studied. This paper will mostly refer to Appel and Jacobsen \cite{fastest} who discovered a way to represent the dictionary wo that it takes up minimum space in memory.
+
+\subsection{Dictionary representation}
+Words from a dictionary can be stored by representing the letters in trie. Each path can represent several words by letting the nodes mark the end of a word Figure \ref{fig:trie}. 
+
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.5]{trie}
-\caption{Trie. Small dictionary consisting of 11 words represented as a trie.}
+\includegraphics[scale=1]{trie}
+\caption{Example of a small dictionary consisting of 11 words represented with a trie data structure. End of words marked with grey nodes.}
+\label{fig:trie}
 \end{figure}
-\subsection{Dictionary}
-Appel and Jacobsen \cite{fastest} came to the conclusion that a word search will be incredibly fast in a \emph{Directed Acyclic Word Graph}, which in this study will be referred to as a \emph{DAWG}. A DAWG is generally built from a trie, and can be explaind like a minimized trie. Where a trie has a lot of redundancy, becuase of edges and nodes being identical, no such thing occurres in a DAWG. All the identical edges and nodes are removed, and reduced to only one occurancy. As an example in the paper mentioned, the dictionary consisting of more than 100 000 words taking up a memory space of a half mega bytes, could be reduced to occupy only 175 kile bytes.
 
+Appel and Jacobsen showed that the dictionary representation size can be reduced with a \emph{Directed Acyclic Word Graph}, referred to as a \emph{DAWG} \cite{fastest}. The DAWG can be constructed by first creating a trie and minimizing it by finding cases where two or more words can share a letter (node), creating a new edge from the previous node in one of the words to the other words node. Then remove the unnecessary edge and node which is no longer in use \ref{fig:dawg}. A trie has a lot of redundancy, becuase of edges and nodes being identical, no such thing occurres in a DAWG. All the identical are removed, and reduced to only one occurancy. In the dawg example fig. \ref{fig:trie} there is 10 nodes and 12 edges. That is significant less than the 17 nodes and 16 edges it consumes in a trie fig. \ref{fig:trie}. Another example is illustrated in the mentioned paper. A dictionary consisting of more than 100 000 words taking up a memory space of 0.5 MB with a trie, could be reduced to occupy only 175 kB with a DAWG.
 
-\subsection{Word generation}
-The problem of generating legal moves can be reduces to one dimension. Instead of doing a search in two directions (up and right) it is possible to use an algorithm that generates words only horizontally. The argument is that generating a word vertically is basically the same thing as generating a word horizontally. The only difference is that the board is transposed. Therefore, the algorithm to generate words is limited to only generate horizontally, and for each move we do two searches, where one is over the transposed board.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=1]{dawg}
+\caption{Example of a small dictionary consisting of 11 words represented with a DAWG. End of words marked with grey nodes.}
+\label{fig:dawg}
+\end{figure}
+
+\subsection{Word generation algorithm}
+Finding and forming words to lay out on the board is difficult. Appel and Jacobsen presented a solution to the problem by reducing it to one dimension. Instead of searching both up and right it is possible to generate words only horizontally. The argument is that generating a word vertically is basically the same thing as generating a word horizontally. The only difference is that the board is transposed. Therefore, the algorithm to generate words is limited to only generate horizontally, and for each move we do two searches, where one is over the transposed board. \cite{fastest}
+
 
 \subsubsection{Anchor squares}
 A key in the algorithm implemented are the \emph{anchor squares}, which are the empy squares next to a non-empty square as can be seen in figure \ref{fig:anchors}. These are important since words can only be built from already existing tiles. In the very forst move there is only one anchor; the center square, since the player making the first move always has to start in the center square.
@@ -191,6 +203,8 @@ The analysis and the final results are shown in section \ref{sec:analysis}.
 
 \section{Game limitations}
 \label{sec:limitations}
+Almost all tournament play involve only two players. The tests is therefore run with two agents. There exists a large variation of the game rules. The rules used is a slightly simplified version of the most common rules used by clubs and tournament play worldwide. TODO lägg in källa till regler.
+
 To limit the work load to fit into the time span, some limitations were made to the game. This study focuses on games played by only two players, and the implementation is therefore customized to handle only two player games. The players have two options during a turn; either lay a word, or pass the turn and receieve zero points. In other words; the possibility to change tiles if no word can be found is removed. 
 
 The bag is also minimized, and do not contain any blank letters or other special tiles that are not letters. The result is that a Q or a W never can be used. In addition, the game is played in Swedish by the agents.
@@ -248,18 +262,17 @@ The results show that the HSW player is generally more successful playing the ga
 
 \begin{table}[h]
 \centering
-    \begin{tabular}{ | c | c | c | p{5cm} |}
-    \hline
+    \begin{tabular}{ c | c | c p{5cm}}
    	Vowel ratio & HSW wins & BOR wins \\ \hline
-	0/8 & 9922 & 73 \\ \hline
-    	1/8 & 9999  & 1 \\ \hline
-    	2/8 & 9484 & 507 \\ \hline
-    	3/8 & 9777 & 212 \\ \hline
-	4/8 & 9735 & 262 \\ \hline
-	5/8 & 9627 & 368 \\ \hline
-	6/8 & 9146 & 838 \\ \hline
-	7/8 & 9863 & 134 \\ \hline
-	8/8 & 8762 & 1206 \\ \hline
+	0/8 & 9922 & 73 \\ 
+    	1/8 & 9999  & 1 \\ 
+    	2/8 & 9484 & 507 \\
+    	3/8 & 9777 & 212 \\
+	4/8 & 9735 & 262 \\ 
+	5/8 & 9627 & 368 \\ 
+	6/8 & 9146 & 838 \\ 
+	7/8 & 9863 & 134 \\ 
+	8/8 & 8762 & 1206 \\
     \end{tabular}
 \caption{Winnings depending on vowel ratio. Amount of winning games of a total of 10 000 games.}
 \label{tab:bor+hsw}
@@ -302,17 +315,16 @@ The resulting mean, median, highest and lowest scores is significant higher when
 
 \begin{table}[h]
 \centering
-    \begin{tabular}{ l | l | l }
+    \begin{tabular}{ l | c | c }
    	& Bonus Squares & High score words \\
    	\hline
    	Wins & 6104 & 3857 \\
+   	Draws & 39 & 39 \\   	
 	Wins when started playing & 3148 & 2040 \\   	
 	Mean score & 308 & 278 \\
 	Median score & 301 & 273 \\	 	 
 	Highest score & 724 & 606 \\
 	Lowest score & 85 & 61 \\		
-	\hline 
-   	Draws & 39 & 39 \\
     \end{tabular}
 \caption{Result from 10 000 games with words in all inflection forms from the Swedish dictionary (480 391 words).}
 \label{table:bs+hsw+allwords}
@@ -320,17 +332,16 @@ The resulting mean, median, highest and lowest scores is significant higher when
 
 \begin{table}[h]
 \centering
-    \begin{tabular}{ l | l | l }
+    \begin{tabular}{ l | c | c }
    	& Bonus Squares & High score words \\
    	\hline
    	Wins & 5427 & 4521 \\
+   	Draws & 52 & 52 \\
 	Wins when started playing & 2758 & 2314 \\   	
 	Mean score & 248 & 240 \\
 	Median score & 246 & 234 \\	 	 
 	Highest score & 488 & 506 \\
 	Lowest score & -15 & -11 \\		
-	\hline 
-   	Draws & 52 & 52 \\
     \end{tabular}
 \caption{Result from 10 000 games with only words in base form from the Swedish dictionary (83 247 words).}
 \label{table:bs+hsw+baseforms}
@@ -393,11 +404,11 @@ It has active playing style with the mission to conquer the bonus squares at all
 \bibitem{faster} Gordon, S. A., 1993, A Faster Scrabble Move Generation Algorithm, Software - Practice and experience, Vol. 24(2), 219-232, February 1994.
 \bibitem{quakle} Katz-Brown, J., O’Laughlin, J., Fultz, J., Liberty, M., Buddhdev, A., 2006, Quakle - open source crossword game software, http://people.csail.mit.edu/jasonkb/quackle/, 2 January 2012,  12 February 2012.
 \bibitem{scrabblewiki} Wikipedia, Scrabble, http://en.wikipedia.org/wiki/Scrabble, 12 February 2012.
-\bibitem{frank} Andersson, G., Ivansson, L., Frank - crossword software game, http://ivansson.org/Frank/, 22 August 2009, 12 February 2012.
-\bibitem{wordfeud} Hbwares, Wordfeud, http://www.wordfeud.com, September 2010, 12 February 2012.
 \bibitem{ai} Russell S., Norvig P. Artificial Intelligence: A Modern Approach 3rd ed. Prentice Hall. 2009
 \bibitem{inforetrieve} Manning C. D., Raghavan P., Schütze H., Introduction to Information Retrieval, Cambridge University Press, 2008, p. 49-65.
-\bibitem{forbund} Svenska Scrabbleförbundet, www.scrabbleforbundet.se.
-\bibitem{dictionary}Den stora svenska ordlistan, http://code.google.com/p/dsso/downloads/detail?name=dsso-1.52.txt\&can=1\&q=
+\bibitem{dictionary} Swedish dictionary Den stora svenska ordlistan, http://code.google.com/p/dsso/downloads/detail?name=dsso-1.52.txt\&can=1\&q=
+\bibitem{forbund} Swedish tournament rules by Svenska Scrabbleförbundets, http://www.scrabbleforbundet.se/index.php?option=content\&task=view\&id=16\&Itemid=39
+\bibitem{ABSP} World English-Language Scrabble Players’ Association (WESPA) rules, http://www.wespa.org/rules/RulesV2nov11.pdf
+\bibitem{NASPA} North American SCRABBLE Players Association official tournament rules, http://www.scrabbleplayers.org/wiki/images/a/af/Rules-20110605.pdf
 \end{thebibliography}
 \end{document}
