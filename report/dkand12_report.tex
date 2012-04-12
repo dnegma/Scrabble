@@ -31,6 +31,21 @@ Scrabble är ett välkänt brädspel där varje spelare har många problem att l
 Resultatet visar att användandet av bonusrutor är en vinnande strategi. Bonusagenten vann över både de andra två. Att lägga ett långt ord som ger högt poäng behöver inte alltid vara den bästa spelstrategin. Det är också en liten fördel att få börja lägga första ordet. 
 \end{abstract}
 \selectlanguage{british}
+
+\subsubsection{Statement of collaboration}
+The implementation was mostly made together, though some distributions were made to make it more efficient:
+\begin{itemize}
+\item{Frej}: Dictionary representation
+\item{Diana}: Word generation
+\end{itemize}
+
+As of the report, the list below is a rough indication of how the work was distributed a part from all that was made together.
+
+\begin{itemize}
+\item{Frej}: Sections \ref{sec:rules}, \ref{dic-rep}, \ref{sec:bonusHigh}
+\item{Diana}: Sections \ref{sec:agents}, \ref{sec:highBalance}, \ref{sec:balanceBonus}
+\end{itemize}
+
 \tableofcontents
 
 
@@ -85,6 +100,7 @@ When playing, the ability to keep a good balance between consonants and vowels o
 \chapter{Background}
 
 \section{Scrabble game rules}
+\label{sec:rules}
 Scrabble is word game for two to four players. They are given a set of letter tiles and the game objective is to form words to place onto a board of squares \cite{ABSP} \cite{NASPA} \cite{forbund}.
 
 \begin{figure}
