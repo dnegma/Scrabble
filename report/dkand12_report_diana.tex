@@ -3,9 +3,8 @@
 \usepackage[swedish,british]{babel}
 \usepackage{graphicx}
 \usepackage{fancyhdr}
-\usepackage{listings}
-\usepackage{mathtools}
 
+\usepackage{listings}
 \usepackage{glossaries}
 \pagestyle{fancy}
 \begin{document}
@@ -18,12 +17,12 @@
 
 \maketitle
 \begin{abstract}
-The abstract goes here.
+The abstract goes here. TODO
 \end{abstract}
 
 \selectlanguage{swedish}
 \begin{abstract}
-Sammanfattning på svenska hamnar här.
+Sammanfattning på svenska hamnar här. TODO
 \end{abstract}
 \selectlanguage{british}
 \tableofcontents
@@ -33,42 +32,41 @@ Sammanfattning på svenska hamnar här.
 
 
 \chapter{Introduction}
-Scrabble is an old classic game that is fairly easy to learn. However, it is extremely difficult to be a great player. Compared to other classic board games, such as chess, there are more factors to take into consideration when making a move in Scrabble. 
+Scrabble is an old classic board game, with game rules that are not very complicated. However, it is extremely difficult to be a great player \cite{perfectgame}. Compared to other classic board games, such as Chess, there are more factors to take into consideration when making a move in Scrabble. 
 
 Apart from anagramming and generating words, there are other crucial decisions to make. A player would probably find several legal moves in one round, and then would have to decide which one to place. Choosing the move that generates the highest score is not always the ideal way to go. It could be that making such a move would create a situation in the next round where nothing could be done, or let the opponent score high.
 
-Making the choice of which move to use include many factors, and there are several different techniques and strategies one can follow to make the decision easier. Picking up the bonus squares can generate an extremely high score, hence one strategy is to try to always pick up the bonus squares and prevent the opponent from doing the same. Another way of being successful is to prioritize using letters with high score, since they would not only generate a high total score to the player, but could also create difficult situations in the future if not used as soon as possible.
+Making the choice of which move to use include many factors, and there are several different techniques and strategies one can follow to make the decision easier. Hitting the bonus squares can generate an extremely high score, hence one strategy is to try to always hit the bonus squares and prevent the opponent from doing the same. Another way of being successful is to prioritize using letters with high score, since they would not only generate a high total score to the player, but could also create difficult situations in the future if not used as soon as possible.
 
-There are several more possible strategies one can follow, and this study aims to investigate a three of them trying to establish which one is the more rewarding.
+There are several more possible strategies one can follow, and this study aims to investigate three of them and try to establish which one is the most rewarding.
 
 \section{Problem statement}
+Which strategies have the most impact on a game? How do the strategies perform against each other, and which is the most successful one?
+
 Scrabble requires the players to have a good vocabulary and to become a successful player, some knowledge about how many tiles of each letter is available is preferable. 
 
-When playing, the ability to keep a good balance between consonants and vowels on the rack can profit future moves. Destroying bonus possibilities for the opponent, and at the same time score them oneself is a crucial skill, and experts are probably aware of which tiles have been placed, and those that remain, allowing them to anticipate the future sequence of events. 
-
-\subsection{Question}
-Which of the strategies has the most impact on a game? How do the strategies perform against each other, and which one is the most successful one? 
+When playing, the ability to keep a good balance between consonants and vowels on the rack can benefit future moves. Destroying bonus possibilities for the opponent, and at the same time score them oneself is a crucial skill, and experts are probably aware of which tiles have been placed, and those that remain, allowing them to anticipate the future sequence of events. This study will test three agents with different strategies, and evaluate which strategy would be more rewarding to focus on when learning Scrabble.
 
 
 \section {Terminology}
 \label{sec:terminology}
 
 \begin{description}
-\item{\emph{Anchor square}}: Vacant board square adjacent to a placed tile.
+\item{\emph{Anchor square}}: Vacant board square adjacent to a placed tile. See section \ref{sec:anchors}
 
-\item{\emph{Bag}} Tiles that have not been drawn by players.
+\item{\emph{Bag}}: Tiles that have not been drawn by players.
 
 \item{\emph{BOR}}: Balance on rack player.
 
 \item{\emph{BS}}: Bonus square player.
 
-\item{\emph{Cross check set}}: Set of possible letters on an anchor square with regard to adjacent word going vertical from named square.
+\item{\emph{Cross check set}}: Set of possible letters one can place on an anchor square. See section \ref{sec:crosscheck}.
 
 \item{\emph{DAWG}}: Directed acyclic word graph.
 
 \item{\emph{HSW}}: High score word player.
 
-\item{\emph{Rack}} Tiles on a player's hand. 
+\item{\emph{Rack}}: Tiles on a player's hand. 
 
 \end{description}
 
@@ -81,7 +79,7 @@ Which of the strategies has the most impact on a game? How do the strategies per
 \chapter{Background}
 
 \section{Scrabble game rules}
-Scrabble is word game were two to four players are given a set of letter tiles to form words to be placed out on a four-cornered board of squares \cite{ABSP} \cite{NASPA} \cite{forbund}.
+Scrabble is word game for two to four players. They are given a set of letter tiles and the game objective is to form words to place onto a board of squares \cite{ABSP} \cite{NASPA} \cite{forbund}.
 
 \begin{figure}[h]
 \centering
@@ -94,13 +92,14 @@ Scrabble is word game were two to four players are given a set of letter tiles t
 Scrabble consists of 
 
 \begin{itemize}
-\item a 15x15 board with bonus squares and the center marked out. fig. \ref{fig:game-board}.
+\item a 15x15 board with bonus squares and the center marked out. See figure \ref{fig:game-board}.
 \item a set of letter tiles
 \end{itemize}
 
-The players are given 5-8 tiles each to keep on their \emph{rack}. Each letter reward points. Common letters gives lower points. The following list shows letter points and the number of occurances of each tile in the bag.
+The players are given 5-8 tiles each to keep on their \emph{rack}. Each letter reward points. Letters that are frequent in the language give lower score, and letters that exist in fewer words give higher score. The following list shows the letter scores and the number of occurances of each tile in the bag \cite{letterpoints}.
 
 \begin{itemize}
+\label{letter+table}
 	\item{\emph{1 point}} \textbf{A}x8, \textbf{D}x5, \textbf{E}x7, \textbf{I}x5, \textbf{L}x5, \textbf{N}x6, \textbf{R}x8, \textbf{S}x8, \textbf{T}x8
 	\item{\emph{2 points}} \textbf{G}x3, \textbf{H}x2, \textbf{K}x3, \textbf{M}x3, \textbf{O}x5
 	\item{\emph{3 points}} \textbf{F}x2, \textbf{V}x2, \textbf{Å}x2
@@ -110,19 +109,21 @@ The players are given 5-8 tiles each to keep on their \emph{rack}. Each letter r
 	\item{\emph{10 points}} \textbf{Z}x1
 \end{itemize}
 
+There are also 2 blank tiles, scoreing 0 points. They can be used as any letter in the alphabet, and words containing Q or W can only be played by using the blank tiles.
+
 \subsubsection{Objectives}
-Each round the player has to construct a word consisting of at least two letters by using the tiles on the \emph{rack} and the board. Words can be placed horizontally or vertically. Each word has to be placed adjacent to at least one tile already on the board. The player starting has to position the first word so one letter is on top of the center square.
+Each round the player has to construct a word consisting of at least two letters by using the tiles on the rack and the tiles on the board. Words can be placed horizontally or vertically. Each word layed down has to contain at least one tile from the board. The player who is starting the game has to position the first word so one of the letters is on top of the center square.
 
 \subsubsection{Turn}
-Each turn a player can choose from one of the following.
+A player can choose to do one of the following each turn.
 \begin{itemize}
-\item Lay out a word onto the board. Then pick up new tiles from the bag, the same number as used from the rack so the player have a total of 8 tiles again.
+\item Lay out a word onto the board. Then pick up new tiles from the bag, so that the player will have a total of 5-8 tiles again (depending on which rule used for tiles on rack).
 \item Pass, receiving 0 points.
-\item Exchange a number of tiles from the rack with the bag.
+\item Exchange a number of tiles from the rack with tiles from the bag.
 \end{itemize}
 
 \subsubsection{Bonus squares}
-There are four different types of \emph{bonus squares} dispersed througout the board. When a tile is placed on top of one of them the player is rewarded a bonus score for either that particular tile or the whole word. Letter bonus is calculated by multiplying the point for the corresponding letter on top of the bonus square by either two or three. Word bonus is multiplied by two or three to the total score of the word. If a tile on a word bonus square is part of both a horizontal and vertical word, the bonus applied to both each of them respectively. If a word is positioned over both letter and bonus tiles, the score of the letter bonuses is calculated first before multiplying the word. Bonuses can only be used once when a tile is placed on the square.
+There are four different types of \emph{bonus squares} dispersed throughout the board. The following bonus types can be used.
 
 \begin{description}
 \item{2L:} Double letter
@@ -131,27 +132,40 @@ There are four different types of \emph{bonus squares} dispersed througout the b
 \item{3W:} Triple word
 \end{description}
 
-If a player uses all the tiles on the rack an additional 50 points is rewarded the player, after an eventual bonus score.
+When a tile is placed on top of one of them the player is rewarded a bonus score for either that particular tile or the whole word. Letter bonus is calculated by multiplying the point for the corresponding letter on top of the bonus square by either two or three. Word bonus is multiplied by two or three to the total score of the word. If a tile on a word bonus square is part of both a horizontal and vertical word, the bonus is applied to both of them respectively. If a word is positioned on top of both letter- and a bonus tiles, the scores of the letter bonuses are calculated before multiplying the word. Bonuses can only be used once; when the tile is placed on the square.
 
-\subsubsection{End of game}
-The game ends when a player has emptied the rack, and there are no tiles left in the bag. Also, when there has been a total number of four zero points moves in a row, i.e. the players passed or exchanged tiles.
+If a player has used all the tiles from the rack in one move, an additional 50 points is rewarded the player after any possible bonus score is added.
 
-After the game, all the players still having tils on the rack get a penalty. The sum of the letter scores on the rack is removed from the total score and the winner of the game is the player with the highest score in the end.
+\subsubsection{Game over}
+The game can end in two ways. Either when a player has emptied the rack, and there are no tiles left in the bag. Or when there has been a total number of four moves with zero points in a row, i.e. the players passed or exchanged tiles.
+
+After the game, all the players still having tiles left on the rack will get a score penalty. The sum of the letter points on the rack is removed from the total score. The winner of the game is the player with the highest score after penalty subtractions. 
 
 \section{Research}
-As mentioned above, this is a well studied problem, and many papers and articles are to be found where different problems in the game of Scrabble have been studied. This paper will mostly refer to Appel and Jacobsen \cite{fastest} who discovered a way to represent the dictionary wo that it takes up minimum space in memory.
+The game of Scrabble has many sub problems, and there are several papers and articles to find.
+
+Gordon\cite{faster} presented an approach to let the search be even faster. This requires a complicated data structure for the dictionary, and was therefore considered redundant work. 
+
+An alternative for searching for legal moves would be using wildcard search. This allows for search with some letters known, and others unknown. Algorithms for wildcard searching could be found in Introduction to Information Retrieval \cite{inforetrieve}. However, this required several storages of each word, and could result in a data structure occupying too much memory space.
+
+Finally, some reflections were made if it would be profitable to use a min-max algorithm. Russel and Norvig\cite{ai} present an algorithm similar to the min max algorithm, but with a random component. 
+
+This paper will mostly refer to Appel and Jacobsen \cite{fastest} who discovered a way to represent the dictionary wo that it takes up minimum space in memory and developed an efficient algorithm to find all legal words depending on the tiles on rack and on the board. Their algorithm is simple and efficiant, and the argument for choosing this approach was minimizing the time spent on the implementation.
 
 \subsection{Dictionary representation}
-Words from a dictionary can be stored by representing the letters in trie. Each path can represent several words by letting the nodes mark the end of a word Figure \ref{fig:trie}. 
+\label{dic-rep}
+Words from a dictionary can be stored by representing the letters as edges in a trie. A path represent a word. Each path can have sub paths that represent shorter word variations by letting the nodes mark the end of a word as seen in figure \ref{fig:trie}. 
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=1]{trie}
-\caption{Example of a small dictionary consisting of 11 words represented with a trie data structure. End of words marked with grey nodes.}
+\caption{Example of a trie data structure representing a small dictionary consisting of 11 words represented with a trie data structure. End of words is marked with grey nodes.}
 \label{fig:trie}
 \end{figure}
 
-Appel and Jacobsen showed that the dictionary representation size can be reduced with a \emph{Directed Acyclic Word Graph}, referred to as a \emph{DAWG} \cite{fastest}. The DAWG can be constructed by first creating a trie and minimizing it by finding cases where two or more words can share a letter (node), creating a new edge from the previous node in one of the words to the other words node. Then remove the unnecessary edge and node which is no longer in use \ref{fig:dawg}. A trie has a lot of redundancy, becuase of edges and nodes being identical, no such thing occurres in a DAWG. All the identical are removed, and reduced to only one occurancy. In the dawg example fig. \ref{fig:trie} there is 10 nodes and 12 edges. That is significant less than the 17 nodes and 16 edges it consumes in a trie fig. \ref{fig:trie}. Another example is illustrated in the mentioned paper. A dictionary consisting of more than 100 000 words taking up a memory space of 0.5 MB with a trie, could be reduced to occupy only 175 kB with a DAWG.
+Appel and Jacobsen showed that the size of the dictionary representation can be reduced with a \emph{Directed Acyclic Word Graph}, referred to as a \emph{DAWG} \cite{fastest}. The DAWG can be constructed by first creating a trie and minimizing it by finding cases where two or more words can share a common letter (node). A new edge is then created from the previous node in one of the words to the other words node. Finally, the unnecessary edge and node are removed. See figure \ref{fig:dawg}.
+
+A trie has a lot of redundancy, because identical edges and nodes are stored, while the DAWG allows elimination of duplications. In the DAWG example in figure \ref{fig:dawg} on can see that there are 10 nodes and 12 edges. This is significantly less than the 17 nodes and 16 edges the same dictionary would consume in the trie in figure \ref{fig:trie}. Another example is illustrated in Appel and Jacobsen's paper\cite{fastest}. A dictionary consisting of more than 100 000 words occupies 0.5 MB with a trie, but is reduced to only 175 kB with a DAWG.
 
 \begin{figure}[h]
 \centering
@@ -161,11 +175,12 @@ Appel and Jacobsen showed that the dictionary representation size can be reduced
 \end{figure}
 
 \subsection{Word generation algorithm}
-Finding and forming words to lay out on the board is difficult. Appel and Jacobsen presented a solution to the problem by reducing it to one dimension. Instead of searching both up and right it is possible to generate words only horizontally. The argument is that generating a word vertically is basically the same thing as generating a word horizontally. The only difference is that the board is transposed. Therefore, the algorithm to generate words is limited to only generate horizontally, and for each move we do two searches, where one is over the transposed board. \cite{fastest}
+Finding and forming words to lay out on the board is difficult. Appel and Jacobsen presented a solution to the problem by reducing the board to one dimension. Instead of searching both horizontally and vertically, it is possible to generate words only horizontally. The argument is that generating a word vertically is basically the same thing, with the only difference that the board is transposed. Therefore, the word generation algorithm is limited to only find words horizontally. Two searches are made for each move, and one of them over the transposed board. \cite{fastest}
 
 
 \subsubsection{Anchor squares}
-A key in the algorithm implemented are the \emph{anchor squares}, which are the empy squares next to a non-empty square as can be seen in figure \ref{fig:anchors}. These are important since words can only be built from already existing tiles. In the very forst move there is only one anchor; the center square, since the player making the first move always has to start in the center square.
+\label{sec:anchors}
+A key in the algorithm implemented is the concept of \emph{anchor squares}. Anchor squares are empty squares adjacent to the words placed on the board, as can be seen in the figure \ref{fig:anchors}. These are important since words can only be extended from already existing tiles. In the first move of the game there is only one anchor; the center square, since the word in the first turn always has to be placed over the center square.
 
 \begin{figure}[h]
 \centering
@@ -174,53 +189,51 @@ A key in the algorithm implemented are the \emph{anchor squares}, which are the 
 \label{fig:anchors}
 \end{figure}
 
-\subsubsection{Cross-check sets}
-When placing a word horizontally, the vertically placed letters also have to create a legal word. It is quite easy to establish that if we place a word horizontally, the vertical word can increas with only one letter at a time. This makes it possible to calculate, for each anchor square, which set of letters that are possible to place at that square. The calculations can be made before each move, and allows the player to place a word by row, without considering the rest of the board. The set of available letter for one square is in Appel and Jacobsen's paper \cite{fastest} referred to as a \emph{cross-check set}
+\subsubsection{Cross-checks}
+\label{sec:crosscheck}
+The set of available legal letters for one square is in Appel and Jacobsen's paper \cite{fastest} referred to as a \emph{cross-check set}. When placing a word horizontally, the vertically placed letters also have to form a legal word. It is quite easy to establish that if a word is placed horizontally, the vertical word can increase with only one letter at a time. This makes it possible to calculate, for each anchor square, which set of letters that are possible to place at that square. The calculations can be made before each move, and allows the algorithm to place a word by row, without considering the rest of the board. 
 
 \subsection{Game strategies}
 \label{sec:strategies}
-If one is a beginner at Scrabble, there are meny small tricks to learn to advance quickly. Some of the tricks can be listed as:
+Some of the different Scrabble game strategies is:
 
 \begin{itemize}
-\item Difficult letters. Letters with high score are usually more difficult to place and should be used as soon as possible.
-\item Balance on the rack. It is easy to get stuck with only consonants or only vowels on the rack, keeping a good balance can therefore be a good idea to avoid deadlocks in the future.
-\item Bonus squares. Hitting the bonus squares can generate a high score. Although it is preferable to avoid opening opportunities for the opponent to do the same.
-\item Word extensions. According to Sheppard \cite{perfectgame}, the ability to find extensions (i.e. prefixes and suffixes) to already placed words, is a key to being a successful player since such moves can generate very high scores.
-\item Vocabulary. There are many short words in the language, and it is instantly rewarding if a player can learn many short word letters.
+\item {\bf Difficult letters}: letters with high score are usually more difficult to place and should be used as soon as possible e.g. Z or C.
+\item {\bf Balance on the rack}: it is easy to get stuck with only consonants or only vowels on the rack. Keeping a good balance can be a good idea to help construct words in the next turn.
+\item {\bf Bonus squares}: hitting the bonus squares will generate a higher score. It is also important to occupy them first to destroy the bonus opportunities for the opponent.
+\item {\bf Word extensions}: the ability to identify extensions (i.e. prefixes and suffixes) to words, is a key to being a successful player. Such moves can generate very high scores, as the word will use many existing tiles \cite{perfectgame}.
+\item {\bf Vocabulary}: there are many short words in the language, and it is rewarding if a player can learn many short word letters whic are easy to lay out.
 \end{itemize}
 
 
 
 
 
-
 \chapter{Implementation}
-The study is based on an implementation that follows the example of Appel and Jacobsen \cite{fastest}, with some small modifications. Since implementing a DAWG seemed like a time consuming project, a chioce was made to stay with the trie. The advantage with a DAWG is that it saves a lot of memory, but there were no problems with memory space, and therefore an unnecessary thing to focus on.
+The study is based on an implementation of the word generator algorithm that follows the example of Appel and Jacobsen \cite{fastest}. Since the aim of the study is to test game strategies and not optimize disk space (as shown in \ref{dic-rep}), a DAWG seemed like a time consuming project and the choice was made to use a trie.
 
-In the implementation there were some game limitations made to make the study fit into the given time span. The game limitations are described in section \ref{sec:limitations}.
+A slight limitation of the game rules and play were made in the implementation to make the work load fit into the given time span. The game limitations are described in section \ref{sec:limitations}.
 
 Three different agents were implemented with different strategies to follow and they are all described in section \ref{sec:agents}.
 
-The analysis and the final results are shown in section \ref{sec:analysis}.
-
-\section{Game limitations}
+\section{Limitations}
 \label{sec:limitations}
-Almost all tournament play involve only two players. The tests is therefore run with two agents. There exists a large variation of the game rules. The rules used is a slightly simplified version of the most common rules used by clubs and tournament play worldwide. TODO lägg in källa till regler.
+Almost all tournament play involve only two players. The tests is therefore run with two agents. There exists a large variation of the game rules. The rules used in the study are slightly simplified versions of the most common rules used by clubs and tournament play worldwide \cite{forbund} \cite{ABSP} \cite{NASPA}.
 
-To limit the work load to fit into the time span, some limitations were made to the game. This study focuses on games played by only two players, and the implementation is therefore customized to handle only two player games. The players have two options during a turn; either lay a word, or pass the turn and receieve zero points. In other words; the possibility to change tiles if no word can be found is removed. 
+The game is limited to be played by only two players, and the implementation is customized to not handle more players. The players have two options during a turn; either lay a word, or pass the turn and receieve zero points. In other words; the possibility to change tiles if no word can be found is removed. 
 
-The bag is also minimized, and do not contain any blank letters or other special tiles that are not letters. The result is that a Q or a W never can be used. In addition, the game is played in Swedish by the agents.
+The bag is minimized, and do not contain any blank tiles or other special tiles. The result is that Q and W can never be used. The allowed tiles can be seen in the list in section \ref{letter+table}. Additionally, the agents play the game with a Swedish dictionary; Den Stora Svenska Ordlistan \cite{dictionary}.
 
 \section{Agents}
 \label{sec:agents}
-To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. The would play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game. In order to evaluate which strategies are the more rewarding, the agents are implemented with only \emph{one} strategy. An agent who calculates the total score of a move and chooses the highest one will easily win over the tested agents in this study. The agents will be referred to as the HSW player, the BS player and the BOR player (see section \ref{sec:terminology}).
+To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. They will play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game. In order to evaluate which strategies are the more rewarding, the agents are each implemented with only \emph{one} strategy. The agents will be referred to as the HSW player, the BS player and the BOR player (see section \ref{sec:terminology}).
 
 \subsection{High Score Word player}
-One strategy to follow when playing Scrabble is to exploit the fact that som letters are worth more than others. Letters with higher scores ar less common in the language and therefore more difficult to use. Naturally, it is preferable to use them as soon as possible, to not risk difficult situations later in the game. The HSW player prefers placing words including high score letters. By all legal moves generated, the HSW player will choose the one where the word itself has the highest score. The HSW algorithm is as follows:
+One strategy to follow when playing Scrabble is to exploit the fact that som letters are worth more than others. These letter are less frequent in the Swedish language and therefore more difficult to use. Naturally, one would want to use them as soon as there is an opportunity, to not risk difficult situations later in the game. The HSW player prefers placing words including high score letters. By all legal moves generated, the HSW player will choose the one where the word itself has the highest score. The HSW algorithm is as follows:
 
 \begin{lstlisting}
 function ChooseMove(inputMove)
-	if score of inputMove.word greater than highestScore
+	if score of inputMove.word  > highestScore
 		nextMove <- inputMove;
 	end if
 end function
@@ -229,7 +242,7 @@ end function
 The HSW player saves one move. If a better move is found than the one saved, the new move will overwrite the old one.
 
 \subsection{Bonus Square player}
-Sometimes, it can be more rewarding to place a relatively short word than a longer one. This is because of the bonus squares spread out on the board. The can multiply the value of either one letter, or the entire word placed, and can therefore generate quite high scores. The BS player strives to place words over bonus squares, to hopefully generate a high score. If there are several opportunities to reach a bonus tile, the most rewarding one is chosen by the agent, i.e. the word reaching the bonus square with the highest bonus.
+Sometimes, it can be more rewarding to place a relatively short word than a longer one. This is because of the bonus squares. They can multiply the value of either one letter, or the entire word placed, and can therefore generate high scores. The second agent strives to place words over bonus squares. If there is an opportunity to reach several bonus squares, the most rewarding bonus square is chosen depending on what word or letter is placed on the bonus. The algorithm is as follows:
 
 \begin{lstlisting}
 function ChooseMove(inputMove)
@@ -249,10 +262,8 @@ end function
 			
 \end{lstlisting}
 
-
-
 \subsection{Balance On Rack player}
-An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. The BOR player tries to always keep a good balance between vowels and consonants on the rack, to avoid deadlocks later in the game. The agent knows the \emph{ideal ratio} and tries to lay out words so that the words left on the rack returns a ratio as close to the ideal ratio as possible. Tests with different ideal ratios are made.
+An important thing to think about when playing Scrabble is to plan for the next move. If a player ends up with only consonants on the rack, the possibility of laying out a word is reduced. The third agent tries to always keep a good balance between vowels and consonants on the rack, to help out form words in the next turn. The agent knows the \emph{ideal ratio} and tries to lay out words so that the words left on the rack returns a ratio as close to the ideal ratio as possible. Tests with different ideal ratios are made and the algorithm is shown below.
 
 \begin{lstlisting}
 
@@ -269,82 +280,33 @@ function ChooseMove(inputMove)
 end function
 \end{lstlisting}
 
-
-
-
-
-
 \chapter{Results}
 \label{sec:analysis}
-Each of the agents has been tested against the others, to let us evaluate the impact of each strategy. Explanations of the agents can be read about in section \ref{sec:agents}. Section \ref{sec:conditions} describes under which conditions the tests were made.
+Each of the agents has been tested against the others, to allow evaluation of the impact of each strategy. Explanations of the agents can be read about in section \ref{sec:agents}. 
+
+Section \ref{sec:conditions} describes under which conditions the tests were made.
 
 Sections \ref{sec:highBalance}, \ref{sec:balanceBonus} and \ref{sec:bonusHigh} show the results from each run.
  
 \section{Test conditions}
+The BOR player has an ideal ratio between the tiles on the rack which it tries to keep throughout the game. The ratio will be referred to as the \emph{vowel ratio} and is defined as the number of vowels divided in the total number of tiles on the rack.
+
 \label{sec:conditions}
 \subsection{Games}
 In one run the agents were set to play 1000 games against each other and to minimize the impact of opening the game in the results, both agents started the game 500 times. Each run were made 10 times, so the total result is based on 10 000 games. It was established that there were no significant changes in the results between running 1000 games, and 10 000 games, and would therefore probably be reduntant to make more tests. 
 
 \subsection{Dictionaries}
-Two dictionaries were used in the tests; one consisting of only the normal form of each word and the other consisting of all possible forms of each words, where the latter is a set of 480391 words. The former consists of 83247 words. The rules of Swedish Scrabble do not allow words of all forms, but the english does. Therefore, it seemed interesting to compare how the agents would perform with different conditions. There could be situations where for instance the bonus player has an advantage if conjunctions are allowed, since it strives always after covering the bonus squares. The large dictionary could allow the player to place short extensions to already placed words.
 
-The longest word in the used dictionary is ammoniumdiamintetrakistiocyanatokromat. The shortest possible word to place on board is all two letter words Section \ref{regler}. The number of two letter words is 121. Table \ref{table:dictionary+length}.
-\begin{table}[h]
-\centering
-	\begin{tabular}{l | c | c}
-	& Base words & All words \\
-	\hline
-	Mean & 9.5 & 11.2 \\
-	\hline
-	Longest & \multicolumn{2}{c}{ammoniumdiamintetrakistiocyanatokromat} \\
-	\hline
-	Shortest & \multicolumn{2}{c}{121 two letter words} \\ 
-	\end{tabular}
-\caption{Mean, largest and smallest lengths of legal words in the dictionary.}
-\label{table:dictionary+length}
-\end{table}
+The tests are based on two variations of the Swedish dictionary. The first is the small dictionary, which consists of the words only in their base form in the Swedish dictionary. Ths size of the small dictionary is 83247 words. The second is the large dictionary, which includes all possible inflections of each word making it as large as 480 391 words.
 
-\section{High score words vs Balance}
+The rules of the English Scrabble allow the players to form inflections. However, the Swedish rules do not. It seemed interesting to compare the results from using both the large dictionary the small. The dictionary available could be especially relevant for the results of the BS player. It makes use of the bonus squares, which could be easier to reach with short word extensions if all words are allowed.
+
+
+\section{High score words vs Balance On Rack}
 \label{sec:highBalance}
 
-The results from runs over the large dictionary and the small dictionary do not differ that much, as can be seen in figure \ref{fig:bonusBalanceSmallDict} and figure \ref{fig:bonusBalanceLargeDict}.
-The BOR player uses a ratio between vowels and consonants on the rack, and strives to keep the ratio after each move. The wanted number of vowels on hand will be referred to as \emph{vowel ratio}. Several tests were made with the BOR player to see if there is any difference when altering the ratio parameter. The ratio is calculated as the number of vowels left on hand divided into the number of consonants left on hand. Table \ref{tab:bor+hsw} shows the results of the runs made with different ideal number of vowels on hand.
+Several tests were made with the BOR player, using different values for the vowel ratio. From table \ref{tab:bor+hsw} one can even in the best best case for the BOR player, it only wins 12\% of the games. Note that there is a significant peak in the number of winnings when the ratio is set to 8/8, and also an extreme bottom when the ratio is set to 1/8.
 
-\begin{table}[h]
-\centering
-    \begin{tabular}{ l | l | l }
-   	& BOR & HSW \\
-   	\hline
-   	Wins & 1 & 9999 \\
-	Draws & 0 & 0 \\
-	Wins when started playing & 0 & 5009 \\   	
-	Mean score & 124 & 420 \\
-	Median score & 123 & 415 \\	 	 
-	Highest score & 299 & 745 \\
-	Lowest score & -16 & -12 \\		
-    \end{tabular}
-\caption{Result from 10 000 games with vowel ratio 1/8 and words in all inflection forms from the Swedish dictionary (480 391 words).}
-\label{table:borhswstats}
-\end{table}
-
-\begin{table}[h]
-\centering
-    \begin{tabular}{ l | l | l }
-   	& BOR & HSW \\
-   	\hline
-   	Wins & 1206 & 8762 \\
-	Draws & 32 & 32 \\
-	Wins when started playing & 643 & 4431 \\   	
-	Mean score & 214 & 309 \\
-	Median score & 213 & 307 \\	 	 
-	Highest score & 407 & 624 \\
-	Lowest score & -9 & -19 \\		
-    \end{tabular}
-\caption{Result from 10 000 games with vowel ratio 8/8 and words in all inflection forms from the Swedish dictionary (480 391 words).}
-\label{table:borhswstats}
-\end{table}
-
-The results show that the HSW player is generally more successful playing the game. The BOR player does not take the word score in consideration when playing, but only the ratio, and it it obviously not the most rewarding strategy to follow. An interesting observation is that if the BOR agent tries to keep a ratio of vowels close to 1, i.e all tiles being vowels, there is a significant peak in the number of winning games for the agent. On the other hand, trying to keep one vowel on hand after each round seems to not be as smart, since the agent lost almost 100\% of all games.
 
 \begin{table}[h]
 \centering
@@ -365,11 +327,26 @@ The results show that the HSW player is generally more successful playing the ga
 \end{table}
 
 
-\section{Balance vs Bonus}
-\label{sec:balanceBonus}
-The BOR player continues to perform doubtly against the BS player. Also here the BS player consideres what bonus it will be given in a certain move, and chooses the highest one. Naturally the BOR player that only cares about its ratio on the rack will perform worse. The results from runs with different vowel ratio in the BOR player can be seen in table \ref{tab:bor+bs}.
+The HSW player is a more successful player, with a winning percentage of at least 88\%. As one can see in table \ref{tab:borhswstats8} and table \ref{tab:borhswstats8smallDict} in the appendix, both players won slightly more games when starting the game. The HSW player had an average of 50.5\% of the winnings after starting the game, and the BOR player had 52.3\%. 
 
-Note that the BOR player is stable with its game results. In figure \ref{fig:bonusBalanceLargeDict} one can see that the BS player in some games made an extremely poor performance, receiving zero points or less, while the BOR player keeps the graph quite thin, i.e. the results differ less from game to game.
+
+Another observation is that the BOR player is not as affected by the size of the dictionary as the HSW player. The BOR player wins 53\% more games with the small dictionary compared to the large. The HSW player, however, wins 8\% more games with the large dictionary than with the small. The results from 10 000 games can be seen in figure \ref{fig:highBalanceBothDict}.
+
+\graphicspath{{../results/Plots/}}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{HighBalance8vow_bothDict_cropped}
+\caption {Scores with a BOR vowel ratio 8/8. The game scores from the HSW player and BOR player in 10000 games}
+\label{fig:highBalanceBothDict}
+\end{figure}
+
+
+
+
+\section{Balance On Rack vs Bonus Squares}
+\label{sec:balanceBonus}
+The BOR player shows a poor performance also against the BS player, with a best case of 9\% winnings. Table \ref{tab:bor+bs} shows that the vowel ratio of 8/8 gives a much better result for the BOR player than any other vowel ratio, although it is still outnumbered by the BS player.
 
 \begin{table}[h]
 \centering
@@ -389,14 +366,24 @@ Note that the BOR player is stable with its game results. In figure \ref{fig:bon
 \label{tab:bor+bs}
 \end{table}
 
+Of all winnings made by the BS player, 51\% were achieved after being the starting player. For the BOR player the percentage is 54\%. This can be seen in table \ref{tab:borbsstats8} and table \ref{tab:borbsstats8smallDict} in the appendix. One can also see that the first move has a more significant impact on the BOR player's results. The BS player, however, seems to be able to compensate a possible loss, when not starting, later in the game.
+
+As in the previous section, the BOR player is not as affected by the size of the dictionary as the BS player. In figure \ref{fig:bonusBalanceLargeDict} one can see that the BS player is performing significantly better with a larger dictionary. The number of winnings is increased by 11\% when enabling the large dictionary. The BOR player on the other hand almost doubles the number of winnings when only the small dictionary is available with a winning rate increase of 97\%. 
+
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{BonusBalance8vow_bothDict_cropped}
+\caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 480 391 words available.}
+\label{fig:bonusBalanceLargeDict}
+\end{figure}
 
 
 
 \section{Bonus vs High score words}
 \label{sec:bonusHigh}
-\emph{BS} wins just over 6 of 10 times against \emph{HSW} when using all inflection forms from the Swedish dictionary table \ref{table:bs+hsw+allwords} and well over 5 of 10 times when only the base forms of words is used table \ref{table:bs+hsw+baseforms}. When \emph{BS} started playing it won 52\% of its wins when using all inflection forms. For \emph{HSW} 53\% of its wins. When using only the base form both of them were winning 51\% its wins when started laying out words.
-
-The resulting mean, median, highest and lowest scores is significant higher when using all inflection forms. Lowest score is negative for both players when using only base forms. \emph{BS} mean score is 24\% higher in table \ref{table:bs+hsw+allwords} compared to table \ref{table:bs+hsw+baseforms}. The same applies for the end score which is higher when using all words Appendix Figure \ref{fig:bs+hsw+totalscores}.
+The BS player wins just over 6 of 10 times against the HSW player when using all inflection forms from the Swedish dictionary table \ref{table:bs+hsw+allwords} and well over 5 of 10 times when only the base forms of words is used table \ref{table:bs+hsw+baseforms}. When the BS player started playing it won 52\% of its wins when using all inflection forms. For the HSW player 53\% of its wins. When using only the base form both of them were winning 51\% its wins when started laying out words.
 
 \begin{table}[h]
 \centering
@@ -411,7 +398,7 @@ The resulting mean, median, highest and lowest scores is significant higher when
 	Highest score & 724 & 606 \\
 	Lowest score & 85 & 61 \\		
     \end{tabular}
-\caption{Result from 10 000 games with words in all inflection forms from the Swedish dictionary (480 391 words).}
+\caption{Result from 10 000 games with vowel ratio 8/8 and words in all inflection forms from the Swedish dictionary (480 391 words).}
 \label{table:bs+hsw+allwords}
 \end{table}
 
@@ -428,72 +415,131 @@ The resulting mean, median, highest and lowest scores is significant higher when
 	Highest score & 488 & 506 \\
 	Lowest score & -15 & -11 \\		
     \end{tabular}
-\caption{Result from 10 000 games with only words in base form from the Swedish dictionary (83 247 words).}
+\caption{Result from 10 000 games with vowel ratio 8/8 and only words in base form from the Swedish dictionary (83 247 words).}
 \label{table:bs+hsw+baseforms}
 \end{table}
 
-\chapter{Conclusions}
-\section{Discussions}
-\subsubsection{BOR player}
-The BOR player is significantly better with a vowel ratio of 8/8. It can probably be explained from the fact that when choosing a move, and the vowel ratio is 8/8 (1) it is easier for the agent to place longer words. Imagine the agent placing a word using all tiles but one, and the remaining tile on hand is a vowel. This would be a preferable move if the ratio is 1, but not if the ratio is less. If the ratio would be 4/8 for example, the agent would choose a move that leaves two tiles, where one is a vowel, over the move with a longer word. 
-
-\subsubsection{HSW player}
-High score word player conclusions go here.
-
-\subsubsection{BS player}
-Choosing to place words that will occupy a bonus square is rewarding. It will not only give a high score but will also destroy the possiblity for the opponent to reach a bonus square.
-
-It has active playing style with the mission to conquer the bonus squares at all cost. With the power of a big dictionary it will have a higher probability to reach a bonus. It is easy to extend words already on board when having the possibility to use all inflection forms of words. The end score will also be higher Figure \ref{fig:bs+hsw+totalscores}. When using only base words it will struggle to find bonus squares. This is due to 
-
-\section{Conclusions}
-
-
-\appendix
-\chapter{Game conditions}
-\graphicspath{{images/}}
-
-
-
-
-
-
-\chapter{Diagrams}
-\graphicspath{{../results/Plots/}}
+The resulting mean, median, highest and lowest scores is significant higher when using all inflection forms. Lowest score is negative for both players when using only base forms. The BS player's mean score is 24\% higher in table \ref{table:bs+hsw+allwords} compared to table \ref{table:bs+hsw+baseforms}. The same applies for the end score which is higher when using all words Appendix Figure \ref{fig:bs+hsw+totalscores}.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.5]{HighBalance8vow_bothDict}
-\caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 83 247 words available.}
-\label{fig:bonusBalanceSmallDict}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.5]{BonusBalance8vow_bothDict}
-\caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 480 391 words available.}
-\label{fig:bonusBalanceLargeDict}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[scale=0.3]{Highest_Bonus_Round_vs_High_Score_Word_10000}
+\includegraphics[scale=0.4]{Highest_Bonus_Round_vs_High_Score_Word_10000_cropped}
 \caption {End scores of the two players in 10000 games. Upper graph with base words only and lower graph with all inflection forms.}
 \label{fig:bs+hsw+totalscores}
 \end{figure}
 
 
 
+\chapter{Conclusions}
+\section{Discussions}
+\subsubsection{BOR player}
+The BOR player is significantly better with a vowel ratio of 8/8. It can probably be explained from the fact that when choosing a move, and the vowel ratio is 8/8 (1) it is easier for the agent to place longer words. Imagine the agent placing a word using all tiles but one, and the remaining tile on hand is a vowel. This would be a preferable move if the ratio is 1, but not if the ratio is less. If the ratio would be 4/8 for example, the agent would choose a move that leaves two tiles, where one is a vowel, over the move with a longer word. 
+
+There is however a hole in the theory. The phenomena that occurs with a vowel ratio of 7/8; the extremely bad winning rate. After speculating and trying to explain this occurence, we are still stunned. If the theory of allowing longer words with a higher ratio would be correct, the result ought to increase with the vowel ratio.
+
+\subsubsection{HSW player}
+The HSW player is on the same level as the BS player when it comes to mean score over the games. However, the reason for playing as good could be that the BS player probably hits the bonuses and generates very high scores at times. As seen in the tables in section \ref{sec:tablesbs}, the BS player has a significantly higher maximum score than the HSW player.
+
+\subsubsection{BS player}
+Choosing to place words that will occupy a bonus square is rewarding. It will not only give a high score but will also destroy the possiblity for the opponent to reach a bonus square.
+
+It has active playing style with the mission to conquer the bonus squares at all cost. With the power of a big dictionary it will have a higher probability to reach a bonus. It is easy to extend words already on board when having the possibility to use all inflection forms of words. The end score will also be higher Figure \ref{fig:bs+hsw+totalscores}. When using only base words it will struggle to find bonus squares. This is due to 
+
+\subsubsection{Moreover}
+This study is very limited, which can affect the results. One should not consider these player as on the same level as a human player. The objective was to examine different strategies separately, and most human players use several strategies simultaneously. The agents tested in this study were implemented with only one strategie, and an agent who calculates the total score of a move and chooses the highest one wuld probably win without effort over all three tested agents. 
+
+\section{Conclusions}
+Some conclusion made from the results is that it seems to be of advantage to start the game, although a slight one. All result show that of the winning games, a little over 50\% were made when the player had started the game.
+
+Bonus squares are more important than one maybe imagines. It is not always the best move to place a long word with the highest score, since the bonus squares, if used wisely, can generate extremely high scores. Use of difficult letters together with the bonus squares is probably an intelligent approach.
+
+To keep the balance on the rack is useless, if no scores are taken into consideration. One could for instance generate as high score words as possible, together with keeping the balance.
+
+
+\appendix
+\chapter{Tables}
+
+\section{High Score Words vs Balance On Rack}
+\begin{table}[h]
+\centering
+    \begin{tabular}{ l | l | l }
+   	& BOR & HSW \\
+   	\hline
+   	Wins & 1206 & 8762 \\
+	Draws & 32 & 32 \\
+	Wins when started playing & 643 & 4431 \\   	
+	Mean score & 214 & 309 \\
+	Median score & 213 & 307 \\	 	 
+	Highest score & 407 & 624 \\
+	Lowest score & -9 & -19 \\		
+    \end{tabular}
+\caption{Result from 10 000 games with vowel ratio 8/8 and words in all inflection forms from the Swedish dictionary (480 391 words).}
+\label{tab:borhswstats8}
+\end{table}
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{ l | l | l }
+   	& BOR & HSW \\
+   	\hline
+   	Wins & 1850 & 8114 \\
+	Draws & 36 & 36 \\
+	Wins when started playing & 950 & 4088 \\   	
+	Mean score & 198 & 263 \\
+	Median score & 199 & 262\\	 	 
+	Highest score & 373 & 590 \\
+	Lowest score & -17 & -13 \\		
+    \end{tabular}
+\caption{Winnings over 10 000 games depending on vowel ratio. Words in base form from the Swedish dictionary (83 247 words).}
+\label{tab:borhswstats8smallDict}
+\end{table}
+
+\section{Balance On Rack vs Bonus Squares} 
+\label{sec:tablesbs}
+\begin{table}[h]
+\centering
+    \begin{tabular}{ l | l | l }
+   	& BOR & BS \\
+   	\hline
+   	Wins & 915 & 9074 \\
+	Draws & 11 & 11 \\
+	Wins when started playing & 496 & 4588 \\   	
+	Mean score & 207 & 321 \\
+	Median score & 206 & 318\\	 	 
+	Highest score & 382 & 682 \\
+	Lowest score & -25 & -19 \\		
+    \end{tabular}
+\caption{Result from 10 000 games with vowel ratio 8/8 and words in all inflection forms from the Swedish dictionary (480 391 words).}
+\label{tab:borbsstats8}
+\end{table}
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{ l | l | l }
+   	& BOR & BS \\
+   	\hline
+   	Wins & 1798 & 8165 \\
+	Draws & 37 & 37 \\
+	Wins when started playing & 951 & 4142 \\   	
+	Mean score & 198 & 266 \\
+	Median score & 198 & 264\\	 	 
+	Highest score & 405 & 527 \\
+	Lowest score & -23 & -17 \\		
+    \end{tabular}
+\caption{Winnings over 10 000 games depending on vowel ratio. Words in base form from the Swedish dictionary (83 247 words).}
+\label{tab:borbsstats8smallDict}
+\end{table}
+
 \begin{thebibliography}{100}  
   \bibitem{perfectgame} Sheppard, B., 2002, Towards Perfect Play of Scrabble, Maastricht.
   \bibitem{fastest} Appel A. W., Jacobson, G. J., 1985, The World’s Fastest Scrabble Program, Commun. ACM, 31(5), 572-585, May 1988.
 \bibitem{faster} Gordon, S. A., 1993, A Faster Scrabble Move Generation Algorithm, Software - Practice and experience, Vol. 24(2), 219-232, February 1994.
-\bibitem{quakle} Katz-Brown, J., O’Laughlin, J., Fultz, J., Liberty, M., Buddhdev, A., 2006, Quakle - open source crossword game software, http://people.csail.mit.edu/jasonkb/quackle/, 2 January 2012,  12 February 2012.
-\bibitem{scrabblewiki} Wikipedia, Scrabble, http://en.wikipedia.org/wiki/Scrabble, 12 February 2012.
 \bibitem{ai} Russell S., Norvig P. Artificial Intelligence: A Modern Approach 3rd ed. Prentice Hall. 2009
 \bibitem{inforetrieve} Manning C. D., Raghavan P., Schütze H., Introduction to Information Retrieval, Cambridge University Press, 2008, p. 49-65.
-\bibitem{dictionary} Swedish dictionary Den stora svenska ordlistan, http://code.google.com/p/dsso/downloads/detail?name=dsso-1.52.txt\&can=1\&q=
+\bibitem{dictionary} Den stora svenska ordlistan (Swedish dictionary), http://code.google.com/p/dsso/downloads/detail?name=dsso-1.52.txt\&can=1\&q=
 \bibitem{forbund} Swedish tournament rules by Svenska Scrabbleförbundets, http://www.scrabbleforbundet.se/index.php?option=content\&task=view\&id=16\&Itemid=39
 \bibitem{ABSP} World English-Language Scrabble Players’ Association (WESPA) rules, http://www.wespa.org/rules/RulesV2nov11.pdf
 \bibitem{NASPA} North American SCRABBLE Players Association official tournament rules, http://www.scrabbleplayers.org/wiki/images/a/af/Rules-20110605.pdf
+\bibitem{letterpoints} http://en.wikipedia.org/wiki/Scrabble\_letter\_distributions
 \end{thebibliography}
 \end{document}
