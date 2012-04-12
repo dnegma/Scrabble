@@ -9,9 +9,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import player.BalancePlayer;
-import player.HighScoreWordPlayer;
-import player.Player;
+import player.*;
 import board.Board;
 import dictionary.Alphabet;
 import dictionary.Trie;
