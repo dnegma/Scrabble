@@ -17,8 +17,8 @@ import java.util.regex.Pattern;
  */
 public class RegexDictionary {
 	private static final String WORDLINEREGEX = "\\d+r\\d+<\\w+>[\\wåäöéèêçñ]+:(\\w*\\W*)*";
-
-	private static final boolean ALL_WORDS = false;
+	
+	private static final boolean ALL_WORDS = true;
 
 	private static List<String> dictionary;
 
@@ -71,12 +71,12 @@ public class RegexDictionary {
 	 */
 	private static HashSet<String> extractWordFromStringLine(String stringLine) {
 		HashSet<String> foundWords = new HashSet<String>();
-		String[] lineSplit = stringLine.split("[<|>|:]");
+		String[] lineSplit = stringLine.split("[<|>|:|,]");
 		if (!lineSplit[1].equals("egennamn")) {
 			int foundWordsOnLine = (ALL_WORDS) ? lineSplit.length : 3;
 			for (int i = 2; i < foundWordsOnLine; i++) {
-				String word = lineSplit[i];
-				if (!word.isEmpty()) {
+				String word = lineSplit[i].trim();
+				if (!word.isEmpty() && !word.equals("!")) {
 					String addWord = exchangeSpecialCharacters(word);
 					foundWords.add(addWord);
 				}
