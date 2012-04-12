@@ -12,7 +12,7 @@
 \begin{document}
 
 \graphicspath{{./images/}}
-\title{Smarter and simple Scrabble strategy}
+\title{Smarter Scrabble - strategies and their impact}
 \date{Course: DD143X \\ Supervisor: Johan Boye \\ Kungliga Tekniska Högskolan \\ CSC \\ March 7, 2012}
 \author{Frej Connolly \\ Götgatan 78 13TR LÄG1302 \\ 118 30 Stockholm \\ SWEDEN \\ +46(0)73-963 41 90 \\ connolly@kth.se \\
         \and Diana Gren \\ Sköldgatan 8 2TR \\ 118 63 Stockholm \\ SWEDEN \\ +46(0)70-467 47 20 \\ dianagr@kth.se}
@@ -29,6 +29,23 @@ The results show that always hitting bonus squares is a rewarding strategy, as t
 Sammanfattning på svenska hamnar här. TODO
 \end{abstract}
 \selectlanguage{british}
+
+\subsubsection{Statement of collaboration}
+Since the project was executed by two people, we are required to specify which person contributed with  which parts. 
+
+The implementation was mostly made together, though some distributions were made to make it more efficient:
+\begin{itemize}
+\item{Frej}: Dictionary representation
+\item{Diana}: Word generation
+\end{itemize}
+
+As of the report, the list below is a rough indication of how the work was distributed a part from all that was made together.
+
+\begin{itemize}
+\item{Frej}: Sections \ref{sec:rules}, \ref{dic-rep}, \ref{sec:bonusHigh}
+\item{Diana}: Sections \ref{sec:agents}, \ref{sec:highBalance}, \ref{sec:balanceBonus}
+\end{itemize}
+
 \tableofcontents
 
 
@@ -83,11 +100,12 @@ When playing, the ability to keep a good balance between consonants and vowels o
 \chapter{Background}
 
 \section{Scrabble game rules}
+\label{sec:rules}
 Scrabble is word game for two to four players. They are given a set of letter tiles and the game objective is to form words to place onto a board of squares \cite{ABSP} \cite{NASPA} \cite{forbund}.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.5]{board}
+\includegraphics[scale=0.55]{board}
 \caption {Game board. 15x15 square board with bonus squares.}
 \label{fig:game-board}
 \end{figure}
@@ -179,6 +197,7 @@ A trie has a lot of redundancy, because identical edges and nodes are stored, wh
 \end{figure}
 
 \subsection{Word generation algorithm}
+\label{sec:generation}
 Finding and forming words to lay out on the board is difficult. Appel and Jacobsen presented a solution to the problem by reducing the board to one dimension. Instead of searching both horizontally and vertically, it is possible to generate words only horizontally. The argument is that generating a word vertically is basically the same thing, with the only difference that the board is transposed. Therefore, the word generation algorithm is limited to only find words horizontally. Two searches are made for each move, and one of them over the transposed board. \cite{fastest}
 
 
@@ -385,7 +404,7 @@ As in the previous section, the BOR player is not as affected by the size of the
 
 
 
-\section{Bonus vs High score words}
+\section{Bonus Squares vs High Score Words}
 \label{sec:bonusHigh}
 The BS player wins just over 6 of 10 times against the HSW player when using all inflection forms from the Swedish dictionary table \ref{table:bs+hsw+allwords} and well over 5 of 10 times when only the base forms of words is used table \ref{table:bs+hsw+baseforms}. When the BS player started playing it won 52\% of its wins when using all inflection forms. For the HSW player 53\% of its wins. When using only the base form both of them were winning 51\% its wins when started laying out words.
 
