@@ -170,9 +170,9 @@ Gordon\cite{faster} presented an approach to let the search be even faster. This
 
 An alternative for searching for legal moves would be using wildcard search. This allows for search with some letters known, and others unknown. Algorithms for wildcard searching could be found in Introduction to Information Retrieval \cite{inforetrieve}. However, this required several storages of each word, and could result in a data structure occupying too much memory space.
 
-Finally, some reflections were made if it would be profitable to use a min-max algorithm. Russel and Norvig\cite{ai} present an algorithm similar to the min max algorithm, but with a random component. 
+Finally, some reflections were made if it would be profitable to use a min-max algorithm. Russel and Norvig\cite{ai} present an algorithm similar to the min-max algorithm, but with the existance of a random component. 
 
-This paper will mostly refer to Appel and Jacobsen \cite{fastest} who discovered a way to represent the dictionary wo that it takes up minimum space in memory and developed an efficient algorithm to find all legal words depending on the tiles on rack and on the board. Their algorithm is simple and efficiant, and the argument for choosing this approach was minimizing the time spent on the implementation.
+This paper will mostly refer to Appel and Jacobsen \cite{fastest} who discovered a way to represent the dictionary so that it takes up minimum space in memory and developed an efficient algorithm to find all legal words depending on the tiles on rack and on the board. Their algorithm is simple and efficiant, and the argument for choosing this approach was minimizing the time spent on the implementation.
 
 \subsection{Dictionary representation}
 \label{dic-rep}
@@ -468,7 +468,7 @@ The HSW player is on the same level as the BS player when it comes to mean score
 \subsubsection{BS player}
 Choosing to place words that will occupy a bonus square is rewarding. It will not only give a high score but will also destroy the possiblity for the opponent to reach a bonus square.
 
-It has active playing style with the mission to conquer the bonus squares at all cost. With the power of a big dictionary it will have a higher probability to reach a bonus. It is easy to extend words already on board when having the possibility to use all inflection forms of words. The end score will also be higher Figure \ref{fig:bs+hsw+totalscores}. When using only base words it will struggle to find bonus squares. This is due to //TODO
+It has active playing style with the mission to conquer the bonus squares at all cost. With the power of a big dictionary it will have a higher probability to reach a bonus. It is easy to extend words already on board when having the possibility to use all inflection forms of words. The end score will also be higher Figure \ref{fig:bs+hsw+totalscores}. When using only base words it will struggle to find bonus squares. 
 
 \subsubsection{Moreover}
 This study is very limited, which can affect the results. One should not consider these player as superior, or even equal, to a human player. The objective was to examine different strategies separately, and most human players use several strategies simultaneously \cite{perfectgame}. The agents tested in this study were implemented with only one strategy, and an agent who calculates the total score of a move and chooses the highest one wuld probably win without effort over all three tested agents. 
@@ -480,7 +480,7 @@ Bonus squares are more important than one maybe imagines. It is not always the b
 
 To keep the balance on the rack is useless, if no scores are taken into consideration. One could for instance generate as high score words as possible, together with keeping the balance.
 
-subsection{Future work}
+\subsection{Future work}
 If there is interest, this work can be extended in many ways. One can for instance try and implement other types of agents. For this study there were reflections about implementing agents that calculates the score from a move and get penalty points for moves less preferable according to the strategy. 
 
 \appendix
