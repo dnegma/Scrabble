@@ -1,7 +1,7 @@
 %BalancePlayer
 x = [72, 12, 325, 165, 172, 261, 620, 141, 915]; 
 
-%HighScoreWordPlayer
+%BonusSquarePlayer
 %y = [9, 1000, 954, 979, 975, 960, 915, 988, 866];
 
 z = [0:8];
