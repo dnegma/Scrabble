@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import player.BalancePlayer;
 import player.HighScoreWordPlayer;
 import player.HighestBonusRoundPlayer;
 import player.Player;
@@ -35,8 +36,8 @@ public class GameTests extends Game {
 //			System.out.println("Playing game nr " + i);
 			boardType = new Board();
 
-			player1Type = new HighestBonusRoundPlayer(boardType);
-			player2Type = new HighScoreWordPlayer(boardType);
+			player1Type = new BalancePlayer(boardType);
+			player2Type = new HighestBonusRoundPlayer(boardType);
 			
 			boolean player1StartsPlaying;
 			
