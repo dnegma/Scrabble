@@ -11,10 +11,11 @@ plot(z,x, 'g');
 hold on
 plot(z,y);
 hold off
-legend('BalanceOnRackPlayer', 'BonusSquarePlayer');
-title('480391 words');
-xlabel('Game');
-ylabel('Score');
+h_legend = legend('BalanceOnRackPlayer', 'BonusSquarePlayer');
+set(h_legend,'FontSize',14);
+title('480391 words','FontSize', 16);
+xlabel('Game','FontSize', 14);
+ylabel('Score', 'FontSize', 14);
 axis ([1 1000 0 750]);
 
 
@@ -31,8 +32,9 @@ plot(z,x, 'g');
 hold on
 plot(z,y);
 hold off
-legend('BalancePlayer', 'BonusSquarePlayer');
-title('83247 words');
-xlabel('Game');
-ylabel('Score');
+h_legend = legend('BalancePlayer', 'BonusSquarePlayer');
+set(h_legend,'FontSize',14);
+title('83247 words','FontSize', 16);
+xlabel('Game', 'FontSize', 14);
+ylabel('Score', 'FontSize', 14);
 axis ([1 1000 0 750]);

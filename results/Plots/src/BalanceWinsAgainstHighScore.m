@@ -10,6 +10,8 @@ plot(z,x);
 hold on
 %plot(z,y);
 %hold off
-legend('BalanceOnRackPlayer');
-xlabel('Vowels');
-ylabel('Wins');
+h_legend=legend('BalanceOnRackPlayer');
+set(h_legend,'FontSize',14);
+%legend('BalanceOnRackPlayer');
+xlabel('Vowels', 'FontSize',14);
+ylabel('Wins', 'FontSize',14);
