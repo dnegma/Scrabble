@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class DataHandler {
-	public static final String DIRECTORY = "results/BalancePlayer_HighScoreWordPlayer/1000/SmallDictionary";
+	public static final String DIRECTORY = "results/BalancePlayer_HighestBonusRoundPlayer/1000/8-ratio";
 	
 	static PlayerStats player1Stat;
 	static PlayerStats player2Stat;
