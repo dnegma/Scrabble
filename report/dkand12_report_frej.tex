@@ -255,10 +255,44 @@ The longest word in the used dictionary is ammoniumdiamintetrakistiocyanatokroma
 \section{High score words vs Balance}
 \label{sec:highBalance}
 
-The results from runs over the large dictionary and the small dictionary do not differ that much, as can be seen in figure \ref{fig:largeDict} and figure \ref{fig:smallDict}.
+The results from runs over the large dictionary and the small dictionary do not differ that much, as can be seen in figure \ref{fig:bonusBalanceSmallDict} and figure \ref{fig:bonusBalanceLargeDict}.
 The BOR player uses a ratio between vowels and consonants on the rack, and strives to keep the ratio after each move. The wanted number of vowels on hand will be referred to as \emph{vowel ratio}. Several tests were made with the BOR player to see if there is any difference when altering the ratio parameter. The ratio is calculated as the number of vowels left on hand divided into the number of consonants left on hand. Table \ref{tab:bor+hsw} shows the results of the runs made with different ideal number of vowels on hand.
 
-The results show that the HSW player is generally more successful playing the game. The BOR player doeas not take the word score in consideration when playing, but only the ratio, and it it obviously not the most rewarding strategy to follow. An interesting observation is that if the BOR agent tries to keep a ratio of vowels close to 1, i.e all tiles being vowels, there is a significant peak in the number of winning games for the agent. On the other hand, trying to keep one vowel on hand after each round seems to not be as smart, since the agent lost almost 100\% of all games.
+\begin{table}[h]
+\centering
+    \begin{tabular}{ l | l | l }
+   	& BOR & HSW \\
+   	\hline
+   	Wins & 1 & 9999 \\
+	Draws & 0 & 0 \\
+	Wins when started playing & 0 & 5009 \\   	
+	Mean score & 124 & 420 \\
+	Median score & 123 & 415 \\	 	 
+	Highest score & 299 & 745 \\
+	Lowest score & -16 & -12 \\		
+    \end{tabular}
+\caption{Result from 10 000 games with vowel ratio 1/8 and words in all inflection forms from the Swedish dictionary (480 391 words).}
+\label{table:borhswstats}
+\end{table}
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{ l | l | l }
+   	& BOR & HSW \\
+   	\hline
+   	Wins & 1206 & 8762 \\
+	Draws & 32 & 32 \\
+	Wins when started playing & 643 & 4431 \\   	
+	Mean score & 214 & 309 \\
+	Median score & 213 & 307 \\	 	 
+	Highest score & 407 & 624 \\
+	Lowest score & -9 & -19 \\		
+    \end{tabular}
+\caption{Result from 10 000 games with vowel ratio 8/8 and words in all inflection forms from the Swedish dictionary (480 391 words).}
+\label{table:borhswstats}
+\end{table}
+
+The results show that the HSW player is generally more successful playing the game. The BOR player does not take the word score in consideration when playing, but only the ratio, and it it obviously not the most rewarding strategy to follow. An interesting observation is that if the BOR agent tries to keep a ratio of vowels close to 1, i.e all tiles being vowels, there is a significant peak in the number of winning games for the agent. On the other hand, trying to keep one vowel on hand after each round seems to not be as smart, since the agent lost almost 100\% of all games.
 
 \begin{table}[h]
 \centering
@@ -274,7 +308,7 @@ The results show that the HSW player is generally more successful playing the ga
 	7/8 & 9863 & 134 \\ 
 	8/8 & 8762 & 1206 \\
     \end{tabular}
-\caption{Winnings depending on vowel ratio. Amount of winning games of a total of 10 000 games.}
+\caption{Winnings over 10000 games depending on vowel ratio. The ratio is defined by the number of vowels divided by the number of tiles on rack.}
 \label{tab:bor+hsw}
 \end{table}
 
@@ -287,20 +321,19 @@ Note that the BOR player is stable with its game results. In figure \ref{fig:bon
 
 \begin{table}[h]
 \centering
-    \begin{tabular}{ | c | c | c |  p{5cm} |}
-    \hline
+    \begin{tabular}{ c | c | c  p{5cm}}
    	Vowel ratio & BS wins & BOR wins \\ \hline
-	0/8 & 9925 & 72 \\ \hline
-    	1/8 & 9987 & 12 \\ \hline
-    	2/8 & 9670 & 325 \\ \hline
-    	3/8 & 9829 & 165 \\ \hline
-	4/8 & 9818 & 172 \\ \hline
-	5/8 & 9731 & 261 \\ \hline
-	6/8 & 9370 & 620 \\ \hline
-	7/8 & 9859 & 141 \\ \hline
-	8/8 & 9074 & 915 \\ \hline
+	0/8 & 9925 & 72 \\ 
+    	1/8 & 9987 & 12 \\ 
+    	2/8 & 9670 & 325 \\ 
+    	3/8 & 9829 & 165 \\ 
+	4/8 & 9818 & 172 \\ 
+	5/8 & 9731 & 261 \\ 
+	6/8 & 9370 & 620 \\ 
+	7/8 & 9859 & 141 \\ 
+	8/8 & 9074 & 915 \\ 
     \end{tabular}
-\caption{Winnings depending on vowel ratio. Amount of winning games of a total of 10 000 games.}
+\caption{Winnings over 10000 games depending on vowel ratio. The ratio is defined by the number of vowels divided by the number of tiles on rack.}
 \label{tab:bor+bs}
 \end{table}
 
@@ -379,7 +412,7 @@ It has active playing style with the mission to conquer the bonus squares at all
 \centering
 \includegraphics[scale=0.5]{HighBalance8vow_bothDict}
 \caption {Scores with vowel ratio 8/8. Scores of the two players in 1000 games with 83 247 words available.}
-\label{fig:largeDict}
+\label{fig:bonusBalanceSmallDict}
 \end{figure}
 
 \begin{figure}[h]
