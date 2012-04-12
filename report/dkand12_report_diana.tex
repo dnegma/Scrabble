@@ -423,7 +423,7 @@ The BS player wins just over 6 of 10 times against the HSW player when using all
 \label{table:bs+hsw+baseforms}
 \end{table}
 
-The resulting mean, median, highest and lowest scores is significant higher when using all inflection forms. Lowest score is negative for both players when using only base forms. The BS player's mean score is 24\% higher in table \ref{table:bs+hsw+allwords} compared to table \ref{table:bs+hsw+baseforms}. The same applies for the end score which is higher when using all words Appendix Figure \ref{fig:bs+hsw+totalscores}.
+The resulting mean, median, highest and lowest scores are significantly higher when using all inflection forms. Lowest score is negative for both players when using only base forms. The BS player's mean score is 24\% higher in table \ref{table:bs+hsw+allwords} compared to table \ref{table:bs+hsw+baseforms}. The same applies for the end score which is higher when using all words, which can be seen in figure \ref{fig:bs+hsw+totalscores}.
 
 \begin{figure}[h]
 \centering
@@ -436,6 +436,8 @@ The resulting mean, median, highest and lowest scores is significant higher when
 
 \chapter{Conclusions}
 \section{Discussions}
+The reason for the negative scores can be due to an impossible situation from the start. The agents were for example given only consonants that cannot form a word, or only difficult tiles. This would result a situation where none of the players being able to place a word, and the game eventually ends. The sum of the letter scores on the rack is then subtracted, and it is the only way a player could get a negative score.
+
 \subsubsection{BOR player}
 The BOR player is significantly better with a vowel ratio of 8/8. It can probably be explained from the fact that when choosing a move, and the vowel ratio is 8/8 (1) it is easier for the agent to place longer words. Imagine the agent placing a word using all tiles but one, and the remaining tile on hand is a vowel. This would be a preferable move if the ratio is 1, but not if the ratio is less. If the ratio would be 4/8 for example, the agent would choose a move that leaves two tiles, where one is a vowel, over the move with a longer word. 
 
@@ -447,10 +449,10 @@ The HSW player is on the same level as the BS player when it comes to mean score
 \subsubsection{BS player}
 Choosing to place words that will occupy a bonus square is rewarding. It will not only give a high score but will also destroy the possiblity for the opponent to reach a bonus square.
 
-It has active playing style with the mission to conquer the bonus squares at all cost. With the power of a big dictionary it will have a higher probability to reach a bonus. It is easy to extend words already on board when having the possibility to use all inflection forms of words. The end score will also be higher Figure \ref{fig:bs+hsw+totalscores}. When using only base words it will struggle to find bonus squares. This is due to 
+It has active playing style with the mission to conquer the bonus squares at all cost. With the power of a big dictionary it will have a higher probability to reach a bonus. It is easy to extend words already on board when having the possibility to use all inflection forms of words. The end score will also be higher Figure \ref{fig:bs+hsw+totalscores}. When using only base words it will struggle to find bonus squares. This is due to //TODO
 
 \subsubsection{Moreover}
-This study is very limited, which can affect the results. One should not consider these player as on the same level as a human player. The objective was to examine different strategies separately, and most human players use several strategies simultaneously. The agents tested in this study were implemented with only one strategie, and an agent who calculates the total score of a move and chooses the highest one wuld probably win without effort over all three tested agents. 
+This study is very limited, which can affect the results. One should not consider these player as superior, or even equal, to a human player. The objective was to examine different strategies separately, and most human players use several strategies simultaneously \cite{perfectgame}. The agents tested in this study were implemented with only one strategy, and an agent who calculates the total score of a move and chooses the highest one wuld probably win without effort over all three tested agents. 
 
 \section{Conclusions}
 Some conclusion made from the results is that it seems to be of advantage to start the game, although a slight one. All result show that of the winning games, a little over 50\% were made when the player had started the game.
@@ -459,6 +461,8 @@ Bonus squares are more important than one maybe imagines. It is not always the b
 
 To keep the balance on the rack is useless, if no scores are taken into consideration. One could for instance generate as high score words as possible, together with keeping the balance.
 
+subsection{Future work}
+If there is interest, this work can be extended in many ways. One can for instance try and implement other types of agents. For this study there were reflections about implementing agents that calculates the score from a move and get penalty points for moves less preferable according to the strategy. 
 
 \appendix
 \chapter{Tables}
