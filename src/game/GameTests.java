@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 import player.HighScoreWordPlayer;
-import player.HighestBonusRoundPlayer;
 import player.Player;
 import board.Board;
 import dictionary.Alphabet;
@@ -35,7 +34,7 @@ public class GameTests extends Game {
 //			System.out.println("Playing game nr " + i);
 			boardType = new Board();
 
-			player1Type = new HighestBonusRoundPlayer(boardType);
+			player1Type = new HighScoreWordPlayer(boardType);
 			player2Type = new HighScoreWordPlayer(boardType);
 			
 			boolean player1StartsPlaying;
