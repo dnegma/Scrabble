@@ -20,25 +20,21 @@
 
 \maketitle
 \begin{abstract}
-Scrabble is a well known board game that lets its players face many problems while playing. To become a successful Scrabble player, one can focus on learning certain things and instantly advance. This study investigates parts of the game one could choose to learn in order to become a better player. The aim is to evaluate different strategies in order to see what impact they have on a game. Three agents with one naive strategy is played against each other; place words with high score, always hit bonus squares if possible, and keep a good balance between consonants and vowels on the rack. 
+Scrabble is a well known board game that lets its players face many problems while playing. To become a successful Scrabble player, one can focus on learning certain things and instantly improve. This study investigates parts of the game one could choose to learn in order to become a better player. The aim is to evaluate different strategies in order to see what impact they have on a game. Three agents with one naive strategy is played against each other; place words with high score, always hit bonus squares if possible, and keep a good balance between consonants and vowels on the rack. 
 
 The results show that always hitting bonus squares is a rewarding strategy, as the agent following that strategy won over the other two. They also show that there is a slightly higher chance of winning if being the player starting the game. Conclusions made from the results are that even though one probably would prefer placing a long word with higher score, it is not always the best move to choose. Also, to learn few lettered words, and many word extensions is rewarding when following the strategy with hitting bonus squares.
 \end{abstract}
 
 \selectlanguage{swedish}
 \begin{abstract}
-Scrabble är ett välkänt brädspel där varje spelare har många problem att lösa under spelets gång. För att bli en bättre spelare kan man fokusera på att lära sig några grundläggande strategier. Studien undersöker vilka spelstrategier som är bättre än andra. Tre spelagenter, varsin med endast en strategi får spela mot varandra för att dra slutsatsen om vilken som är bäst. En agent väljer endast att placera ut ord som ger höst poäng, den lägger bara ord som når bonusrutor, den tredje tar bara hänsyn till att hålla en bra balans mellan vokaler och konsonanter av brickorn kvar efter ett drag.
+Scrabble är ett välkänt brädspel där varje spelare har många problem att lösa under spelets gång. För att bli en bättre spelare kan man fokusera på att lära sig några grundläggande strategier. Studien undersöker vilka spelstrategier som är bättre än andra. Tre spelagenter, varsin med endast en strategi får spela mot varandra för att dra slutsatsen om vilken som är bäst. En agent väljer endast att placera ut ord som ger höst poäng, den lägger bara ord som når bonusrutor, den tredje tar bara hänsyn till att hålla en bra balans mellan vokaler och konsonanter av brickor kvar efter ett drag.
 
-Resultatet visar att användandet av bonusrutor är en vinnande strategi. Bonusagenten vann över både de andra två. Att lägga ett långt ord som ger högt poäng behöver inte alltid vara den bästa spelstrategin. Det är också en liten fördel att få börja lägga första ordet. 
+Resultatet visar att användande av bonusrutor är en vinnande strategi. Bonusagenten vann över både de andra två. Att lägga ett långt ord som ger högt poäng behöver inte alltid vara den bästa spelstrategin. Det är också en liten fördel att få börja lägga första ordet. 
 \end{abstract}
 \selectlanguage{british}
 
 \subsubsection{Statement of collaboration}
-<<<<<<< HEAD
-=======
-Since the project was executed by two people, we are required to specify which person contributed with  which parts. 
 
->>>>>>> b595a9f3d4b019f9eb05dcb1cb2c1f04aa830081
 The implementation was mostly made together, though some distributions were made to make it more efficient:
 \begin{itemize}
 \item{Frej}: Dictionary representation
@@ -52,10 +48,6 @@ As of the report, the list below is a rough indication of how the work was distr
 \item{Diana}: Sections \ref{sec:agents}, \ref{sec:highBalance}, \ref{sec:balanceBonus}
 \end{itemize}
 
-<<<<<<< HEAD
-=======
-
->>>>>>> b595a9f3d4b019f9eb05dcb1cb2c1f04aa830081
 \tableofcontents
 
 
@@ -65,7 +57,7 @@ As of the report, the list below is a rough indication of how the work was distr
 \chapter{Introduction}
 Scrabble is an old classic board game, with game rules that are not very complicated. However, it is extremely difficult to be a great player \cite{perfectgame}. Compared to other classic board games, such as Chess, there are more factors to take into consideration when making a move in Scrabble. 
 
-Apart from anagramming and generating words, there are other crucial decisions to make. A player would probably find several legal moves in one round, and then would have to decide which one to place. Choosing the move that generates the highest score is not always the ideal way to go. It could be that making such a move would create a situation in the next round where nothing could be done, or let the opponent score high.
+Apart from anagramming and generating words, there are other crucial decisions to make. A player would probably find several legal moves in one round, and then would have to decide which one to place. Choosing the move that generates the highest score is not always the ideal way to go. It could be that making such a move would create a situation in the next round where nothing could be done, or let the opponent score highly.
 
 Making the choice of which move to use include many factors, and there are several different techniques and strategies one can follow to make the decision easier. Hitting the bonus squares can generate an extremely high score, hence one strategy is to try to always hit the bonus squares and prevent the opponent from doing the same. Another way of being successful is to prioritize using letters with high score, since they would not only generate a high total score to the player, but could also create difficult situations in the future if not used as soon as possible.
 
@@ -74,7 +66,7 @@ There are several more possible strategies one can follow, and this study aims t
 \section{Problem statement}
 Which strategies have the most impact on a game? How do the strategies perform against each other, and which is the most successful one?
 
-Scrabble requires the players to have a good vocabulary and to become a successful player, some knowledge about how many tiles of each letter is available is preferable. 
+Scrabble requires the players to have a good vocabulary and some knowledge about how many tiles of each letter is available is preferable when one wants to be successful. 
 
 When playing, the ability to keep a good balance between consonants and vowels on the rack can benefit future moves. Destroying bonus possibilities for the opponent, and at the same time score them oneself is a crucial skill, and experts are probably aware of which tiles have been placed, and those that remain, allowing them to anticipate the future sequence of events. This study will test three agents with different strategies, and evaluate which strategy would be more rewarding to focus on when learning Scrabble.
 
@@ -98,6 +90,8 @@ When playing, the ability to keep a good balance between consonants and vowels o
 \item{\bf{HSW}}: High score word player.
 
 \item{\bf{Rack}} Tiles on a player's hand. 
+
+\item{\bf{Vowel ratio}} Ratio describing how many of the total number of tiles are vowels.
 
 \end{description}
 
@@ -128,7 +122,7 @@ Scrabble consists of
 \item a set of letter tiles
 \end{itemize}
 
-The players are given 5-8 tiles each to keep on their \emph{rack}. Each letter reward points. Letters that are frequent in the language give lower score, and letters that exist in fewer words give higher score. The following list shows the letter scores and the number of occurances of each tile in the bag \cite{letterpoints}.
+The players are given 5-8 tiles each to keep on their \emph{rack}. Each letter reward points. Letters that are frequent in the language give lower score, and letters that exist in fewer words give higher score. The following list shows the letter scores and the number of occurrences of each tile in the bag \cite{letterpoints}.
 
 \begin{itemize}
 \label{letter+table}
@@ -141,7 +135,7 @@ The players are given 5-8 tiles each to keep on their \emph{rack}. Each letter r
 	\item{\emph{10 points}} \textbf{Z}x1
 \end{itemize}
 
-There are also 2 blank tiles, scoreing 0 points. They can be used as any letter in the alphabet, and words containing Q or W can only be played by using the blank tiles.
+There are also 2 blank tiles, scoring 0 points. They can be used as any letter in the alphabet, and words containing Q or W can only be played by using the blank tiles.
 
 \subsubsection{Objectives}
 Each round the player has to construct a word consisting of at least two letters by using the tiles on the rack and the tiles on the board. Words can be placed horizontally or vertically. Each word layed down has to contain at least one tile from the board. The player who is starting the game has to position the first word so one of the letters is on top of the center square.
@@ -164,7 +158,7 @@ There are four different types of \emph{bonus squares} dispersed throughout the 
 \item{\bf 3W:} Triple word
 \end{description} 
 
-When a tile is placed on top of one of them the player is rewarded a bonus score for either that particular tile or the whole word. Letter bonus is calculated by multiplying the point for the corresponding letter on top of the bonus square by either two or three. Word bonus is multiplied by two or three to the total score of the word. If a tile on a word bonus square is part of both a horizontal and vertical word, the bonus is applied to both of them respectively. If a word is positioned on top of both letter- and a bonus tiles, the scores of the letter bonuses are calculated before multiplying the word. Bonuses can only be used once; when the tile is placed on the square.
+When a tile is placed on top of one of them the player is rewarded a bonus score for either that particular tile or the whole word. Letter bonus is calculated by multiplying the point for the corresponding letter on top of the bonus square by either two or three. Word bonus is multiplied by two or three to the total score of the word. If a tile on a word bonus square is part of both a horizontal and vertical word, the bonus is applied to both of them respectively. If a word is positioned on top of both letter- and a bonus tile, the scores of the letter bonuses are calculated before multiplying the word. Bonuses can only be used once; when the tile is placed on the square.
 
 If a player has used all the tiles from the rack in one move, an additional 50 points is rewarded the player after any possible bonus score is added.
 
@@ -178,15 +172,15 @@ The game of Scrabble has many sub problems, and there are several papers and art
 
 Gordon\cite{faster} presented an approach to let the search be even faster. This requires a complicated data structure for the dictionary, and was therefore considered redundant work. 
 
-An alternative for searching for legal moves would be using wildcard search. This allows for search with some letters known, and others unknown. Algorithms for wildcard searching could be found in Introduction to Information Retrieval \cite{inforetrieve}. However, this required several storages of each word, and could result in a data structure occupying too much memory space.
+An alternative for searching for legal moves would be using wildcard search. This allows for search with some letters known, and others unknown. Algorithms for wildcard searching could be found in Introduction to Information Retrieval \cite{inforetrieve}. However, this required each word to be stored multiple times, and could result in a data structure occupying too much memory space.
 
-Finally, some reflections were made if it would be profitable to use a min-max algorithm. Russel and Norvig\cite{ai} present an algorithm similar to the min max algorithm, but with a random component. 
+Finally, some reflections were made if it would be profitable to use a min-max algorithm. Russel and Norvig\cite{ai} present an algorithm similar to the minimax algorithm, but with a random component. 
 
-This paper will mostly refer to Appel and Jacobsen \cite{fastest} who discovered a way to represent the dictionary wo that it takes up minimum space in memory and developed an efficient algorithm to find all legal words depending on the tiles on rack and on the board. Their algorithm is simple and efficiant, and the argument for choosing this approach was minimizing the time spent on the implementation.
+This paper will mostly refer to Appel and Jacobsen \cite{fastest} who discovered a way to represent the dictionary so that it takes up minimum space in memory and developed an efficient algorithm to find all legal words depending on the tiles on rack and on the board. Their algorithm is simple and efficient, and the argument for choosing this approach was minimizing the time spent on the implementation.
 
 \subsection{Dictionary representation}
 \label{dic-rep}
-Words from a dictionary can be stored by representing the letters as edges in a trie. A path represent a word. Each path can have sub paths that represent shorter word variations by letting the nodes mark the end of a word as seen in figure \ref{fig:trie}. 
+Words from a dictionary can be stored by representing the letters as edges in a trie. A path represent a word. Each path can have sub-paths that represent shorter word variations by letting the nodes mark the end of a word as seen in figure \ref{fig:trie}. 
 
 \begin{figure}[h]
 \centering
@@ -234,7 +228,7 @@ Some of the different Scrabble game strategies is:
 \item {\bf Balance on the rack}: it is easy to get stuck with only consonants or only vowels on the rack. Keeping a good balance can be a good idea to help construct words in the next turn.
 \item {\bf Bonus squares}: hitting the bonus squares will generate a higher score. It is also important to occupy them first to destroy the bonus opportunities for the opponent.
 \item {\bf Word extensions}: the ability to identify extensions (i.e. prefixes and suffixes) to words, is a key to being a successful player. Such moves can generate very high scores, as the word will use many existing tiles \cite{perfectgame}.
-\item {\bf Vocabulary}: there are many short words in the language, and it is rewarding if a player can learn many short word letters whic are easy to lay out.
+\item {\bf Vocabulary}: there are many short words in the language, and it is rewarding if a player can learn many short word letters which are easy to lay out.
 \end{itemize}
 
 
@@ -252,7 +246,7 @@ Three different agents were implemented with different strategies to follow and 
 \label{sec:limitations}
 Almost all tournament play involve only two players. The tests is therefore run with two agents. There exists a large variation of the game rules. The rules used in the study are slightly simplified versions of the most common rules used by clubs and tournament play worldwide \cite{forbund} \cite{ABSP} \cite{NASPA}.
 
-The game is limited to be played by only two players, and the implementation is customized to not handle more players. The players have two options during a turn; either lay a word, or pass the turn and receieve zero points. In other words; the possibility to change tiles if no word can be found is removed. 
+The game is limited to be played by only two players, and the implementation is customized to not handle more players. The players have two options during a turn; either lay a word, or pass the turn and receive zero points. In other words; the possibility to change tiles if no word can be found is removed. 
 
 The bag is minimized, and do not contain any blank tiles or other special tiles. The result is that Q and W can never be used. The allowed tiles can be seen in the list in section \ref{letter+table}. Additionally, the agents play the game with a Swedish dictionary; Den Stora Svenska Ordlistan \cite{dictionary}.
 
@@ -261,7 +255,7 @@ The bag is minimized, and do not contain any blank tiles or other special tiles.
 To see which of the very basic strategies listed in section \ref{sec:strategies} is the most successful one against the others, three agents with different strategies were implemented. They will play against each other in order to generate results for later analyze. This section describes the three different agents implemented, and their strategy in the game. In order to evaluate which strategies are the more rewarding, the agents are each implemented with only \emph{one} strategy. The agents will be referred to as the HSW player, the BS player and the BOR player (see section \ref{sec:terminology}).
 
 \subsection{High Score Word player}
-One strategy to follow when playing Scrabble is to exploit the fact that som letters are worth more than others. These letter are less frequent in the Swedish language and therefore more difficult to use. Naturally, one would want to use them as soon as there is an opportunity, to not risk difficult situations later in the game. The HSW player prefers placing words including high score letters. By all legal moves generated, the HSW player will choose the one where the word itself has the highest score. The HSW algorithm is as follows:
+One strategy to follow when playing Scrabble is to exploit the fact that some letters are worth more than others. These letter are less frequent in the Swedish language and therefore more difficult to use. Naturally, one would want to use them as soon as there is an opportunity, to not risk difficult situations later in the game. The HSW player prefers placing words including high score letters. By all legal moves generated, the HSW player will choose the one where the word itself has the highest score. The HSW algorithm is as follows:
 
 \begin{lstlisting}
 function ChooseMove(inputMove)
@@ -325,11 +319,11 @@ The BOR player has an ideal ratio between the tiles on the rack which it tries t
 
 \label{sec:conditions}
 \subsection{Games}
-In one run the agents were set to play 1000 games against each other and to minimize the impact of opening the game in the results, both agents started the game 500 times. Each run were made 10 times, so the total result is based on 10 000 games. It was established that there were no significant changes in the results between running 1000 games, and 10 000 games, and would therefore probably be reduntant to make more tests. The decision to run 1000 games at a time were due to an unknown bug causing the word generation algorithm to run very slow after approximately 1800 games.
+In one run the agents were set to play 1000 games against each other and to minimize the impact of opening the game in the results, both agents started the game 500 times. Each run were made 10 times, so the total result is based on 10 000 games. It was established that there were no significant changes in the results between running 1000 games, and 10 000 games, and would therefore probably be redundant to make more tests. The decision to run 1000 games at a time were due to an unknown bug causing the word generation algorithm to run very slow after approximately 1800 games.
 
 \subsection{Dictionaries}
 
-The tests are based on two variations of the Swedish dictionary. The first is the small dictionary, which consists of the words only in their base form in the Swedish dictionary. Ths size of the small dictionary is 83247 words. The second is the large dictionary, which includes all possible inflections of each word making it as large as 480 391 words. The mean word length is shorter for the base form dictionary compared to inflection forms as seen in table \ref{table:dictionary+length}.
+The tests are based on two variations of the Swedish dictionary. The first is the small dictionary, which consists of the words only in their base form in the Swedish dictionary. This size of the small dictionary is 83247 words. The second is the large dictionary, which includes all possible inflections of each word making it as large as 480 391 words. The mean word length is shorter for the base form dictionary compared to inflection forms as seen in table \ref{table:dictionary+length}.
 
 \begin{table}[h]
 \centering
@@ -350,7 +344,7 @@ The rules of the English Scrabble allow the players to form inflections. However
 \section{High score words vs Balance On Rack}
 \label{sec:highBalance}
 
-Several tests were made with the BOR player, using different values for the vowel ratio. From table \ref{tab:bor+hsw} one can even in the best best case for the BOR player, it only wins 12\% of the games. Note that there is a significant peak in the number of winnings when the ratio is set to 8/8, and also an extreme bottom when the ratio is set to 1/8.
+Several tests were made with the BOR player, using different values for the vowel ratio. From table \ref{tab:bor+hsw} one can even in the best case for the BOR player, it only wins 12\% of the games. Note that there is a significant peak in the number of winnings when the ratio is set to 8/8, and also an extreme bottom when the ratio is set to 1/8.
 
 
 \begin{table}[h]
@@ -466,7 +460,7 @@ The reason for the negative scores can be due to an impossible situation from th
 \subsubsection{BOR player}
 The BOR player is significantly better with a vowel ratio of 8/8. It can probably be explained from the fact that when choosing a move, and the vowel ratio is 8/8 (1) it is easier for the agent to place longer words. Imagine the agent placing a word using all tiles but one, and the remaining tile on hand is a vowel. This would be a preferable move if the ratio is 1, but not if the ratio is less. If the ratio would be 4/8 for example, the agent would choose a move that leaves two tiles, where one is a vowel, over the move with a longer word. 
 
-There is however a hole in the theory. The phenomena that occurs with a vowel ratio of 7/8; the extremely bad winning rate. After speculating and trying to explain this occurence, we are still stunned. If the theory of allowing longer words with a higher ratio would be correct, the result ought to increase with the vowel ratio.
+There is however a hole in the theory. The phenomena that occurs with a vowel ratio of 7/8; the extremely bad winning rate. After speculating and trying to explain this occurrence, we are still stunned. If the theory of allowing longer words with a higher ratio would be correct, the result ought to increase with the vowel ratio.
 
 The winning factor is 9 times bigger in ratio 8/8 compared to 7/8. It is also a big difference between 6/8 and 7/8. Between 1/8 and 2/8 factor is 506 times better in 2/8. An explanation to these extreme deviations could not be found.in this study.
 
@@ -474,7 +468,7 @@ The winning factor is 9 times bigger in ratio 8/8 compared to 7/8. It is also a 
 The HSW player is on the same level as the BS player when it comes to mean score over the games. However, the reason for playing as good could be that the BS player probably hits the bonuses and generates very high scores at times. As seen in the tables in section \ref{sec:tablesbs}, the BS player has a significantly higher maximum score than the HSW player.
 
 \subsubsection{BS player}
-Choosing to place words that will occupy a bonus square is rewarding. It will not only give a high score but will also destroy the possiblity for the opponent to reach a bonus square.
+Choosing to place words that will occupy a bonus square is rewarding. It will not only give a high score but will also destroy the possibility for the opponent to reach a bonus square.
 
 It has active playing style with the mission to conquer the bonus squares at all cost. With the power of a big dictionary it will have a higher probability to reach a bonus. It is easy to extend words already on board when having the possibility to use all inflection forms of words. The end score will also be higher Figure \ref{fig:bs+hsw+totalscores}. When using only base words it will struggle to find bonus squares. This is probably due to the mean word length being 9.5 letters in length compared 11.2 when using all inflections forms as seen in table \ref{table:dictionary+length}. A shorter word will likely lower the chance reaching a bonus square.
 
